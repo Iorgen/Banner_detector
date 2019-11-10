@@ -72,10 +72,10 @@ $ chmod +x app/entrypoint.sh
 
 - Setting up production server 
 ```
-clone from repo from https://github.com/Iorgen/Banner_detector.git
-scp all models to models
-scp all static from detector_app/static detector_app/static/
-Copy files defaul.jpg from media to image(web) media  
+clone from repo from https://github.com/Iorgen/Banner_detector.git + 
+scp all banner_app/models to banner_app/models + 
+scp all static from detector_app/static to detector_app/static/ + 
+Copy files default.jpg from media to image(web) media  
 set server_name inside nginx.conf 
 ```
 - Run following commands for starting server 
