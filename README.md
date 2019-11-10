@@ -73,6 +73,18 @@ $ chmod +x app/entrypoint.sh
 ```
 
 - Setting up production server 
+```
+clone from this git 
+mkdir media 
+mkdir models 
+mkdir static
+scp all models to models
+change inside .env.prod - ALLOWED_HOSTS to ip adress 
+set server_name inside nginx.conf 
+
+```
+
+
 - Also need to change some nginx conf and django allowed hosts - 
 ```
 $ docker-compose -f docker-compose.prod.yml up -d --build

@@ -13,6 +13,7 @@ def recognize_banners(banner_ids):
     banners_descriptors = []
     banners_distance = {}
     base_banners = BaseBanner.descriptors_to_dataframe()
+    # TODO empty BaseBanners handler
     print(base_banners.head(10))
     base_banners_descriptors = torch.Tensor([np.array(i) for i in base_banners.descriptor.values])
     # Count descriptors for income images (classified)
