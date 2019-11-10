@@ -16,3 +16,6 @@ banner_app/static
 media
 static
 models
+
+# development script for enviroment variables
+banner_app/env_var.py

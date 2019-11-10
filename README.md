@@ -24,7 +24,7 @@ https://www.howtoforge.com/tutorial/how-to-install-django-with-postgresql-and-ng
 2) Check all User permissions 
 3) Estimate ML accuracy. 
 
- 
+
 ## Workers start :
 ## redis :
  + docker run -p 6379:6379 -d redis:2.8    
@@ -61,11 +61,9 @@ CREATE TABLE table_name OWNER user;
 # Fonts library 
 https://useiconic.com/open/
 
-
 # Deploy instructions 
 - Setting up development server 
 ```
-
 $ docker-compose build
 $ docker-compose up -d
 # Updare permissions 
@@ -74,22 +72,18 @@ $ chmod +x app/entrypoint.sh
 
 - Setting up production server 
 ```
-clone from this git 
-mkdir media 
-mkdir models 
-mkdir static
+clone from repo from https://github.com/Iorgen/Banner_detector.git
 scp all models to models
-change inside .env.prod - ALLOWED_HOSTS to ip adress 
+scp all static from detector_app/static detector_app/static/
+Copy files defaul.jpg from media to image(web) media  
 set server_name inside nginx.conf 
-
 ```
-
-
-- Also need to change some nginx conf and django allowed hosts - 
+- Run following commands for starting server 
 ```
 $ docker-compose -f docker-compose.prod.yml up -d --build
-$ docker-compose -f docker-compose.prod.yml exec web python manage.py migrate --noinput
-$ docker-compose -f docker-compose.prod.yml exec web python manage.py collectstatic --no-input --clear
+$ docker-compose -f docker-compose.prod.yml exec web python3 manage.py migrate --noinput 
+$ docker-compose -f docker-compose.prod.yml exec web python3 manage.py collectstatic --no-input --clear
+$ docker-compose -f docker-compose.prod.yml exec web python3 manage.py createsuperuser
 ```
 #### how to kill postgresql data 
 docker-compose down --remove-orphans --volumes
