@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<buses>
+    <bus>
+        <bus_number>{{ billboard.bus.number }}</bus_number>
+        <date_time>{{ billboard.date_added}}</date_time>
+        <stands>
+            <stand>
+                <type>stand</type>
+                <ads>
+                    {% for banner in banners %}
+                        <c>{{ banner.banner_class.name }}</c>
+                    {% endfor %}
+                </ads>
+            </stand>
+        </stands>
+    </bus>
+</buses>

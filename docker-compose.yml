@@ -1,0 +1,25 @@
+version: '3.3'
+
+services:
+  web:
+    build: ./banner_app
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./banner_app/:/usr/src/banner_app/
+    ports:
+      - 8000:8000
+    env_file:
+      - ./.env.dev
+    depends_on:
+      - db
+  db:
+    image: postgres:12.0-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=banner_user
+      - POSTGRES_PASSWORD=asdfghjkl;'\
+      - POSTGRES_DB=banner_database
+
+volumes:
+  postgres_data:

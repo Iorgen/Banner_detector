@@ -1,0 +1,52 @@
+{% extends "banner_detector/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <div class="content-section">
+        <div class="row">
+            <div class="col-md-4 ">
+                <h3>Добавить автобус</h3>
+                <form id="addBus" action="">
+                    <div class="form-group">
+                        <input class="form-control" type="text" name="number" placeholder="Number" required>
+                    </div>
+                    <button class="btn btn-primary form-control" type="submit">Добавить</button>
+                </form>
+            </div>
+            <div class="col-md-8">
+                <h3>Автобусы</h3>
+                <div id="busTable" class="table table-striped">
+                    {% for bus in buses %}
+                        <div id="bus-{{bus.id}}">
+                            <form method="POST" id="updateBus" >
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <div >
+                                                <input class="form-control" id="form-id" type="hidden" name="formId" value="{{ bus.pk }}">
+                                                <div class="busNumber busData" name="number">
+                                                    <input class="form-control" id="form-number" type="text" value="{{bus.bus_number}}"name="formNumber"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <button class="btn btn-success form-control" type="submit">Редактировать</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+
+{% block scripts %}
+    <script>
+        localStorage.setItem('bus-update-link', '{% url "bus-ajax-update" %}');
+        localStorage.setItem('bus-add-link', '{% url "bus-ajax-add" %}');
+    </script>
+    <script type="text/javascript" src="{% static 'banner_detector/js/bus.js' %}"></script>
+{% endblock scripts %}

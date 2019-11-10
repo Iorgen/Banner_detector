@@ -1,0 +1,18 @@
+# Default directories
+.idea
+__pycache__
+venv/*
+banner_app/static
+
+# SQLite databases
+*.sqlite
+*.sqlite3
+
+### Django ###
+*.log
+*.pot
+*.pyc
+
+media
+static
+models

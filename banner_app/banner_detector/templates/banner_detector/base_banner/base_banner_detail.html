@@ -1,0 +1,16 @@
+{% extends "banner_detector/base.html" %}
+{% block content %}
+    <div class="content-section">
+        <h1> Billboard editor</h1>
+        <h1> Класс баннера</h1>
+        <p> {{ banner.billboard.author.username }}</p>
+        <img src="{{ banner.image.url }}" width="300" height="400" class="d-inline-block align-top" alt="">
+        <p> {{ banner.descriptor }}</p>
+        {% if object.author == user %}
+            <div>
+                <a class = "btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'base-banner-update' object.id%}">Update</a>
+                <a class = "btn btn-danger btn-sm mt-1 mb-1" href="{% url 'base-banner-delete' object.id%}">Delete</a>
+            </div>
+        {% endif %}
+    </div>
+{% endblock content %}

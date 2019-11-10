@@ -1,0 +1,71 @@
+###########
+# BUILDER #
+###########
+
+# pull official base image
+FROM python:3.6 as builder
+
+# set work directory
+WORKDIR /usr/src/banner_app
+
+# set environment variables
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+
+RUN apt-get update && apt-get install -y netcat
+
+# lint
+RUN pip3 install --upgrade pip
+RUN pip3 install flake8
+COPY . /usr/src/banner_app/
+RUN flake8 --ignore=E501,F401 .
+
+# install dependencies
+COPY ./requirements.txt .
+RUN pip3 wheel --no-cache-dir --no-deps --wheel-dir /usr/src/banner_app/wheels -r requirements.txt
+
+
+#########
+# FINAL #
+#########
+# pull official base image
+FROM python:3.6
+
+# create directory for the app user
+RUN mkdir -p /home/banner_app
+
+# create the app user
+RUN groupadd -r banner_app && useradd -r -g banner_app banner_app
+
+# create the appropriate directories
+ENV HOME=/home/banner_app
+ENV APP_HOME=/home/banner_app/web
+RUN mkdir $APP_HOME
+RUN mkdir $APP_HOME/static
+RUN mkdir $APP_HOME/media
+WORKDIR $APP_HOME
+
+
+# install dependencies
+RUN apt-get update && apt-get install libpq-dev && apt-get install -y netcat
+COPY --from=builder /usr/src/banner_app/wheels /wheels
+COPY --from=builder /usr/src/banner_app/requirements.txt .
+RUN pip3 install --upgrade pip
+RUN pip3 install --no-cache /wheels/*
+
+# copy entrypoint-prod.sh
+COPY ./entrypoint.prod.sh $APP_HOME
+
+# copy project
+COPY . $APP_HOME
+
+# chown all the files to the app user
+RUN chown -R banner_app:banner_app $APP_HOME
+RUN chown -R banner_app:banner_app $HOME/.cache
+
+# change to the app user
+USER banner_app
+
+# run entrypoint.prod.sh
+ENTRYPOINT ["/home/banner_app/web/entrypoint.prod.sh"]
+CMD ["run"]

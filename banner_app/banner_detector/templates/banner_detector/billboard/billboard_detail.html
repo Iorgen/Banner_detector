@@ -1,0 +1,40 @@
+{% extends "banner_detector/base.html" %}
+{% block content %}
+    <div class="content-section">
+        <h1> Billboard editor</h1>
+        <div class="row">
+            <div class="col-md-12">
+                {{ billboard.id }}
+            </div>
+            <a href="{% url 'billboard-xml-detail' billboard.id %}" download="">XML</a>
+
+            {% for banner in banners %}
+                <div class="col-md-3">
+                    <div class="card">
+                        <img class="" style ="max-height: 200px;" src="{{ banner.image.url }}" alt="banner cap">
+                        <div class="card-body">
+                            <h5 class="card-title">Card title</h5>
+                            {% if banner.recognition_status%}
+                                <p>Распознан</p>
+                            {% else %}
+                                <p>В очереди на распознавание</p>
+                            {% endif %}
+                            {% if banner.banner_class is None %}
+                                <p> Класс неизвестен</p>
+                            {% else %}
+                                <p>{{ banner.banner_class.name }}</p>
+{#                                <form method="POST" action="{% url 'add-to-base' %}" id="add_to_base">#}
+{#                                    {% csrf_token %}#}
+{#                                    <input type="hidden" name="id" value="{{ banner.id }}">#}
+{#                                    <div class="form-group">#}
+{#                                        <button class="btn btn-outline-info" type="submit">Установить как базовый</button>#}
+{#                                    </div>#}
+{#                                </form>#}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock content %}

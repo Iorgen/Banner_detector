@@ -1,0 +1,53 @@
+{% extends 'banner_detector/base.html' %}
+{% block content %}
+    <h1 class = "mb-3">Биллборды от {{ view.kwargs.username }} ({{ page_obj.paginator.count }})</h1>
+    {% for billboard in billboards %}
+        <div class="lib-panel">
+            <div class="row box-shadow">
+                <div class="col-md-6">
+                    <div class="lib-row lib-img-show">
+                        <img class="" src="{{ billboard.detected_image.url }}">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="lib-row">
+                        <a href="{% url 'billboard-detail' billboard.id %}">
+                            <h3 class="">{{ billboard }} за {{ billboard.day_month_added }}</h3>
+                        </a>
+                        <p class="text-muted">
+                            <strong>
+                                {{ billboard.date_added }}
+                            </strong>
+                        </p>
+                    </div>
+                    <div class="lib-row">
+                        <p>Детектировано: {{ billboard.banners_count }}</p>
+                        <p>Распознанных как неизвестно: {{ billboard.get_not_classified_banners }}</p>
+                        <p>Распознано: {{ billboard.get_recognized_banners }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    {% if is_paginated  %}
+
+        {% if page_obj.has_previous %}
+            <a class = "btn btn-outline-info mb4" href="?page=1">First</a>
+            <a class = "btn btn-outline-info mb4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+        {% endif %}
+
+        {% for num in page_obj.paginator.page_range %}
+            {% if page_obj.number == num %}
+                <a class = "btn btn-info mb4" href="?page={{ num }}">{{ num }}</a>
+            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+               <a class = "btn btn-outline-info mb4" href="?page={{ num }}">{{ num }}</a>
+            {% endif %}
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+            <a class = "btn btn-outline-info mb4" href="?page={{ page_obj.next_page_number }}">Next</a>
+            <a class = "btn btn-outline-info mb4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+        {% endif %}
+
+    {% endif %}
+{% endblock content %}
