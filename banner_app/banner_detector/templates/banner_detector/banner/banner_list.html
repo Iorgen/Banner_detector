@@ -38,20 +38,16 @@
                                 </div>
                                 <div class="BannerType BannerData" name="banner_type">
                                     <form method="POST" id="updateBanner">
+                                        {% csrf_token %}
                                         <input class="form-control" id="form-id" type="hidden" name="formId" value="{{ banner.pk }}">
                                         <label for="banner_type" class=" requiredField">Тип баннера<span class="asteriskField">*</span> </label>
                                         <div class="form-group">
-                                            <select class="select form-control" name="banner_type" required="">
-                                                <option value="" >---------</option>
+                                            <input class="form-control" type="text" name="banner_type" list="banner_type_list"  value="{{ banner.banner_class.name }}">
+                                            <datalist id="banner_type_list">
                                                 {% for banner_type in banner_types %}
-                                                    <option value="{{ banner_type.id }}"
-                                                            {% if banner_type.id == banner.banner_class.id %}
-                                                            selected=""
-                                                            {% endif %}>
-                                                        {{banner_type.name}}
-                                                    </option>
+                                                    <option value="{{ banner_type.id }}">{{banner_type.name}}</option>
                                                 {% endfor %}
-                                            </select>
+                                            </datalist>
                                         </div>
                                         <div class="form-group">
                                             <button class="btn btn-primary form-control" type="submit">Обновить</button>

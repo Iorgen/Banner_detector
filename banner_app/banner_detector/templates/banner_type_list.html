@@ -5,27 +5,27 @@
     <div class="content-section">
         <div class="row">
             <div class="col-md-4 ">
-                <h3>Добавить автобус</h3>
-                <form id="addBus" action="">
+                <h3>Добавить Класс баннера</h3>
+                <form id="addBannerType" action="">
                     <div class="form-group">
-                        <input class="form-control" type="text" name="number" placeholder="Number" required>
+                        <input class="form-control" type="text" name="name" placeholder="Name" required>
                     </div>
                     <button class="btn btn-primary form-control" type="submit">Добавить</button>
                 </form>
             </div>
             <div class="col-md-8">
-                <h3>Автобусы</h3>
-                <div id="busTable" class="table table-striped">
-                    {% for bus in buses %}
-                        <div id="bus-{{bus.id}}">
-                            <form method="POST" id="updateBus" >
+                <h3>Типы Баннеров</h3>
+                <div id="bannerTypeTable" class="table table-striped">
+                    {% for banner_type in banner_types %}
+                        <div id="bannerType-{{banner_type.id}}">
+                            <form method="POST" id="updateBannertType" >
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <div >
-                                                <input class="form-control" id="form-id" type="hidden" name="formId" value="{{ bus.pk }}">
-                                                <div class="busNumber busData" name="number">
-                                                    <input class="form-control" id="form-number" type="text" value="{{bus.bus_number}}"name="formNumber"/>
+                                                <input class="form-control" id="form-id" type="hidden" name="formId" value="{{ banner_type.pk }}">
+                                                <div class="bannerTypeName BannerTypeData" name="name">
+                                                    <input class="form-control" id="form-name" type="text" value="{{banner_type.name}}"name="formName"/>
                                                 </div>
                                             </div>
                                         </div>
@@ -45,8 +45,8 @@
 
 {% block scripts %}
     <script>
-        localStorage.setItem('bus-update-link', '{% url "bus-ajax-update" %}');
-        localStorage.setItem('bus-add-link', '{% url "bus-ajax-add" %}');
+        localStorage.setItem('banner-type-update-link', '{% url "banner-type-ajax-update" %}');
+        localStorage.setItem('banner-type-add-link', '{% url "banner-type-ajax-add" %}');
     </script>
-    <script type="text/javascript" src="{% static 'banner_detector/js/bus.js' %}"></script>
+    <script type="text/javascript" src="{% static 'banner_detector/js/banner_type.js' %}"></script>
 {% endblock scripts %}

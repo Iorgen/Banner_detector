@@ -12,7 +12,7 @@ class BannerListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     model = Banner
     template_name = 'banner_detector/banner/banner_list.html'
     permission_required = 'banner_detector.view_banner'
-    ordering = ['billboard']
+    ordering = ['banner_class']
     context_object_name = 'banners'
     paginate_by = 15
     list_header = 'Все баннеры'

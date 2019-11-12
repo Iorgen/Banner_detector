@@ -7,7 +7,8 @@ from .views.base_banner_views import (BaseBannerCreateView, BaseBannerDetailView
                                       BaseBannerListView, BaseBannerUpdateView, BaseBannerDeleteView)
 from .views.banner_views import (BannerListView, UserBannerListView, UnknownBannerListView,
                                  BannerDetailView)
-from .views.ajax_banner_views import (BannerUpdateAJAXView, BannerDeleteAJAXView, BannerSetAsBaseAJAXView)
+from .views.banner_views_ajax import (BannerUpdateAJAXView, BannerDeleteAJAXView, BannerSetAsBaseAJAXView)
+from .views.banner_type_views_ajax import (BannerTypeCreateAJAXView, BannerTypeListView, BannerTypeUpdateAJAXView)
 
 urlpatterns = [
     # Main app page
@@ -47,5 +48,11 @@ urlpatterns = [
     path('buses/crud/add/', BusCreateAJAXView.as_view(), name='bus-ajax-add'),
     path('buses/crud/update/', BusUpdateAJAXView.as_view(), name='bus-ajax-update'),
     path('buses/crud/delete/', BusDeleteAJAXView.as_view(), name='bus-ajax-delete'),
+
+    # Bus Ajax CRUD Operations
+    path('banner_type/', BannerTypeListView.as_view(), name='banner-types'),
+    path('banner_type/crud/add/', BannerTypeCreateAJAXView.as_view(), name='banner-type-ajax-add'),
+    path('banner_type/crud/update/', BannerTypeUpdateAJAXView.as_view(), name='banner-type-ajax-update'),
+    # path('banner_type/crud/delete/', BusDeleteAJAXView.as_view(), name='banner-type-ajax-delete'),
 
 ]

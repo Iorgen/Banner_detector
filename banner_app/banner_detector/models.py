@@ -31,7 +31,7 @@ class BillboardImage(models.Model):
     bus = models.ForeignKey(Bus, on_delete=models.CASCADE)
 
     def __str__(self):
-        return "Биллборд " + self.bus.bus_number + self.day_month_added()
+        return "Биллборд в '" + self.bus.bus_number + "' за " + self.day_month_added()
 
     def get_absolute_url(self):
         return reverse('billboard-detail', kwargs={'pk': self.pk})

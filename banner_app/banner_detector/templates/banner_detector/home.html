@@ -25,14 +25,14 @@
                                 </div>
                             </div>
                         </div>
-{#                        <div class="col-md-4 my-4">#}
-{#                            <div class="card bg-light" style="">#}
-{#                                <div class="card-body">#}
-{#                                    <h5 class="card-title">Добавить тип баннера</h5>#}
-{#                                    <a class="btn btn-primary stretched-link" href="{% url 'base-banner-create' %} ">Добавить</a>#}
-{#                                </div>#}
-{#                            </div>#}
-{#                        </div>#}
+                        <div class="col-md-4 my-4">
+                            <div class="card bg-light" style="">
+                                <div class="card-body">
+                                    <h5 class="card-title">Типы баннеров</h5>
+                                    <a class="btn btn-primary stretched-link" href="{% url 'banner-types' %} ">Добавить</a>
+                                </div>
+                            </div>
+                        </div>
                     {% endif %}
                 {% endfor %}
                 <div class="col-md-4 my-4">
@@ -69,11 +69,12 @@
                         <div class="col-md-4 my-4">
                             <div class="card bg-light" style="">
                                 <div class="card-body">
-                                    <h5 class="card-title">Все нераспознанные баннеры</h5>
-                                    <a class="btn btn-primary stretched-link" href="{% url 'non-recognized-banners' %}">Просмотр</a>
+                                    <h5 class="card-title">Не классифицированные баннеры</h5>
+                                    <a class=" stretched-link" href="{% url 'non-recognized-banners' %}"></a>
                                 </div>
                             </div>
                         </div>
+
                     {% endif %}
                 {% endfor %}
 

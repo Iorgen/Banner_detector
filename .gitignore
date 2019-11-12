@@ -2,7 +2,7 @@
 .idea
 __pycache__
 venv/*
-banner_app/static
+
 
 # SQLite databases
 *.sqlite
@@ -14,7 +14,7 @@ banner_app/static
 *.pyc
 
 media
-static
+banner_app/static
 models
 
 # development script for enviroment variables
