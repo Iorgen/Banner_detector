@@ -57,20 +57,3 @@ class BannerTypeUpdateAJAXView(View):
             'banner_type': banner_type
         }
         return JsonResponse(response)
-
-
-
-
-#
-#
-# class BusDeleteAJAXView(View):
-#
-#     def get(self, request):
-#         bus_id = request.GET.get('id', None)
-#         Bus.objects.get(id=bus_id).delete()
-#         response = {
-#             'deleted': True
-#         }
-#         return JsonResponse(response)
-#
-#
