@@ -18,7 +18,7 @@ RUN apt-get update && apt-get install -y netcat
 RUN pip3 install --upgrade pip
 RUN pip3 install flake8
 COPY . /usr/src/banner_app/
-RUN flake8 --ignore=E501,F401 .
+RUN flake8 --ignore=E501,F401,F403,F405 .
 
 # install dependencies
 COPY ./requirements.txt .

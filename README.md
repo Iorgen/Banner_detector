@@ -49,6 +49,7 @@ $ docker-compose -f docker-compose.prod.yml exec web python3 manage.py migrate -
 $ docker-compose -f docker-compose.prod.yml exec web python3 manage.py collectstatic --no-input --clear
 $ docker-compose -f docker-compose.prod.yml exec web python3 manage.py createsuperuser
 ```
+
 - how to kill postgresql database 
 ``
 $ docker-compose down --remove-orphans --volumes
