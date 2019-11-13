@@ -2,6 +2,10 @@
 {% load crispy_forms_tags %}
 {% block content %}
     <div class="content-section">
+        <input type='file'  />
+        <input type="file" name="image" accept="image/*" class=" clearablefileinput form-control custom-file-input" onchange="readURL(this);" />
+
+        <img style = "height: 200px; width: 200px;" id="blah" src="http://placehold.it/180" alt="your image" />
         <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             <fieldset class="form-group">
@@ -16,3 +20,21 @@
         </form>
     </div>
 {% endblock content %}
+
+{% block scripts %}
+    <script>
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#blah')
+                        .attr('src', e.target.result);
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+    </script>
+{% endblock scripts %}
