@@ -20,7 +20,6 @@ class BannerTypeListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     permission_required = 'banner_detector.view_bannertype'
     ordering = ['name']
     context_object_name = 'banner_types'
-    paginate_by = 15
 
 
 class BannerTypeCreateAJAXView(LoginRequiredMixin, View):
