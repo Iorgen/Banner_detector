@@ -460,3 +460,13 @@ section .section-title {
 .copyright {
 	color: white;
 }
+
+
+.card-home{
+	background-color: #f8f9fa;
+}
+/* home cards hover effect */
+.card-home:hover {
+	background-color: #6fea4354;
+	opacity: 0.45;
+}

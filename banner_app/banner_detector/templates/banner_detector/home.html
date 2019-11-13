@@ -10,36 +10,36 @@
                 {% for group in user.groups.all %}
                     {% if group.name == 'manager'  %}
                         <div class="col-md-4 my-4">
-                            <div class="card bg-light" style="">
+                            <div class="card card-home" style="">
                                 <div class="card-body">
                                     <h5 class="card-title">Новый базовый баннер</h5>
-                                    <a class="btn btn-primary stretched-link" href="{% url 'base-banner-create' %} ">Добавить</a>
+                                    <a class="stretched-link" href="{% url 'base-banner-create' %} "></a>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-4 my-4">
-                            <div class="card bg-light" style="">
+                            <div class="card card-home" style="">
                                 <div class="card-body">
                                     <h5 class="card-title">Добавить Автобус</h5>
-                                    <a class="btn btn-primary stretched-link" href="{% url 'buses' %} ">Добавить</a>
+                                    <a class="stretched-link" href="{% url 'buses' %} "></a>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-4 my-4">
-                            <div class="card bg-light" style="">
+                            <div class="card card-home" style="">
                                 <div class="card-body">
-                                    <h5 class="card-title">Типы баннеров</h5>
-                                    <a class="btn btn-primary stretched-link" href="{% url 'banner-types' %} ">Добавить</a>
+                                    <h5 class="card-title">Добавить тип баннера</h5>
+                                    <a class="stretched-link" href="{% url 'banner-types' %} "></a>
                                 </div>
                             </div>
                         </div>
                     {% endif %}
                 {% endfor %}
                 <div class="col-md-4 my-4">
-                    <div class="card bg-light" style="">
+                    <div class="card card-home" style="">
                         <div class="card-body">
                             <h5 class="card-title">Создать Биллборд</h5>
-                            <a class="btn btn-primary stretched-link" href="{% url 'billboard-create' %} ">Создать</a>
+                            <a class="stretched-link" href="{% url 'billboard-create' %} "></a>
                         </div>
                     </div>
                 </div>
@@ -51,26 +51,26 @@
                 {% for group in user.groups.all %}
                     {% if group.name == 'manager'  %}
                         <div class="col-md-4 my-4">
-                            <div class="card bg-light" style="">
+                            <div class="card card-home" style="">
                                 <div class="card-body">
                                     <h5 class="card-title">Все базовые баннеры</h5>
-                                    <a class="btn btn-primary stretched-link" href="{% url 'base-banners' %}">Просмотр</a>
+                                    <a class="stretched-link" href="{% url 'base-banners' %}"></a>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-4 my-4">
-                            <div class="card bg-light" style="">
+                            <div class="card card-home" style="">
                                 <div class="card-body">
                                     <h5 class="card-title">Все баннеры</h5>
-                                    <a class="btn btn-primary stretched-link" href="{% url 'banners' %}">Просмотр</a>
+                                    <a class="stretched-link" href="{% url 'banners' %}"></a>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-4 my-4">
-                            <div class="card bg-light" style="">
+                            <div class="card card-home" style="">
                                 <div class="card-body">
                                     <h5 class="card-title">Не классифицированные баннеры</h5>
-                                    <a class=" stretched-link" href="{% url 'non-recognized-banners' %}"></a>
+                                    <a class="stretched-link" href="{% url 'non-recognized-banners' %}"></a>
                                 </div>
                             </div>
                         </div>
@@ -79,7 +79,7 @@
                 {% endfor %}
 
                 <div class="col-md-4 my-4">
-                    <div class="card bg-light" style="">
+                    <div class="card card-home" style="">
                         <div class="card-body">
                             <h5 class="card-title">Все биллборды</h5>
                             <a class="btn btn-primary stretched-link" href="{% url 'billboards' %}">Просмотр</a>

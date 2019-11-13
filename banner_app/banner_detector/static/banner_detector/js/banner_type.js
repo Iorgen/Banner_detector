@@ -1,58 +1,63 @@
+function RegisterAllEventHandlers() {
 // Bus create AJAX request
-$("form#addBannerType").submit(function() {
-    var nameInput = $('input[name="name"]').val().trim();
-    if (nameInput) {
-        $.ajax({
-            url: localStorage.getItem('banner-type-add-link'),
-            data: {
-                'name': nameInput,
-            },
-            dataType: 'json',
-            success: function (data) {
-                if (data.banner_type) {
-                    appendToBannerTypeTable(data.banner_type);
-                }
-            }
-        });
-    } else {
-        alert("Все поля должны иметь валидное значение");
-    }
-    $('form#addBannerType').trigger("reset");
-    return false;
-});
-
-// Bus update AJAX request
-$("form#updateBannertType").submit(function(event) {
-    try{
-        var bus = event.target;
-        var idInput = $(bus).find('input[name="formId"]').val().trim();
-        var nameInput = $(bus).find('input[name="formName"]').val().trim();
+    $("form#addBannerType").submit(function () {
+        var nameInput = $('input[name="name"]').val().trim();
         if (nameInput) {
             $.ajax({
-                url:  localStorage.getItem('banner-type-update-link'),
+                url: localStorage.getItem('banner-type-add-link'),
                 data: {
-                    'id': idInput,
                     'name': nameInput,
+                    'csrfmiddlewaretoken': $('input[name="csrfmiddlewaretoken"]').val()
                 },
                 dataType: 'json',
                 success: function (data) {
                     if (data.banner_type) {
-                        alert('update_success')
+                        appendToBannerTypeTable(data.banner_type);
+                        RegisterAllEventHandlers();
                     }
                 }
             });
-
         } else {
-            alert("Все поля должны иметь валидное значение.");
+            alert("Все поля должны иметь валидное значение");
         }
+        $('form#addBannerType').trigger("reset");
         return false;
-    }
-    catch (e) {
-        console.log(e);
-        return false;
-    }
+    });
 
-});
+    // Bus update AJAX request
+    $("form#updateBannertType").submit(function (event) {
+        try {
+            var bus = event.target;
+            var idInput = $(bus).find('input[name="formId"]').val().trim();
+            var nameInput = $(bus).find('input[name="formName"]').val().trim();
+            if (nameInput) {
+                $.ajax({
+                    url: localStorage.getItem('banner-type-update-link'),
+                    data: {
+                        'id': idInput,
+                        'name': nameInput,
+                        'csrfmiddlewaretoken': $('input[name="csrfmiddlewaretoken"]').val()
+                    },
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.banner_type) {
+                            alert('update_success');
+                            RegisterAllEventHandlers();
+                        }
+                    }
+                });
+
+            } else {
+                alert("Все поля должны иметь валидное значение.");
+            }
+            return false;
+        } catch (e) {
+            console.log(e);
+            return false;
+        }
+
+    });
+}
 
 // Append bus new bus to bus list
 function appendToBannerTypeTable(bannerType) {
@@ -78,3 +83,4 @@ function appendToBannerTypeTable(bannerType) {
                         </div>
     `);
 }
+RegisterAllEventHandlers();

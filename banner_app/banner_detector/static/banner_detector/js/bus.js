@@ -6,6 +6,7 @@ $("form#addBus").submit(function() {
             url: localStorage.getItem('bus-add-link'),
             data: {
                 'number': numberInput,
+                'csrfmiddlewaretoken': $('input[name="csrfmiddlewaretoken"]').val()
             },
             dataType: 'json',
             success: function (data) {
@@ -33,6 +34,7 @@ $("form#updateBus").submit(function(event) {
                 data: {
                     'id': idInput,
                     'number': numberInput,
+                    'csrfmiddlewaretoken': $('input[name="csrfmiddlewaretoken"]').val()
                 },
                 dataType: 'json',
                 success: function (data) {

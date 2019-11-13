@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from ..models import Bus
-from django.views.generic import TemplateView, View, ListView
+from django.views.generic import View, ListView
 from django.http import JsonResponse
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
@@ -14,7 +14,9 @@ def home(request):
 
 
 class BusListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
+    """
 
+    """
     template_name = 'bus_list.html'
     model = Bus
     permission_required = 'banner_detector.view_bus'
@@ -23,7 +25,11 @@ class BusListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     paginate_by = 15
 
 
-class BusCreateAJAXView(LoginRequiredMixin, View):
+class BusCreateAJAXView(LoginRequiredMixin, PermissionRequiredMixin, View):
+    """
+
+    """
+    permission_required = 'banner_detector.add_bus'
 
     def get(self, request):
         number = request.GET.get('number', None)
@@ -39,7 +45,11 @@ class BusCreateAJAXView(LoginRequiredMixin, View):
         return JsonResponse(response)
 
 
-class BusDeleteAJAXView(View):
+class BusDeleteAJAXView(LoginRequiredMixin, PermissionRequiredMixin, View):
+    """
+
+    """
+    permission_required = 'banner_detector.delete_bus'
 
     def get(self, request):
         bus_id = request.GET.get('id', None)
@@ -50,7 +60,11 @@ class BusDeleteAJAXView(View):
         return JsonResponse(response)
 
 
-class BusUpdateAJAXView(View):
+class BusUpdateAJAXView(LoginRequiredMixin, PermissionRequiredMixin, View):
+    """
+
+    """
+    permission_required = 'banner_detector.change_bus'
 
     def get(self, request):
         bus_id = request.GET.get('id', None)

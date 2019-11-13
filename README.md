@@ -72,6 +72,8 @@ $ docker-compose down --remove-orphans --volumes
  - https://useiconic.com/open/
 
 # Задачи
+Whole javascript refactoring
+CSRF after DOM insert bug 
 
 ### Страница автобусов:
 

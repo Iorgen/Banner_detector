@@ -7,6 +7,7 @@ function deleteBanner(id) {
             url: localStorage.getItem('banner-delete-link'),
             data: {
                 'id': id,
+                'csrfmiddlewaretoken': $('input[name="csrfmiddlewaretoken"]').val()
             },
             dataType: 'json',
             success: function (data) {
@@ -31,6 +32,7 @@ $("form#updateBanner").submit(function(event) {
                 data: {
                     'id': bannerId,
                     'banner_type_name': bannerTypeName,
+                    'csrfmiddlewaretoken': $('input[name="csrfmiddlewaretoken"]').val()
                 },
                 dataType: 'json',
                 success: function (data) {
@@ -56,6 +58,7 @@ function setAsBase(bannerId) {
         url: localStorage.getItem('banner-set-as-base-link'),
         data: {
             'id': bannerId,
+            'csrfmiddlewaretoken': $('input[name="csrfmiddlewaretoken"]').val()
         },
         dataType: 'json',
         success: function (data) {
