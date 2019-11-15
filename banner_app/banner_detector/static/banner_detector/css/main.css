@@ -1,8 +1,8 @@
 body {
-  background: #fafafa;
-  color: #333333;
-  margin-top: 5rem;
-  height: 100%;
+	background: #fafafa;
+	color: #333333;
+	margin-top: 5rem;
+	height: 100%;
 }
 
 
@@ -10,96 +10,96 @@ body {
 
 
 h1, h2, h3, h4, h5, h6 {
-  color: #444444;
+	color: #444444;
 }
 
 ul {
-  margin: 0;
+	margin: 0;
 }
 
 .bg-steel {
-  background-color: #5f788a;
+	background-color: #5f788a;
 }
 
 .site-header .navbar-nav .nav-link {
-  color: #cbd5db;
+	color: #cbd5db;
 }
 
 .site-header .navbar-nav .nav-link:hover {
-  color: #ffffff;
+	color: #ffffff;
 }
 
 .site-header .navbar-nav .nav-link.active {
-  font-weight: 500;
+	font-weight: 500;
 }
 
 .content-section {
-  background: #ffffff;
-  padding: 20px 20px;
-  border: 1px solid #dddddd;
-  border-radius: 3px;
-  margin-bottom: 20px;
+	background: #ffffff;
+	padding: 20px 20px;
+	border: 1px solid #dddddd;
+	border-radius: 3px;
+	margin-bottom: 20px;
 }
 
 .article-title {
-  color: #444444;
+	color: #444444;
 }
 
 a.article-title:hover {
-  color: #428bca;
-  text-decoration: none;
+	color: #428bca;
+	text-decoration: none;
 }
 
 .article-content {
-  white-space: pre-line;
+	white-space: pre-line;
 }
 
 .article-img {
-  height: 65px;
-  width: 65px;
-  margin-right: 16px;
+	height: 65px;
+	width: 65px;
+	margin-right: 16px;
 }
 
 .article-metadata {
-  padding-bottom: 1px;
-  margin-bottom: 4px;
-  border-bottom: 1px solid #e3e3e3
+	padding-bottom: 1px;
+	margin-bottom: 4px;
+	border-bottom: 1px solid #e3e3e3
 }
 
 .article-metadata a:hover {
-  color: #333;
-  text-decoration: none;
+	color: #333;
+	text-decoration: none;
 }
 
 .article-svg {
-  width: 25px;
-  height: 25px;
-  vertical-align: middle;
+	width: 25px;
+	height: 25px;
+	vertical-align: middle;
 }
 
 .account-img {
-  height: 50px;
-  width: 50px;
-  margin-right: 20px;
-  margin-bottom: 16px;
+	height: 50px;
+	width: 50px;
+	margin-right: 20px;
+	margin-bottom: 16px;
 }
 
 .account-heading {
-  font-size: 2.5rem;
+	font-size: 2.5rem;
 }
 
 .loader {
-  border: 16px solid #f3f3f3; /* Light grey */
-  border-top: 16px solid #3498db; /* Blue */
-  border-radius: 50%;
-  width: 120px;
-  height: 120px;
-  animation: spin 2s linear infinite;
+	border: 16px solid #f3f3f3; /* Light grey */
+	border-top: 16px solid #3498db; /* Blue */
+	border-radius: 50%;
+	width: 120px;
+	height: 120px;
+	animation: spin 2s linear infinite;
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+	0% { transform: rotate(0deg); }
+	100% { transform: rotate(360deg); }
 }
 
 
@@ -107,7 +107,7 @@ a.article-title:hover {
 /* CHAT TEMPLATE CSS */
 /*---------chat window---------------*/
 .container{
-    max-width:900px;
+	max-width:900px;
 }
 .inbox_people {
 	background: #fff;
@@ -147,9 +147,9 @@ a.article-title:hover {
 
 .recent_heading h4 {
 	color: #0465ac;
-    font-size: 16px;
-    margin: auto;
-    line-height: 29px;
+	font-size: 16px;
+	margin: auto;
+	line-height: 29px;
 }
 
 .srch_bar input {
@@ -185,13 +185,13 @@ a.article-title:hover {
 }
 
 .chat_ib p {
-    font-size: 12px;
-    color: #989898;
-    margin: auto;
-    display: inline-block;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+	font-size: 12px;
+	color: #989898;
+	margin: auto;
+	display: inline-block;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 .chat_img {
@@ -334,17 +334,17 @@ a.article-title:hover {
 /* Footer */
 @import url('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
 section {
-    padding: 60px 0;
+	padding: 60px 0;
 }
 
 section .section-title {
-    text-align: center;
-    color: #007b5e;
-    margin-bottom: 50px;
-    text-transform: uppercase;
+	text-align: center;
+	color: #007b5e;
+	margin-bottom: 50px;
+	text-transform: uppercase;
 }
 #footer {
-    background: #343a40 !important;
+	background: #343a40 !important;
 }
 #footer h1,
 #footer h2,
@@ -353,22 +353,22 @@ section .section-title {
 }
 #footer h5{
 	padding-left: 10px;
-    border-left: 3px solid #eeeeee;
-    padding-bottom: 6px;
-    margin-bottom: 20px;
-    color:#ffffff;
+	border-left: 3px solid #eeeeee;
+	padding-bottom: 6px;
+	margin-bottom: 20px;
+	color:#ffffff;
 }
 #footer a {
-    color: #ffffff;
-    text-decoration: none !important;
-    background-color: transparent;
-    -webkit-text-decoration-skip: objects;
+	color: #ffffff;
+	text-decoration: none !important;
+	background-color: transparent;
+	-webkit-text-decoration-skip: objects;
 }
 #footer ul.social li{
 	padding: 3px 0;
 }
 #footer ul.social li a i {
-    margin-right: 5px;
+	margin-right: 5px;
 	font-size:25px;
 	-webkit-transition: .5s all ease;
 	-moz-transition: .5s all ease;
@@ -400,26 +400,26 @@ section .section-title {
 	margin-right: 5px;
 }
 #footer ul.quick-links li:hover a i {
-    font-weight: 700;
+	font-weight: 700;
 }
 
 @media (max-width:767px){
 	#footer h5 {
-    padding-left: 0;
-    border-left: transparent;
-    padding-bottom: 0px;
-    margin-bottom: 10px;
-}
+		padding-left: 0;
+		border-left: transparent;
+		padding-bottom: 0px;
+		margin-bottom: 10px;
+	}
 }
 
 /*Billboard cards */
 
 .lib-panel {
-    margin-bottom: 20Px;
+	margin-bottom: 20Px;
 }
 .lib-panel img {
-    width: 100%;
-    background-color: transparent;
+	width: 100%;
+	background-color: transparent;
 }
 
 .lib-panel .lib-row {
@@ -430,26 +430,26 @@ section .section-title {
 }
 
 .lib-panel .lib-row.lib-header {
-    font-size: 20px;
-    padding: 10px 20px 0 20px;
+	font-size: 20px;
+	padding: 10px 20px 0 20px;
 }
 
 .lib-panel .lib-row.lib-header .lib-header-seperator {
-    height: 2px;
-    width: 26px;
-    background-color: #d9d9d9;
-    margin: 7px 0 7px 0;
+	height: 2px;
+	width: 26px;
+	background-color: #d9d9d9;
+	margin: 7px 0 7px 0;
 }
 
 .box-shadow {
-    -webkit-box-shadow: 0 0 10px 0 rgba(0,0,0,.10);
-    box-shadow: 0 0 10px 0 rgba(0,0,0,.10);
+	-webkit-box-shadow: 0 0 10px 0 rgba(0,0,0,.10);
+	box-shadow: 0 0 10px 0 rgba(0,0,0,.10);
 	background-color: white;
 	border-radius: 5px;
 }
 
 .no-padding {
-    padding: 0;
+	padding: 0;
 }
 
 .banner-img {
@@ -469,4 +469,147 @@ section .section-title {
 .card-home:hover {
 	background-color: #6fea4354;
 	opacity: 0.45;
+}
+
+
+.main-container{
+	padding: 0 10% 20px 10%;
+	min-height: 100vh;
+}
+
+.inputfile {
+    width: 0.1px ;
+    height: 0.1px ;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}
+
+.inputfile + label {
+	margin-top: 20px;
+    width: 100%;
+    font-size: 1.25rem;
+    /* 20px */
+    font-weight: 700;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    cursor: pointer;
+    display: inline-block;
+    overflow: hidden;
+    padding: 0.625rem 1.25rem;
+    /* 10px 20px */
+}
+
+.no-js .inputfile + label {
+    display: none;
+}
+
+.inputfile:focus + label,
+.inputfile.has-focus + label {
+    outline: 1px dotted #000;
+    outline: -webkit-focus-ring-color auto 5px;
+}
+
+.inputfile + label * {
+    /* pointer-events: none; */
+    /* in case of FastClick lib use */
+}
+
+.inputfile + label svg {
+    width: 1em;
+    height: 1em;
+    vertical-align: middle;
+    fill: currentColor;
+    margin-top: -0.25em;
+    /* 4px */
+    margin-right: 0.25em;
+    /* 4px */
+}
+
+
+/* style 1 */
+
+.inputfile-1 + label {
+    color: #f1e5e6;
+    background-color: #d3394c;
+}
+
+.inputfile-1:focus + label,
+.inputfile-1.has-focus + label,
+.inputfile-1 + label:hover {
+    background-color: #722040;
+}
+
+.billboard_send_timer{
+	float: right;
+}
+
+
+/*
+  ##Device = Desktops
+  ##Screen = 1281px to higher resolution desktops
+*/
+
+@media (min-width: 1281px) {
+
+
+
+}
+
+/*
+  ##Device = Laptops, Desktops
+  ##Screen = B/w 1025px to 1280px
+*/
+
+@media (min-width: 1025px) and (max-width: 1280px) {
+
+
+
+}
+
+/*
+  ##Device = Tablets, Ipads (portrait)
+  ##Screen = B/w 768px to 1024px
+*/
+
+@media (min-width: 768px) and (max-width: 1024px) {
+
+
+
+}
+
+/*
+  ##Device = Tablets, Ipads (landscape)
+  ##Screen = B/w 768px to 1024px
+*/
+
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+
+
+
+}
+
+/*
+  ##Device = Low Resolution Tablets, Mobiles (Landscape)
+  ##Screen = B/w 481px to 767px
+*/
+
+@media (min-width: 481px) and (max-width: 767px) {
+
+
+
+}
+
+/*
+  ##Device = Most of the Smartphones Mobiles (Portrait)
+  ##Screen = B/w 320px to 479px
+*/
+
+@media (min-width: 320px) and (max-width: 480px) {
+	.main-container{
+		padding: 0 10px 20px 10px;
+		min-height: 100vh;
+	}
+
 }

@@ -109,11 +109,14 @@ class ObjectRecognitionController(metaclass=Singleton):
 class ObjectDetectionController(metaclass=Singleton):
 
     def __init__(self):
+        """
+
+        """
         self.detection_graph = tf.get_default_graph()
         self.detector = CustomObjectDetection()
         self.detector.setModelTypeAsYOLOv3()
-        self.detector.setModelPath("models/detection_model-ex-030--loss-0011.225.h5")
-        self.detector.setJsonPath("models/detection_config.json")
+        self.detector.setModelPath("models/detection_model-ex-029--loss-0009.447.h5")
+        self.detector.setJsonPath("models/detection_config_2.json")
         self.detector.loadModel()
 
     @staticmethod
@@ -139,8 +142,8 @@ class ObjectDetectionController(metaclass=Singleton):
             detections = self.detector.detectObjectsFromImage(
                 input_image=os.path.join("media", billboard.image.name),
                 output_image_path=os.path.join("media/detected_banners", billboard.image.name),
-                minimum_percentage_probability=30,
+                minimum_percentage_probability=20,
                 extract_detected_objects=True,
-                nms_treshold=0.7,
+                nms_treshold=0.2,
             )
             return detections

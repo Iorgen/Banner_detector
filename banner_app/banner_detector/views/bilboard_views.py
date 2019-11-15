@@ -96,7 +96,7 @@ class BillboardCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateVie
             messages.add_message(self.request, messages.INFO, 'Биллборд загружен, банеры отправлены на распознавание')
             return redirect(reverse('billboard-detail', kwargs={'pk': billboard_form.id}))
         else:
-            messages.add_message(self.request, messages.ERROR, 'Error!')
+            messages.add_message(self.request, messages.ERROR, 'Заполните все поля формы')
             return render(request, self.template_name, {'form': form})
 
 

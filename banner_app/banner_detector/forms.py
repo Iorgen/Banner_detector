@@ -3,11 +3,21 @@ from .models import BillboardImage, BaseBanner, Banner, BannerType, Bus
 
 
 class BillboardImageCreationForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(BillboardImageCreationForm, self).__init__(*args, **kwargs)
 
     class Meta:
         model = BillboardImage
         fields = ['bus', 'image']
-        labels = {'bus': 'Выберите Автобус', 'image': 'Выберите изображение'}
+        labels = {'bus': 'Выберите Автобус'}
+        widgets = {'image': forms.FileInput(attrs={'id': 'id_image',
+                                                   'class': 'inputfile inputfile-1',
+                                                   'name': 'file-1[]',
+                                                   'data-multiple-caption': '{count} файлов выбрано'
+                                                   }),
+                   'bus': forms.Select(attrs={'id': 'id_bus',
+                                              'class': 'form-control'
+                                              })}
 
 
 class BaseBannerCreationForm(forms.ModelForm):
