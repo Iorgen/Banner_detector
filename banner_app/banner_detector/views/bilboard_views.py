@@ -88,8 +88,8 @@ class BillboardCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateVie
                 banner.image.name = banner_crop[6:]
                 banner.save()
                 banner_ids.append(banner.id)
-            # recognize_banners.delay(banner_ids)
-            recognize_banners(banner_ids)
+            recognize_banners.delay(banner_ids)
+            # recognize_banners(banner_ids)
             billboard.detected_image.name = os.path.join(
                 'detected_banners', billboard.image.name)
             billboard.save()
