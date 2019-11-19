@@ -3,6 +3,7 @@ from celery import shared_task
 from celery import task
 from random import randint
 from .models import Banner, BaseBanner
+from PIL import Image
 from ML_detector.core.controller import ObjectRecognitionController
 import torch
 import numpy as np
@@ -42,7 +43,10 @@ def recognize_banners(banner_ids):
             banner.save()
 
 
-@task(name="multiply_two_numbers")
-def mul(x, y):
-    total = x * (y * randint(3, 100))
-    return total
+@shared_task
+def recalculate_descriptors():
+    base_banners = BaseBanner.objects.all()
+    for base_banner in base_banners:
+        image = Image.open(base_banner.image.path).convert('RGB')
+        base_banner.descriptor = ObjectRecognitionController().get_descriptor(image).tolist()
+        base_banner.save()

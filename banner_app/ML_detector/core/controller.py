@@ -10,7 +10,28 @@ from imageai.Detection.Custom import CustomObjectDetection
 from .patterns.singleton import Singleton
 
 
-class SeameseBannerRecognitionModel(nn.Module):
+class SiameseBannerRecognitionModelResNet50(nn.Module):
+    model_path = os.path.join("models", "learn_res50_contrastive_loss2.pt")
+
+    def __init__(self):
+        super().__init__()
+        self.cnn = nn.Sequential(*list(models.resnet50(True).children())[:-2])
+        self.head = create_head(4096, 185, [2048])
+        self.ada_concat = AdaptiveConcatPool2d(1)
+
+    def forward(self, ims_a, ims_b):
+        cnn_out_a = self.cnn(ims_a)
+        out_a = self.head(cnn_out_a)
+
+        cnn_out_b = self.cnn(ims_b)
+        out_b = self.head(cnn_out_b)
+
+        return out_a, out_b, self.ada_concat(cnn_out_a).squeeze(), self.ada_concat(cnn_out_b).squeeze()
+
+
+class SiameseBannerRecognitionModelResNet18(nn.Module):
+    model_path = os.path.join("models", "learn_res18.pt")
+
     def __init__(self):
         super().__init__()
         self.cnn = nn.Sequential(*list(models.resnet18(True).children())[:-2])
@@ -33,10 +54,11 @@ class ObjectRecognitionController(metaclass=Singleton):
 
     def __init__(self):
         # Model class must be defined somewhere
-        self.model = SeameseBannerRecognitionModel()
+        self.model = SiameseBannerRecognitionModelResNet50()
         # Load model from file - set path inside configs (maybe inside settings.py)
-        self.model.load_state_dict(torch.load('models/learn_res18.pt', map_location=torch.device('cpu')))
-        # Inference preprocessing
+        print(self.model.model_path)
+        self.model.load_state_dict(torch.load(self.model.model_path, map_location=torch.device('cpu')))
+        # Inference preprocessed
         self.model.eval()
         # resize image configuration
         self.resize_aug = albumentations.Compose([albumentations.Resize(224, 224)])

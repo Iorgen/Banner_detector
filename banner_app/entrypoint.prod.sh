@@ -11,4 +11,6 @@ then
     echo "PostgreSQL started"
 fi
 
+python3 manage.py update_descriptors --no-input --clear
+
 exec "$@"
