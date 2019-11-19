@@ -26,18 +26,22 @@ services:
     env_file:
       - ./.env.prod.db
   celery:
-    build: .
+    build:
+      context: ./banner_app
+      dockerfile: Dockerfile.prod
     command: celery -A proj worker -l info
-    volumes:
-      - .:/banner_app
+    env_file:
+      - ./.env.prod
     depends_on:
       - db
       - redis
   celery-beat:
-    build: .
-    command: celery -A proj beat -l info
-    volumes:
-      - .:/banner_app
+    build:
+      context: ./banner_app
+      dockerfile: Dockerfile.prod
+    command: celery -A proj worker -l info
+    env_file:
+      - ./.env.prod
     depends_on:
       - db
       - redis
