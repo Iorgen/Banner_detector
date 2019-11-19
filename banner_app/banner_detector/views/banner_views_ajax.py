@@ -47,6 +47,15 @@ class BannerUpdateAJAXView(LoginRequiredMixin, PermissionRequiredMixin, View):
         banner.banner_class = banner_type
         banner.recognition_status = True
         banner.save()
+        image = Image.open(banner.image.path).convert('RGB')
+        descriptor = ObjectRecognitionController().get_descriptor(image).tolist()
+        # create base banner instance
+        BaseBanner.objects.create(
+            author=request.user,
+            image=banner.image.name,
+            descriptor=descriptor,
+            banner_type_id=banner.banner_class_id,
+        )
         banner = {'id': banner.id, 'banner_type': banner.banner_class.id}
         response = {'banner': banner}
         return JsonResponse(response)

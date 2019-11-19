@@ -10,7 +10,7 @@
     <div class="row" id="BannerList">
         <datalist id="banner_type_list">
             {% for banner_type in banner_types %}
-                <option value="{{ banner_type.id }}">{{banner_type.name}}</option>
+                <option value="{{ banner_type.name }}">{{banner_type.name}}</option>
             {% endfor %}
         </datalist>
         {% for banner in banners %}

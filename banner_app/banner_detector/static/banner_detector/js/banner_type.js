@@ -12,13 +12,13 @@ function RegisterAllEventHandlers() {
                 dataType: 'json',
                 success: function (data) {
                     if (data.banner_type) {
+                        showAlert('Новый тип баннера добавлен');
                         appendToBannerTypeTable(data.banner_type);
-                        RegisterAllEventHandlers();
                     }
                 }
             });
         } else {
-            alert("Все поля должны иметь валидное значение");
+            showAlert("Все поля должны иметь валидное значение.");
         }
         $('form#addBannerType').trigger("reset");
         return false;
@@ -41,14 +41,13 @@ function RegisterAllEventHandlers() {
                     dataType: 'json',
                     success: function (data) {
                         if (data.banner_type) {
-                            alert('update_success');
-                            RegisterAllEventHandlers();
+                            showAlert('Тип Баннера обновлен');
                         }
                     }
                 });
 
             } else {
-                alert("Все поля должны иметь валидное значение.");
+                showAlert("Все поля должны иметь валидное значение.");
             }
             return false;
         } catch (e) {

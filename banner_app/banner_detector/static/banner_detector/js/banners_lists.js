@@ -13,6 +13,7 @@ function deleteBanner(id) {
             success: function (data) {
                 if (data.deleted) {
                     $("#BannerList #Banner-" + id).remove();
+                    showAlert("Баннер удален");
                 }
             }
         });
@@ -37,12 +38,12 @@ $("form#updateBanner").submit(function(event) {
                 dataType: 'json',
                 success: function (data) {
                     if (data.banner) {
-                        alert('update success');
+                        showAlert("Баннер обновлен ");
                     }
                 }
             });
         } else {
-            alert("Все поля должны иметь валидное значение.");
+            showAlert("Все поля должны иметь валидное значение.");
         }
         return false;
     }
@@ -63,7 +64,7 @@ function setAsBase(bannerId) {
         dataType: 'json',
         success: function (data) {
             if (data.created) {
-                alert('установлен как базовый');
+                showAlert('Баннер установлен как базовый');
             }
         }
     });

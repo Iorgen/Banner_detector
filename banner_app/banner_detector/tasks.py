@@ -1,7 +1,5 @@
 from __future__ import absolute_import, unicode_literals
 from celery import shared_task
-from celery import task
-from random import randint
 from .models import Banner, BaseBanner
 from PIL import Image
 from ML_detector.core.controller import ObjectRecognitionController
@@ -50,3 +48,5 @@ def recalculate_descriptors():
         image = Image.open(base_banner.image.path).convert('RGB')
         base_banner.descriptor = ObjectRecognitionController().get_descriptor(image).tolist()
         base_banner.save()
+    banners_id = Banner.objects.all().values_list('id', flat=True)
+    recognize_banners(banners_id)
