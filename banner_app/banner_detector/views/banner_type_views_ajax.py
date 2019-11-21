@@ -15,7 +15,7 @@ def home(request):
 
 class BannerTypeListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
 
-    template_name = 'banner_type_list.html'
+    template_name = 'banner_detector/banner_type_list.html'
     model = BannerType
     permission_required = 'banner_detector.view_bannertype'
     ordering = ['name']

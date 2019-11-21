@@ -1,6 +1,6 @@
 from django.urls import path
-from .views.views import home
-from .views.views import (BusCreateAJAXView, BusDeleteAJAXView, BusListView, BusUpdateAJAXView)
+from .views.views import home, ImportBaseBanners
+from .views.bus_views import (BusCreateAJAXView, BusDeleteAJAXView, BusListView, BusUpdateAJAXView)
 from .views.bilboard_views import (BillboardListView, UserBillboardListView,
                                    BillboardDetailView, BillboardCreateView, BillboardXmlExportView)
 from .views.base_banner_views import (BaseBannerCreateView, BaseBannerDetailView,
@@ -54,5 +54,8 @@ urlpatterns = [
     path('banner_type/crud/add/', BannerTypeCreateAJAXView.as_view(), name='banner-type-ajax-add'),
     path('banner_type/crud/update/', BannerTypeUpdateAJAXView.as_view(), name='banner-type-ajax-update'),
     # path('banner_type/crud/delete/', BusDeleteAJAXView.as_view(), name='banner-type-ajax-delete'),
+
+    # Import Base Banner
+    path('import_base_banners/', ImportBaseBanners.as_view(), name='import-base-banners')
 
 ]

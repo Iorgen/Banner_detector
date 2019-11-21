@@ -50,3 +50,7 @@ class BusCreationForm(forms.ModelForm):
         model = Bus
         fields = ['bus_number']
         labels = {'bus_number': 'Номер автобуса'}
+
+
+class ImportBaseBannersForm(forms.Form):
+    archive_file = forms.FileField(widget=forms.FileInput(attrs={'accept':'.zip'}))
