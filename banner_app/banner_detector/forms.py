@@ -53,4 +53,4 @@ class BusCreationForm(forms.ModelForm):
 
 
 class ImportBaseBannersForm(forms.Form):
-    archive_file = forms.FileField(widget=forms.FileInput(attrs={'accept':'.zip'}))
+    archive_file = forms.FileField(widget=forms.FileInput(attrs={'accept': '.zip'}))

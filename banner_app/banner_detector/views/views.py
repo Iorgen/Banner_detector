@@ -46,16 +46,10 @@ class ImportBaseBanners(LoginRequiredMixin, PermissionRequiredMixin, View):
                         name=banner_type_name,
                         defaults={'author': request.user}
                     )
-                    # Compare with banner_type object in base using get_or_create() method
-                    print('-------------------')
                     for info in banners_zip.infolist():
-                        template_name = re.compile('data/' + banner_type_name + '/.*\.jpg')
-                        # Get descriptop
-                        # compare descriptors if distacne < 0.5 add to database
+                        template_name = re.compile('data/' + banner_type_name + r'/.*\.jpg')
                         if re.match(template_name, info.filename):
-                            base_banner_form = BaseBannerCreationForm()
                             image_data = banners_zip.read(info.filename)
-                            # image_data = BytesIO(image_data)
                             image = InMemoryUploadedFile(
                                 file=BytesIO(image_data),
                                 field_name=info.filename,
@@ -72,10 +66,7 @@ class ImportBaseBanners(LoginRequiredMixin, PermissionRequiredMixin, View):
                                     'image': image,
                                     'banner_type': banner_type,
                                     'descriptor': descriptor
-                            })
-                            print(info.filename)
-                # images = banners_zip.read('data/салон_измерительной_техники_измертех/*.jpg')
-                # print(images)
+                                })
             messages.add_message(self.request, messages.INFO, 'Базовые баннеры успешно занесены, список типов расширен')
             return redirect(reverse('detector-home'))
         else:

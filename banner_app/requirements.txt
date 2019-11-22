@@ -26,8 +26,10 @@ django-crispy-forms==1.8.0
 django-debug-permissions==1.0.0
 dominate==2.3.5
 editdistance==0.5.3
+entrypoints==0.3
 fastai==1.0.59
 fastprogress==0.1.21
+flake8==3.7.9
 gast==0.2.2
 google-pasta==0.1.7
 graphviz==0.11.1
@@ -53,6 +55,7 @@ Mako==1.0.14
 Markdown==3.1.1
 MarkupSafe==1.1.1
 matplotlib==3.1.1
+mccabe==0.6.1
 more-itertools==7.2.0
 murmurhash==1.0.2
 networkx==2.3
@@ -72,9 +75,11 @@ prompt-toolkit==2.0.9
 protobuf==3.8.0
 psycopg2==2.8.4
 ptyprocess==0.6.0
+pycodestyle==2.5.0
 pycparser==2.19
 pydot==1.4.1
 pydot-ng==2.0.0
+pyflakes==2.1.1
 Pygments==2.4.2
 pyparsing==2.4.0
 python-dateutil==2.8.0
