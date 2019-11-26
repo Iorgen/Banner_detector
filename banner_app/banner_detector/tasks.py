@@ -1,10 +1,12 @@
 from __future__ import absolute_import, unicode_literals
 from celery import shared_task
-from .models import Banner, BaseBanner
+from .models import Banner, BaseBanner, Bus
 from PIL import Image
 from ML_detector.core.controller import ObjectRecognitionController
 import torch
 import numpy as np
+import os
+import csv
 
 
 @shared_task
@@ -25,6 +27,7 @@ def recognize_banners(banner_ids):
                                                               base_banners_descriptors).cpu().numpy()
         # Comment
         distance = list(banners_distance[banner_id])
+        banner.closest_distance = sorted(distance)[0]
         most_similar_base_banner_index = distance.index(sorted(distance)[0])
         target_class_id = base_banners['id'][most_similar_base_banner_index]
         target_base_banner = BaseBanner.objects.get(pk=target_class_id.item())
@@ -50,3 +53,13 @@ def recalculate_descriptors():
         base_banner.save()
     banners_id = Banner.objects.all().values_list('id', flat=True)
     recognize_banners(banners_id)
+
+
+def parse_buses():
+    with open('output.csv', 'r') as f:
+        reader = csv.reader(f)
+        for row in reader:
+            Bus.objects.create(
+                number=row[0],
+                registration_number=row[1]
+            )

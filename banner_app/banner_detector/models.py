@@ -11,10 +11,11 @@ class Bus(models.Model):
     """
     Stores a single bus entry.
     """
-    bus_number = models.CharField(max_length=20)
+    number = models.CharField(max_length=20, default="1")
+    registration_number = models.CharField(max_length=20, default="1")
 
     def __str__(self):
-        return self.bus_number
+        return self.number + '-' + self.registration_number
 
 
 class BillboardImage(models.Model):
@@ -29,7 +30,7 @@ class BillboardImage(models.Model):
     bus = models.ForeignKey(Bus, on_delete=models.CASCADE)
 
     def __str__(self):
-        return "Биллборд в '" + self.bus.bus_number + "' за " + self.day_month_added()
+        return "Биллборд в '" + self.bus.number + "' за " + self.day_month_added()
 
     def get_absolute_url(self):
         return reverse('billboard-detail', kwargs={'pk': self.pk})
@@ -96,6 +97,7 @@ class Banner(models.Model):
     billboard = models.ForeignKey(BillboardImage, on_delete=models.CASCADE)
     banner_class = models.ForeignKey(BannerType, on_delete=models.CASCADE, blank=True, null=True)
     recognition_status = models.BooleanField(default=False)
+    closest_distance = models.FloatField(blank=True, null=True)
 
     @staticmethod
     def get_not_recognized_banners():

@@ -48,8 +48,9 @@ class BusCreationForm(forms.ModelForm):
 
     class Meta:
         model = Bus
-        fields = ['bus_number']
-        labels = {'bus_number': 'Номер автобуса'}
+        fields = ['registration_number', 'number']
+        labels = {'registration_number': 'Гос номер автобуса',
+                  'number': 'Номер автобуса'}
 
 
 class ImportBaseBannersForm(forms.Form):
