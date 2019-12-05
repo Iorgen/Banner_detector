@@ -1,5 +1,5 @@
 from django import forms
-from .models import BillboardImage, BaseBanner, Banner, BannerType, Bus
+from .models import Billboard, BannerObject, Banner, BannerType, Bus
 
 
 class BillboardImageCreationForm(forms.ModelForm):
@@ -7,7 +7,7 @@ class BillboardImageCreationForm(forms.ModelForm):
         super(BillboardImageCreationForm, self).__init__(*args, **kwargs)
 
     class Meta:
-        model = BillboardImage
+        model = Billboard
         fields = ['bus', 'image']
         labels = {'bus': 'Выберите Автобус'}
         widgets = {'image': forms.FileInput(attrs={'id': 'id_image',
@@ -20,10 +20,10 @@ class BillboardImageCreationForm(forms.ModelForm):
                                               })}
 
 
-class BaseBannerCreationForm(forms.ModelForm):
+class BannerObjectForm(forms.ModelForm):
 
     class Meta:
-        model = BaseBanner
+        model = BannerObject
         fields = ['image', 'banner_type']
         labels = {'image': 'Изображение', 'banner_type': 'Класс баннера'}
 
@@ -34,14 +34,6 @@ class BannerTypeCreationForm(forms.ModelForm):
         model = BannerType
         fields = ['name']
         labels = {'name': 'Название'}
-
-
-class BannerForm(forms.ModelForm):
-
-    class Meta:
-        model = Banner
-        fields = ['banner_class', 'id']
-        labels = {'banner_class': 'Укажите класс баннера', 'id': 'идентификатор'}
 
 
 class BusCreationForm(forms.ModelForm):

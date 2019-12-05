@@ -1,12 +1,13 @@
 import os
 from django.shortcuts import render, redirect, get_object_or_404
+from django.db import transaction
 from django.urls import reverse
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from ..tasks import recognize_banners
 from ..forms import BillboardImageCreationForm
-from ..models import BillboardImage, Banner
+from ..models import Billboard, Banner, BannerObject
 from ML_detector.core.controller import ObjectDetectionController
 from django.template.loader import render_to_string
 from django.views.generic import (View, ListView, DetailView, CreateView)
@@ -17,9 +18,9 @@ class BillboardListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     """
 
     """
-    model = BillboardImage
+    model = Billboard
     template_name = 'banner_detector/billboard/billboards_list.html'
-    permission_required = 'banner_detector.view_billboardimage'
+    permission_required = 'banner_detector.view_billboard'
     context_object_name = 'billboards'
     ordering = ['date_added']
     paginate_by = 5
@@ -33,9 +34,9 @@ class UserBillboardListView(LoginRequiredMixin, PermissionRequiredMixin, ListVie
     """
 
     """
-    model = BillboardImage
+    model = Billboard
     template_name = 'banner_detector/billboard/user_billboards_list.html'
-    permission_required = 'banner_detector.view_billboardimage'
+    permission_required = 'banner_detector.view_billboard'
     context_object_name = 'billboards'
     paginate_by = 5
 
@@ -49,8 +50,8 @@ class BillboardDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailVie
 
     """
     template_name = 'banner_detector/billboard/billboard_detail.html'
-    permission_required = 'banner_detector.view_billboardimage'
-    model = BillboardImage
+    permission_required = 'banner_detector.view_billboard'
+    model = Billboard
     context_object_name = 'billboard'
 
     def get_context_data(self, **kwargs):
@@ -64,9 +65,9 @@ class BillboardCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateVie
     """
 
     """
-    model = BillboardImage
+    model = Billboard
     form_class = BillboardImageCreationForm
-    permission_required = 'banner_detector.change_billboardimage'
+    permission_required = 'banner_detector.change_billboard'
     template_name = 'banner_detector/billboard/billboard_form.html'
 
     def get(self, request, *args, **kwargs):
@@ -78,20 +79,27 @@ class BillboardCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateVie
         if form.is_valid():
             form.instance.author = request.user
             billboard_form = form.save(commit=True)
-            billboard = BillboardImage.objects.get(pk=billboard_form.id)
+            billboard = Billboard.objects.get(pk=billboard_form.id)
             banners_crops = ObjectDetectionController().banner_detection(billboard)
-            banner_ids = []
-            for idx, banner_crop in enumerate(banners_crops[1]):
-                banner = Banner()
-                banner.billboard = billboard
-                # TODO fix костыль связанный с несовместимостью путей Django и image.ai
-                banner.image.name = banner_crop[6:]
-                banner.save()
-                banner_ids.append(banner.id)
-            # recognize_banners.delay(banner_ids)
-            recognize_banners(banner_ids)
+            # TODO fix костыль связанный с несовместимостью путей Django и image.ai
             billboard.detected_image.name = os.path.join(
                 'detected_banners', billboard.image.name)
+            banner_ids = []
+            _banners = []
+            for idx, banner_crop in enumerate(banners_crops[1]):
+                with transaction.atomic():
+                    banner_object = BannerObject()
+                    banner_object.image.name = banner_crop[6:]
+                    banner_object.save()
+                    banner_object = BannerObject.objects.get(id=banner_object.id)
+                    banner = Banner()
+                    banner.billboard = billboard
+                    banner.author = request.user
+                    banner.banner_object = banner_object
+                    banner.save()
+                    banner_ids.append(banner.id)
+            # recognize_banners.delay(banner_ids)
+            recognize_banners(banner_ids)
             billboard.save()
             messages.add_message(self.request, messages.INFO, 'Биллборд загружен, банеры отправлены на распознавание')
             return redirect(reverse('billboard-detail', kwargs={'pk': billboard_form.id}))
@@ -105,13 +113,13 @@ class BillboardXmlExportView(LoginRequiredMixin, PermissionRequiredMixin, View):
 
     """
     template_name = 'banner_detector/billboard/billboard_detail.html'
-    permission_required = 'banner_detector.view_billboardimage'
-    model = BillboardImage
+    permission_required = 'banner_detector.view_billboard'
+    model = Billboard
     context_object_name = 'billboard'
 
     def get(self, request, id):
-        billboard = BillboardImage.objects.get(id=id)
-        banners = Banner.objects.filter(billboard_id=billboard.pk, banner_class__isnull=False)
+        billboard = Billboard.objects.get(id=id)
+        banners = Banner.objects.filter(billboard_id=billboard.pk, banner_object__banner_type__isnull=False)
         xml = render_to_string('banner_detector/banner_info.xml',
                                {'banners': banners, 'billboard': billboard})
         return HttpResponse(xml)

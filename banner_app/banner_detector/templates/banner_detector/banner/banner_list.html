@@ -18,17 +18,23 @@
                 <div class="lib-panel" >
                     <div class="row box-shadow mx-1">
                         <div class="col-md-5">
-                            <img width="100%" class="banner-img " src="{{ banner.image.url }}">
+                            <img width="100%" class="banner-img " src="{{ banner.banner_object.image.url }}">
                         </div>
                         <div class="col-md-7">
                             <div class="lib-row">
-                                <a href="{% url 'banner-detail' banner.id %}">Баннер {{ banner.banner_class.name }}</a>
+                                <a href="{% url 'banner-detail' banner.id %}">Баннер {{ banner.banner_object.banner_type }}</a>
+
                                 <p>
                                     <a href="{% url 'billboard-detail' banner.billboard.id %}">Биллборд</a>
                                 </p>
                             </div>
                             <div class="lib-row">
+
                                 <div class="BannerAuthor BannerData" name="author">
+                                    {% if banner.banner_object_id in banner_objects_ids_in_base_banners %}
+                                        <p> Является базовым</p>
+                                    {% endif  %}
+                                    <p>distance: {{ banner.distance }}</p>
                                     <p>
                                         <span class="oi oi-person" title="icon person" aria-hidden="true"></span>
                                         {{ banner.billboard.author }}
@@ -47,7 +53,7 @@
                                         <input class="form-control" id="form-id" type="hidden" name="formId" value="{{ banner.pk }}">
                                         <label for="banner_type" class=" requiredField">Тип баннера<span class="asteriskField">*</span> </label>
                                         <div class="form-group">
-                                            <input class="form-control" type="text" name="banner_type" list="banner_type_list"  placeholder="{{ banner.banner_class.name }}">
+                                            <input class="form-control" type="text" name="banner_type" list="banner_type_list"  placeholder="{{ banner.banner_object.banner_type }}">
 
                                         </div>
                                         <div class="form-group">
@@ -58,7 +64,7 @@
                                 <div class="form-group">
                                     <button class="btn btn-danger form-control" onClick="deleteBanner({{banner.id}});">Удалить</button>
                                 </div>
-                                {% if banner.banner_class is None %}
+                                {% if banner.banner_object.banner_type is None %}
                                     <p> Класс неизвестен</p>
                                 {% else %}
                                     <div class="form-group">

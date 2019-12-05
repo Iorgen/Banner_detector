@@ -3,8 +3,9 @@ from django.urls import reverse
 from django.contrib import messages
 from django.core.paginator import Paginator
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin, PermissionRequiredMixin
+from django.db import transaction
 from ML_detector.core.controller import ObjectRecognitionController
-from ..forms import BaseBannerCreationForm
+from ..forms import BannerObjectForm
 from ..models import BaseBanner
 from django.views.generic import (
     ListView, DetailView, CreateView,
@@ -17,25 +18,29 @@ class BaseBannerCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateVi
 
     """
     model = BaseBanner
-    form_class = BaseBannerCreationForm
+    form_class = BannerObjectForm
     template_name = 'banner_detector/base_banner/base_banner_form.html'
     permission_required = 'banner_detector.add_basebanner'
 
     def get(self, request, *args, **kwargs):
-        form = BaseBannerCreationForm()
+        form = BannerObjectForm()
         return render(request, self.template_name, {'form': form})
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST, request.FILES)
-        # TODO Fill try exceptions
         if form.is_valid():
-            form.instance.author = request.user
-            image = request.FILES['image']
-            image = Image.open(image).convert('RGB')
-            form.instance.descriptor = ObjectRecognitionController().get_descriptor(image).tolist()
-            banner_form = form.save(commit=True)
-            messages.add_message(self.request, messages.INFO, 'Баннер загружен и добавлен в модель анализатора')
-            return redirect(reverse('base-banner-detail', kwargs={'pk': banner_form.id}))
+            with transaction.atomic():
+                image = request.FILES['image']
+                image = Image.open(image).convert('RGB')
+                form.instance.descriptor = ObjectRecognitionController().get_descriptor(image).tolist()
+                banner_object = form.save(commit=True)
+                # create base banner instance
+                base_banner = BaseBanner.objects.create(
+                    banner_object=banner_object,
+                    author=request.user,
+                )
+                messages.add_message(self.request, messages.INFO, 'Баннер загружен и добавлен в модель анализатора')
+            return redirect(reverse('base-banner-detail', kwargs={'pk': base_banner.id}))
         else:
             messages.add_message(self.request, messages.ERROR, 'Произошла ошибка!')
             return render(request, self.template_name, {'form': form})
@@ -47,7 +52,7 @@ class BaseBannerDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailVi
     """
     template_name = 'banner_detector/base_banner/base_banner_detail.html'
     model = BaseBanner
-    context_object_name = 'banner'
+    context_object_name = 'base_banner'
     permission_required = 'banner_detector.view_basebanner'
 
     def get_context_data(self, **kwargs):
@@ -68,25 +73,25 @@ class BaseBannerListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super(BaseBannerListView, self).get_context_data(**kwargs)
         p = Paginator(BaseBanner.objects.select_related().all(), self.paginate_by)
-        context['banner_base_images'] = p.page(context['page_obj'].number)
+        context['base_banners'] = p.page(context['page_obj'].number)
         return context
 
 
-class BaseBannerUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin, UpdateView):
-    model = BaseBanner
-    template_name = "banner_detector/base_banner/base_banner_form.html"
-    permission_required = 'banner_detector.change_basebanner'
-    fields = ['banner_type', 'image']
-
-    def form_valid(self, form):
-        form.instance.author = self.request.user
-        return super().form_valid(form)
-
-    def test_func(self):
-        base_banner = self.get_object()
-        if self.request.user == base_banner.author:
-            return True
-        return False
+# class BaseBannerUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin, UpdateView):
+#     model = BaseBanner
+#     template_name = "banner_detector/base_banner/base_banner_form.html"
+#     permission_required = 'banner_detector.change_basebanner'
+#     fields = ['banner_type', 'image']
+#
+#     def form_valid(self, form):
+#         form.instance.author = self.request.user
+#         return super().form_valid(form)
+#
+#     def test_func(self):
+#         base_banner = self.get_object()
+#         if self.request.user == base_banner.author:
+#             return True
+#         return False
 
 
 class BaseBannerDeleteView(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin, DeleteView):

@@ -2,23 +2,23 @@
 {% block content %}
     <h1> Базовые баннеры</h1>
     <div class="row">
-        {% for banner in banner_base_images %}
+        {% for base_banner in base_banners %}
             <div class="col-md-4">
                 <div class="lib-panel">
                     <div class="box-shadow mx-1">
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="lib-row lib-img-show">
-                                    <img width="100%" class="banner-img" src="{{ banner.image.url }}">
+                                    <img width="100%" class="banner-img" src="{{ base_banner.banner_object.image.url }}">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="lib-row">
-                                    <a href="{% url 'base-banner-detail' banner.id %}">Базовый {{ banner.id }}</a>
-                                    <p>Добавил: {{ banner.author.username }} {{ banner.day_month_added }}</p>
+                                    <a href="{% url 'base-banner-detail' base_banner.id %}">Базовый {{ base_banner.id }}</a>
+                                    <p>Добавил: {{ base_banner.author.username }} {{ base_banner.day_month_added }}</p>
                                 </div>
                                 <div class="lib-row">
-                                    <p>Тип Баннера: {{ banner.banner_type.name }}</p>
+                                    <p>Тип Баннера: {{ base_banner.banner_object.banner_type }}</p>
                                     <p></p>
                                 </div>
                             </div>

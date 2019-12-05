@@ -1,8 +1,9 @@
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.auth.models import User
-from ..models import Banner, BannerType
+from ..models import Banner, BannerType, BannerObject, BaseBanner
 from django.views.generic import (View, ListView, DetailView)
+from ..managers import BannerManager
 
 
 class BannerListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
@@ -12,7 +13,7 @@ class BannerListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     model = Banner
     template_name = 'banner_detector/banner/banner_list.html'
     permission_required = 'banner_detector.view_banner'
-    ordering = ['banner_class']
+    ordering = ['banner_object']
     context_object_name = 'banners'
     paginate_by = 15
     list_header = 'Все баннеры'
@@ -21,6 +22,8 @@ class BannerListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
         context = super(BannerListView, self).get_context_data(**kwargs)
         context['list_header'] = self.list_header
         context['banner_types'] = BannerType.objects.all()
+        context['banner_objects_ids_in_base_banners'] = list(
+            BaseBanner.objects.values_list('banner_object_id', flat=True))
         return context
 
 
@@ -43,6 +46,8 @@ class UserBannerListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
         context = super(UserBannerListView, self).get_context_data(**kwargs)
         context['list_header'] = self.list_header
         context['banner_types'] = BannerType.objects.all()
+        context['banner_objects_ids_in_base_banners'] = list(
+            BaseBanner.objects.values_list('banner_object_id', flat=True))
         return context
 
 
@@ -58,7 +63,7 @@ class UnknownBannerListView(LoginRequiredMixin, ListView):
     list_header = 'Список баннеров с неизвестным классом'
 
     def get_queryset(self):
-        return Banner.get_unknown_banners()
+        return Banner.objects.unknown()
 
     def get_context_data(self, **kwargs):
         context = super(UnknownBannerListView, self).get_context_data(**kwargs)

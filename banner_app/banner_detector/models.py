@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 from django.contrib.postgres.fields import ArrayField
 from django.template.loader import render_to_string
+from .managers import BannerManager
 
 
 class Bus(models.Model):
@@ -18,7 +19,7 @@ class Bus(models.Model):
         return self.number + '-' + self.registration_number
 
 
-class BillboardImage(models.Model):
+class Billboard(models.Model):
     """
     Stores a information about single billboard entry,
     related to :model:`banner_detector.Bus` and :model:`auth.User`.
@@ -46,12 +47,11 @@ class BillboardImage(models.Model):
 
         :return: int()
         """
-        not_classified_banners = Banner.objects.filter(billboard__id=self.pk, banner_class=None)
+        not_classified_banners = Banner.objects.filter(billboard__id=self.pk, banner_object__banner_type=None)
         return len(not_classified_banners)
 
     def get_recognized_banners(self):
         """
-
         :return: int()
         """
         not_classified_banners = Banner.objects.filter(billboard__id=self.pk, recognition_status=True)
@@ -59,10 +59,9 @@ class BillboardImage(models.Model):
 
     def banners_count(self):
         """
-
         :return: int()
         """
-        return len(Banner.objects.filter(billboard_id=self.pk))
+        return Banner.objects.filter(billboard_id=self.pk).count()
 
     def export_xml(self):
         """
@@ -87,25 +86,14 @@ class BannerType(models.Model):
         return self.name
 
 
-class Banner(models.Model):
+class BannerObject(models.Model):
     """
-    Stores a information about single banner entry
-    related to :model:'banner_detector.BannerType', :model:'banner_detector.BillboardImage'
-    recognition status True - recognized, False - never recognized
+
     """
+    date_added = models.DateTimeField(default=timezone.now)
     image = models.ImageField(default='default.jpg', upload_to='banners')
-    billboard = models.ForeignKey(BillboardImage, on_delete=models.CASCADE)
-    banner_class = models.ForeignKey(BannerType, on_delete=models.CASCADE, blank=True, null=True)
-    recognition_status = models.BooleanField(default=False)
-    closest_distance = models.FloatField(blank=True, null=True)
-
-    @staticmethod
-    def get_not_recognized_banners():
-        return Banner.objects.filter(recognition_status=False)
-
-    @staticmethod
-    def get_unknown_banners():
-        return Banner.objects.filter(recognition_status=True, banner_class=None)
+    descriptor = ArrayField(models.FloatField(), blank=True, null=True)
+    banner_type = models.ForeignKey(BannerType, on_delete=models.CASCADE, blank=True, null=True)
 
 
 class BaseBanner(models.Model):
@@ -114,19 +102,20 @@ class BaseBanner(models.Model):
     related to :model:'auth.User', :model:'banner_detector.BannerType'.
     """
 
-    date_added = models.DateTimeField(default=timezone.now)
+    banner_object = models.ForeignKey(BannerObject, on_delete=models.CASCADE)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
-    image = models.ImageField(default='default.jpg', upload_to='banner_classes')
-    banner_type = models.ForeignKey(BannerType, on_delete=models.CASCADE)
-    descriptor = ArrayField(models.FloatField(), blank=True, null=True)
+    date_added = models.DateTimeField(default=timezone.now)
 
+    # TODO Move to custom manager
     @staticmethod
     def descriptors_to_dataframe():
         """
         Convert all base banners into pandas.DataFrame format
         :return: pandas.DataFrame()
         """
-        base_banners = pd.DataFrame(list(BaseBanner.objects.all().values('id', 'descriptor')))
+        base_banners = pd.DataFrame(list(
+            BaseBanner.objects.all().values('id', 'banner_object__descriptor')
+        ))
         return base_banners
 
     def get_absolute_url(self):
@@ -137,3 +126,19 @@ class BaseBanner(models.Model):
         :return: str()
         """
         return self.date_added.strftime("%d.%m")
+
+
+class Banner(models.Model):
+    """
+    Stores a information about single banner entry
+    related to :model:'banner_detector.BannerType', :model:'banner_detector.BillboardImage'
+    recognition status True - recognized, False - never recognized
+    """
+    banner_object = models.ForeignKey(BannerObject, on_delete=models.CASCADE)
+    billboard = models.ForeignKey(Billboard, on_delete=models.CASCADE)
+    recognition_status = models.BooleanField(default=False)
+    date_added = models.DateTimeField(default=timezone.now)
+    distance = models.FloatField(blank=True, null=True)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    base_banner = models.ForeignKey(BaseBanner,  on_delete=models.CASCADE, blank=True, null=True)
+    objects = BannerManager()
