@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand, CommandError
-from banner_detector.tasks import recalculate_descriptors, parse_buses
+from banner_detector.tasks import recalculate_base_banners_descriptors, parse_buses
 
 
 class Command(BaseCommand):

@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand, CommandError
-from banner_detector.tasks import recalculate_descriptors
+from banner_detector.tasks import recalculate_base_banners_descriptors
 
 
 class Command(BaseCommand):
@@ -17,6 +17,6 @@ class Command(BaseCommand):
         :return:
         """
         try:
-            recalculate_descriptors()
+            recalculate_base_banners_descriptors()
         except Exception as e:
             raise CommandError('Descriptor update error "%s"' % e)

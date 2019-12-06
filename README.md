@@ -1,7 +1,10 @@
 # Banner detector App: 
 
 # Development
-
+### Delete all unused dockers 
+```
+docker rmi $(docker images -q -f "dangling=true")
+```
 ### async recognition tasks
 ```
 # start redis 
