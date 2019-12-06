@@ -140,5 +140,5 @@ class Banner(models.Model):
     date_added = models.DateTimeField(default=timezone.now)
     distance = models.FloatField(blank=True, null=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
-    base_banner = models.ForeignKey(BaseBanner,  on_delete=models.CASCADE, blank=True, null=True)
+    base_banner = models.ForeignKey(BaseBanner, on_delete=models.CASCADE, blank=True, null=True)
     objects = BannerManager()

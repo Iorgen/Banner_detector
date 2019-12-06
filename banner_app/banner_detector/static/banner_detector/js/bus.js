@@ -16,7 +16,7 @@ $("form#addBus").submit(function() {
             }
         });
     } else {
-        alert("Все поля должны иметь валидное значение");
+        showAlert("Все поля должны иметь валидное значение");
     }
     $('form#addBus').trigger("reset");
     return false;
@@ -45,7 +45,7 @@ $("form#updateBus").submit(function(event) {
             });
 
         } else {
-            alert("Все поля должны иметь валидное значение.");
+            showAlert("Все поля должны иметь валидное значение.");
         }
         return false;
     }

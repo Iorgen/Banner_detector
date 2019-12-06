@@ -85,7 +85,7 @@ class BillboardCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateVie
             billboard.detected_image.name = os.path.join(
                 'detected_banners', billboard.image.name)
             banner_ids = []
-            _banners = []
+            # _banners = []
             for idx, banner_crop in enumerate(banners_crops[1]):
                 with transaction.atomic():
                     banner_object = BannerObject()
