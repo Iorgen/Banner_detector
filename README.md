@@ -64,3 +64,9 @@ $ docker-compose -f docker-compose.prod.yml up -d --build
 $ docker-compose -f docker-compose.prod.yml exec web python3 manage.py migrate --noinput 
 $ docker-compose -f docker-compose.prod.yml exec web python3 manage.py collectstatic --no-input --clear
 ```
+
+# Rebuild django server 
+```
+docker-compose -f docker-compose.prod.yml up -d --no-deps --build web 
+
+```
