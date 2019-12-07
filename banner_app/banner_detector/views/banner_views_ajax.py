@@ -1,36 +1,8 @@
 from django.http import JsonResponse
-from django.core.exceptions import ObjectDoesNotExist
+from django.db import transaction
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from ..models import Banner, BannerType, BaseBanner
 from django.views.generic import (View)
-from ML_detector.core.controller import ObjectRecognitionController
-from PIL import Image
-
-
-# class BannerCreateAJAXView(LoginRequiredMixin, PermissionRequiredMixin, View):
-#     """
-#
-#     """
-#     permission_required = 'banner_detector.change_banner'
-#
-#     def post(self, request):
-#         name1 = request.GET.get('name', None)
-#         address1 = request.GET.get('address', None)
-#         age1 = request.GET.get('age', None)
-#
-#         obj = Banner.objects.create(
-#             name=name1,
-#             address=address1,
-#             age=age1
-#         )
-#
-#         user = {'id': obj.id, 'name': obj.name,
-#                 'address': obj.address, 'age': obj.age}
-#
-#         data = {
-#             'user': user
-#         }
-#         return JsonResponse(data)
 
 
 class BannerUpdateAJAXView(LoginRequiredMixin, PermissionRequiredMixin, View):
@@ -80,12 +52,22 @@ class BannerSetAsBaseAJAXView(LoginRequiredMixin, PermissionRequiredMixin, View)
     permission_required = 'banner_detector.add_basebanner'
 
     def get(self, request):
-        banner_id = request.GET.get('id', None)
-        banner = Banner.objects.get(id=banner_id)
-        BaseBanner.objects.create(
-            banner_object=banner.banner_object,
-            author=request.user,
+        with transaction.atomic():
+            banner_id = request.GET.get('id', None)
+            banner_type_name = request.GET.get('banner_type', None)
+            banner = Banner.objects.get(id=banner_id)
+            banner_type, banner_type_created = BannerType.objects.get_or_create(
+                name=banner_type_name,
+                defaults={'author': request.user})
 
-        )
-        response = {'created': True}
+            banner.banner_object.banner_type = banner_type
+            banner.banner_object.save()
+
+            base_banner, base_banner_created = BaseBanner.objects.get_or_create(
+                banner_object=banner.banner_object,
+                author=request.user,
+            )
+
+            response = {'banner_type_created': banner_type_created,
+                        'base_banner_created': base_banner_created}
         return JsonResponse(response)

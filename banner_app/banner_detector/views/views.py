@@ -13,7 +13,6 @@ import re
 from zipfile import ZipFile
 from PIL import Image
 from io import BytesIO, StringIO
-import sys
 
 
 # Create your views here.
@@ -59,7 +58,7 @@ class ImportBaseBanners(LoginRequiredMixin, PermissionRequiredMixin, View):
                                     size=len(image_data),
                                     charset='utf-8'
                                 )
-
+                                # TODO bug fix B-1 task
                                 base_banner_image = Image.open(image).convert('RGB')
                                 descriptor = ObjectRecognitionController().get_descriptor(base_banner_image).tolist()
                                 banner_object = BannerObject()

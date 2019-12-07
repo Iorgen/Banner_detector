@@ -55,17 +55,31 @@ $("form#updateBanner").submit(function(event) {
 
 // Set banner as base banner function
 function setAsBase(bannerId) {
+    var bannerTypeName = $("input[base-attr='banner-358']").val();
+
     $.ajax({
         url: localStorage.getItem('banner-set-as-base-link'),
         data: {
             'id': bannerId,
+            'banner_type': bannerTypeName,
             'csrfmiddlewaretoken': $('input[name="csrfmiddlewaretoken"]').val()
         },
         dataType: 'json',
         success: function (data) {
-            if (data.created) {
-                showAlert('Баннер установлен как базовый');
+            var message = '';
+
+            if (data.banner_type_created) {
+                message = message + 'Создан новый тип баннера! ';
+            } else {
+                message = message + 'Тип баннера установлен! ';
             }
+
+            if (data.base_banner_created) {
+                message = message + 'Баннер установлен как базовый';
+            } else {
+                message = message + 'Такой базовый баннер уже существует';
+            }
+            showAlert(message);
         }
     });
 

@@ -64,16 +64,18 @@
                     </div>
                 {% endfor %}
             {% endif %}
-
+{#            <div class="fixed-bottom">#}
+                <div class="alert alert-success fixed-bottom" id="success-alert" style="display:none;">
+                    <button type="button" class="close" data-dismiss="alert">x</button>
+                    <h2 id="alert_text" style="margin: 0px;"></h2>
+                </div>
+{#            </div>#}
             <div class="modal fade" tabindex="-1" role="dialog">
                 <div class="modal-dialog modal-dialog-centered justify-content-center" role="document">
                     <span class="fa fa-spinner fa-spin fa-3x"></span>
                 </div>
             </div>
-            <div class="alert alert-success" id="success-alert" style="display:none;">
-                <button type="button" class="close" data-dismiss="alert">x</button>
-                <h2 id="alert_text" style="margin: 0px;"></h2>
-            </div>
+
             {% block content %}{% endblock %}
         </div>
     </div>

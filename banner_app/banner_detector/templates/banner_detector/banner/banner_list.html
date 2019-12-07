@@ -2,7 +2,8 @@
 {% load static %}
 {% load crispy_forms_tags %}
 {% block content %}
-    <h2 class = "my-1"> {{list_header }}
+    <h2 class = "my-1">
+        {{list_header }}
         {% if view.kwargs.username %}
             {{ view.kwargs.username }}
         {% endif %}
@@ -15,48 +16,67 @@
         </datalist>
         {% for banner in banners %}
             <div class="col-md-6" id="Banner-{{ banner.id }}">
-                <div class="lib-panel" >
+                <div class="lib-panel">
                     <div class="row box-shadow mx-1">
                         <div class="col-md-5">
                             <img width="100%" class="banner-img " src="{{ banner.banner_object.image.url }}">
                         </div>
                         <div class="col-md-7">
+{#                            <div class="lib-row">#}
+{#                                <a href="{% url 'banner-detail' banner.id %}">Баннер {{ banner.banner_object.banner_type }}</a>#}
+                                {#                                <p>#}
+                                {#                                    <a href="{% url 'billboard-detail' banner.billboard.id %}">Биллборд</a>#}
+                                {#                                </p>#}
+{#                            </div>#}
                             <div class="lib-row">
-                                <a href="{% url 'banner-detail' banner.id %}">Баннер {{ banner.banner_object.banner_type }}</a>
-
-                                <p>
-                                    <a href="{% url 'billboard-detail' banner.billboard.id %}">Биллборд</a>
-                                </p>
-                            </div>
-                            <div class="lib-row">
-
-                                <div class="BannerAuthor BannerData" name="author">
-                                    {% if banner.banner_object_id in banner_objects_ids_in_base_banners %}
-                                        <p> Является базовым</p>
-                                    {% endif  %}
-                                    <p>distance: {{ banner.distance }}</p>
-                                    <p>
-                                        <span class="oi oi-person" title="icon person" aria-hidden="true"></span>
-                                        {{ banner.billboard.author }}
-                                    </p>
+                                <div class="list-group">
+                                    <a href="{% url 'billboard-detail' banner.billboard.id %}" class="list-group-item list-group-item-action ">
+                                        <i class="oi oi-spreadsheet"></i> Биллборд
+                                    </a>
+                                    <div class="list-group-item" style="text-overflow: ellipsis;overflow: hidden;white-space: nowrap;">
+                                        <i class="oi oi-target"></i>
+                                        {{ banner.banner_object.banner_type }}
+                                    </div>
+                                    <div class="list-group-item">
+                                        <i class="oi oi-document"></i> Базовый
+                                        <span class="badge badge-pill pull-right">
+                                            {% if banner.banner_object_id in banner_objects_ids_in_base_banners %}
+                                                <i class="oi oi-task"></i>
+                                            {% endif  %}
+                                        </span>
+                                    </div>
+                                    <div class="list-group-item">
+                                        <i class="oi oi-crop"></i> Дистанция
+                                        <span class="badge badge-pill pull-right">
+                                            {{ banner.distance|floatformat }}
+                                        </span>
+                                    </div>
+                                    <div class="list-group-item">
+                                        <i class="oi oi-person"></i> Автор
+                                        <span class="badge badge-pill pull-right">
+                                            {{ banner.billboard.author }}
+                                        </span>
+                                    </div>
+                                    <div class="list-group-item">
+                                        <i class="fa fa-film"></i> Распознан
+                                        <span class="badge badge-pill pull-right">
+                                            {% if banner.recognition_status%}
+                                                <i class="oi oi-task"></i>
+                                            {% endif %}
+                                        </span>
+                                    </div>
                                 </div>
-                                <div class="BannerStatus BannerData" name="status">
-                                    {% if banner.recognition_status%}
-                                        <p>Распознан</p>
-                                    {% else %}
-                                        <p>Не распознан</p>
-                                    {% endif %}
-                                </div>
+
                                 <div class="BannerType BannerData" name="banner_type">
                                     <form method="POST" id="updateBanner">
                                         {% csrf_token %}
                                         <input class="form-control" id="form-id" type="hidden" name="formId" value="{{ banner.pk }}">
                                         <label for="banner_type" class=" requiredField">Тип баннера<span class="asteriskField">*</span> </label>
                                         <div class="form-group">
-                                            <input class="form-control" type="text" name="banner_type" list="banner_type_list"  placeholder="{{ banner.banner_object.banner_type }}">
+                                            <input class="form-control" type="text" name="banner_type" value="{{ banner.banner_object.banner_type }}" list="banner_type_list" base-attr="banner-{{ banner.id }}"  placeholder="{{ banner.banner_object.banner_type }}">
                                         </div>
                                         <div class="form-group">
-                                            <button class="btn btn-primary form-control" type="submit">Обновить</button>
+                                            <button class="btn btn-primary form-control" type="submit">Обновить тип</button>
                                         </div>
                                     </form>
                                 </div>

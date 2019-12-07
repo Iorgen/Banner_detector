@@ -49,7 +49,7 @@ class SiameseBannerRecognitionModelResNet18(nn.Module):
 
 
 class ObjectRecognitionController(metaclass=Singleton):
-
+    distance_threshold = 13.0
     BASE_IMAGES = pd.DataFrame()
 
     def __init__(self):

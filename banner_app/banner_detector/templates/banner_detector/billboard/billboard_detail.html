@@ -19,18 +19,23 @@
                         <img class="" style ="height: 200px;" src="{{ banner.banner_object.image.url }}" alt="banner cap">
                         <div class="card-body">
                             <h5 class="card-title">Баннер определился как
-                            {% if banner.banner_object.banner_type is None %}
-                                <p>неизвестен</p>
-                            {% else %}
-                                <p>{{ banner.banner_object.banner_type }}</p>
-                            </h5>
-                            {% if banner.recognition_status%}
-                                <p>Распознан</p>
-                            {% else %}
-                                <p>В очереди на распознавание</p>
-                            {% endif %}
+                                {% if banner.banner_object.banner_type is None %}
+                                    <p>неизвестен</p>
+                                {% else %}
+                                    <p>{{ banner.banner_object.banner_type }}</p>
+                                    </h5>
+                                    {% if banner.recognition_status%}
+                                        <p>Распознан</p>
+                                    {% else %}
+                                        <p>В очереди на распознавание</p>
+                                    {% endif %}
 
-                            {% endif %}
+                                {% endif %}
+                            <p>distance: {{ banner.distance }}</p>
+                            <p>
+                                <span class="oi oi-person" title="icon person" aria-hidden="true"></span>
+                                {{ banner.billboard.author }}
+                            </p>
                         </div>
                     </div>
                 </div>

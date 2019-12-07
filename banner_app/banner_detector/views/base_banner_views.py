@@ -68,13 +68,16 @@ class BaseBannerListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     model = BaseBanner
     permission_required = 'banner_detector.view_basebanner'
     ordering = ['date_added']
-    paginate_by = 20
+    context_object_name = 'base_banners'
+    # paginate_by = 20
 
     def get_context_data(self, **kwargs):
         context = super(BaseBannerListView, self).get_context_data(**kwargs)
-        p = Paginator(BaseBanner.objects.select_related().all(), self.paginate_by)
-        context['base_banners'] = p.page(context['page_obj'].number)
         return context
+        # p = Paginator(BaseBanner.objects.select_related().all(), self.paginate_by)
+        # context['base_banners'] = p.page(context['page_obj'].number)
+        # context['base_banners'] = context['page_obj']
+        # return context
 
 
 # class BaseBannerUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin, UpdateView):

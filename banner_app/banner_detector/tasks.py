@@ -5,7 +5,6 @@ from PIL import Image
 from ML_detector.core.controller import ObjectRecognitionController
 import torch
 import numpy as np
-import os
 import csv
 
 
@@ -32,7 +31,7 @@ def recognize_banners(banner_ids):
         print(sorted(distance)[0])
 
         # Check distance
-        if sorted(distance)[0] > 38:
+        if sorted(distance)[0] > ObjectRecognitionController.distance_threshold:
             print('не распознан')
             banner.recognition_status = True
             banner.banner_object.descriptor = banners_descriptors[i].tolist()
