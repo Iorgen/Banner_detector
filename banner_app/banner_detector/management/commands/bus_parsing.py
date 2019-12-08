@@ -19,4 +19,4 @@ class Command(BaseCommand):
         try:
             parse_buses()
         except Exception as e:
-            raise CommandError('Descriptor update error "%s"' % e)
+            raise CommandError('Bus parsing error "%s"' % e)

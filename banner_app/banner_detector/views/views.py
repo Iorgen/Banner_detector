@@ -58,6 +58,8 @@ class ImportBaseBanners(LoginRequiredMixin, PermissionRequiredMixin, View):
                                     size=len(image_data),
                                     charset='utf-8'
                                 )
+
+
                                 # TODO bug fix B-1 task
                                 base_banner_image = Image.open(image).convert('RGB')
                                 descriptor = ObjectRecognitionController().get_descriptor(base_banner_image).tolist()
