@@ -22,12 +22,6 @@
                             <img width="100%" class="banner-img " src="{{ banner.banner_object.image.url }}">
                         </div>
                         <div class="col-md-7">
-{#                            <div class="lib-row">#}
-{#                                <a href="{% url 'banner-detail' banner.id %}">Баннер {{ banner.banner_object.banner_type }}</a>#}
-                                {#                                <p>#}
-                                {#                                    <a href="{% url 'billboard-detail' banner.billboard.id %}">Биллборд</a>#}
-                                {#                                </p>#}
-{#                            </div>#}
                             <div class="lib-row">
                                 <div class="list-group">
                                     <a href="{% url 'billboard-detail' banner.billboard.id %}" class="list-group-item list-group-item-action ">

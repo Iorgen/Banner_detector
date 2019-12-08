@@ -102,7 +102,7 @@ class BaseBanner(models.Model):
     related to :model:'auth.User', :model:'banner_detector.BannerType'.
     """
 
-    banner_object = models.ForeignKey(BannerObject, on_delete=models.CASCADE)
+    banner_object = models.OneToOneField(BannerObject, on_delete=models.CASCADE, unique=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     date_added = models.DateTimeField(default=timezone.now)
 
@@ -134,7 +134,7 @@ class Banner(models.Model):
     related to :model:'banner_detector.BannerType', :model:'banner_detector.BillboardImage'
     recognition status True - recognized, False - never recognized
     """
-    banner_object = models.ForeignKey(BannerObject, on_delete=models.CASCADE)
+    banner_object = models.OneToOneField(BannerObject, on_delete=models.CASCADE, unique=True)
     billboard = models.ForeignKey(Billboard, on_delete=models.CASCADE)
     recognition_status = models.BooleanField(default=False)
     date_added = models.DateTimeField(default=timezone.now)

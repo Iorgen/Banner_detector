@@ -13,7 +13,8 @@ class BillboardImageCreationForm(forms.ModelForm):
         widgets = {'image': forms.FileInput(attrs={'id': 'id_image',
                                                    'class': 'inputfile inputfile-1',
                                                    'name': 'file-1[]',
-                                                   'data-multiple-caption': '{count} файлов выбрано'
+                                                   'data-multiple-caption': '{count} файлов выбрано',
+                                                   'capture': '',
                                                    }),
                    'bus': forms.Select(attrs={'id': 'id_bus',
                                               'class': 'form-control'

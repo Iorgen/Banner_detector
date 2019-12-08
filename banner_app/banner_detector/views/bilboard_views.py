@@ -67,7 +67,7 @@ class BillboardCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateVie
     """
     model = Billboard
     form_class = BillboardImageCreationForm
-    permission_required = 'banner_detector.change_billboard'
+    permission_required = 'banner_detector.add_billboard'
     template_name = 'banner_detector/billboard/billboard_form.html'
 
     def get(self, request, *args, **kwargs):
@@ -102,7 +102,9 @@ class BillboardCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateVie
             recognize_banners(banner_ids)
             billboard.save()
             messages.add_message(self.request, messages.INFO, 'Биллборд загружен, банеры отправлены на распознавание')
-            return redirect(reverse('billboard-detail', kwargs={'pk': billboard_form.id}))
+            # if request.user.groups.all()
+            # return redirect(reverse('billboard-detail', kwargs={'pk': billboard_form.id}))
+            return redirect(reverse('billboard-create'))
         else:
             messages.add_message(self.request, messages.ERROR, 'Заполните все поля формы')
             return render(request, self.template_name, {'form': form})
