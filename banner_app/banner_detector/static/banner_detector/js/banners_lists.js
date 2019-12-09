@@ -55,7 +55,8 @@ $("form#updateBanner").submit(function(event) {
 
 // Set banner as base banner function
 function setAsBase(bannerId) {
-    var bannerTypeName = $("input[base-attr='banner-358']").val();
+    var tag = 'banner-' +  bannerId;
+    var bannerTypeName = $("input[base-attr=" + tag + "]").val();
 
     $.ajax({
         url: localStorage.getItem('banner-set-as-base-link'),

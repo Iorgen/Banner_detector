@@ -6,19 +6,29 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.db import transaction
 from ..forms import ImportBaseBannersForm
-from ..models import BaseBanner, BannerType, BannerObject
+from ..models import BaseBanner, BannerType, BannerObject, Banner, Billboard
 from ML_detector.core.controller import ObjectRecognitionController
 import os
 import re
 from zipfile import ZipFile
 from PIL import Image
 from io import BytesIO, StringIO
+from datetime import datetime, timedelta
 
 
-# Create your views here.
 def home(request):
+    time_threshold = datetime.now() - timedelta(hours=5)
+
     context = {
         'title': 'Banner_detector',
+        'base_banners_count': BaseBanner.objects.count(),
+        'billboards_count': Billboard.objects.count(),
+        'banners_count': Banner.objects.count(),
+
+
+        'today_base_banners': BaseBanner.objects.filter(date_added__lt=time_threshold).count(),
+        'today_billboards': Billboard.objects.filter(date_added__lt=time_threshold).count(),
+        'today_banners': Banner.objects.filter(date_added__lt=time_threshold).count(),
     }
     return render(request, 'banner_detector/home.html', context)
 

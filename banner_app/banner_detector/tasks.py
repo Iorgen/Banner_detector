@@ -35,6 +35,7 @@ def recognize_banners(banner_ids):
             print('не распознан')
             banner.recognition_status = True
             banner.banner_object.descriptor = banners_descriptors[i].tolist()
+            banner.banner_object.save()
             banner.save()
         else:
             banner.banner_object.descriptor = banners_descriptors[i].tolist()

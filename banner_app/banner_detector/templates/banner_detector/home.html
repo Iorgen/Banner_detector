@@ -97,6 +97,65 @@
                     </div>
                 {% endif %}
             {% endfor %}
+            {% for group in user.groups.all %}
+                {% if group.name == 'manager' %}
+                    <div class="card-header" style="border: 0px !important;">
+                        <h3>Общая информация о системе</h3>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 my-4">
+                            <div class="list-group">
+                                <a href="#" class="list-group-item list-group-item-action active">
+                                    <i class="fa fa-home"></i> Всего
+                                </a>
+                                <a href="#" class="list-group-item list-group-item-action">
+                                    <i class="fa fa-camera"></i> Базовых баннеров
+                                    <span class="badge badge-pill badge-primary pull-right">
+                                        {{ base_banners_count }}
+                                    </span>
+                                </a>
+                                <a href="#" class="list-group-item list-group-item-action">
+                                    <i class="fa fa-music"></i> Баннеров
+                                    <span class="badge badge-pill badge-primary pull-right">
+                                        {{ banners_count }}
+                                    </span>
+                                </a>
+                                <a href="#" class="list-group-item list-group-item-action">
+                                    <i class="fa fa-film"></i> Биллбордов
+                                    <span class="badge badge-pill badge-primary pull-right">
+                                        {{ billboards_count }}
+                                    </span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-md-4 my-4">
+                            <div class="list-group">
+                                <a href="#" class="list-group-item list-group-item-action active">
+                                    <i class="fa fa-home"></i> Сегодня
+                                </a>
+                                <a href="#" class="list-group-item list-group-item-action">
+                                    <i class="fa fa-camera"></i> Базовых баннеров
+                                    <span class="badge badge-pill badge-primary pull-right">1
+                                    {{ today_base_banners }}
+                                </span>
+                                </a>
+                                <a href="#" class="list-group-item list-group-item-action">
+                                    <i class="fa fa-music"></i> Баннеров
+                                    <span class="badge badge-pill badge-primary pull-right">
+                                    {{today_banners}}
+                                </span>
+                                </a>
+                                <a href="#" class="list-group-item list-group-item-action">
+                                    <i class="fa fa-film"></i> Биллбордов
+                                    <span class="badge badge-pill badge-primary pull-right">
+                                    {{ today_billboards }}
+                                </span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
         {% endif %}
     </div>
 {% endblock content %}

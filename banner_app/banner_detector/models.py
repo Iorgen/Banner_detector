@@ -92,7 +92,7 @@ class BannerObject(models.Model):
     """
     date_added = models.DateTimeField(default=timezone.now)
     image = models.ImageField(default='default.jpg', upload_to='banners')
-    descriptor = ArrayField(models.FloatField(), blank=True, null=True)
+    descriptor = ArrayField(models.FloatField(), null=False)
     banner_type = models.ForeignKey(BannerType, on_delete=models.CASCADE, blank=True, null=True)
 
 
