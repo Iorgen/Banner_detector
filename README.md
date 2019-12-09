@@ -63,6 +63,6 @@ $ docker-compose down --remove-orphans --volumes
 ```
 $ docker-compose -f docker-compose.prod.yml up -d --no-deps --build web 
 # If needed to set migrate 
-$ docker-compose -f docker-compose.prod.yml exec web python3 manage.py migrate --noinput 
+$ docker-compose -f docker-compose.prod.yml exec web python3 manage.py migrate --noinput
 $ docker-compose -f docker-compose.prod.yml exec web python3 manage.py collectstatic --no-input --clear
 ```
