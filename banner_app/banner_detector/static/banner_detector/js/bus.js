@@ -1,11 +1,13 @@
 // Bus create AJAX request
 $("form#addBus").submit(function() {
     var numberInput = $('input[name="number"]').val().trim();
+    var registrationNumberInput = $('input[name="registration_number"]').val().trim();
     if (numberInput) {
         $.ajax({
             url: localStorage.getItem('bus-add-link'),
             data: {
                 'number': numberInput,
+                'registration_number': registrationNumberInput,
                 'csrfmiddlewaretoken': $('input[name="csrfmiddlewaretoken"]').val()
             },
             dataType: 'json',
@@ -22,24 +24,27 @@ $("form#addBus").submit(function() {
     return false;
 });
 
+
 // Bus update AJAX request
 $("form#updateBus").submit(function(event) {
     try{
         var bus = event.target;
         var idInput = $(bus).find('input[name="formId"]').val().trim();
         var numberInput = $(bus).find('input[name="formNumber"]').val().trim();
-        if (numberInput) {
+        var RegistrationNumberInput = $(bus).find('input[name="formRegistrationNumber"]').val().trim();
+        if (numberInput && RegistrationNumberInput) {
             $.ajax({
                 url:  localStorage.getItem('bus-update-link'),
                 data: {
                     'id': idInput,
                     'number': numberInput,
+                    'registration_number': RegistrationNumberInput,
                     'csrfmiddlewaretoken': $('input[name="csrfmiddlewaretoken"]').val()
                 },
                 dataType: 'json',
                 success: function (data) {
                     if (data.bus) {
-
+                        showAlert("Все поля должны иметь валидное значение.");
                     }
                 }
             });
@@ -62,21 +67,25 @@ function appendToBusTable(bus) {
 <div id="bus-${bus.id}">
 <form method="POST" id="updateBus">
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-12">
                                     <div class="form-group">
-                                        <div id="bus-${bus.id}">
+                                        <div>
                                             <input class="form-control" id="form-id" type="hidden" name="formId" value="${ bus.id }">
-                                            <div class="busNumber busData" name="number">
-                                                <input class="form-control" id="form-number" type="text" value="${bus.number}"name="formNumber"/>
+                                            <div class="busNumber busData input-group" name="number">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="">
+                                                        Маршрут и гос. номер
+                                                    </span>
+                                                </div>
+                                        
+                                            <input class="form-control" id="form-number" type="text" value="${bus.number}"name="formNumber"/>
+                                            <input class="form-control" id="form-registration-number" type="text" value="${bus.registration_number}"name="formRegistrationNumber"/>
+                                            <div class="input-group-append">
+                                                 <button class="btn btn-success form-control" type="submit">Редактировать</button>
+                                            </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <button class="btn btn-success form-control" type="submit">Редактировать</button>
-                                </div>
-                                <div class="col-md-3">
-                                    <button class="btn btn-danger form-control" onClick="deleteBus(${bus.pk})">Удалить</button>
                                 </div>
                             </div>
                         </form>

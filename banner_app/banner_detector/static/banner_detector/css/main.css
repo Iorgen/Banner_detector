@@ -1,6 +1,5 @@
 body {
-	background: #fafafa;
-	color: #333333;
+	background: #f8f9fc;
 	margin-top: 5rem;
 	height: 100%;
 }
@@ -34,10 +33,10 @@ ul {
 }
 
 .content-section {
-	background: #ffffff;
+	/*background: #f8f9fc;*/
 	padding: 20px 20px;
-	border: 1px solid #dddddd;
-	border-radius: 3px;
+	/*border: 1px solid #dddddd;*/
+	/*border-radius: 3px;*/
 	margin-bottom: 20px;
 }
 
@@ -473,7 +472,7 @@ section .section-title {
 
 
 .main-container{
-	padding: 0 10% 20px 10%;
+	padding: 0 5% 20px 5%;
 	min-height: 100vh;
 }
 
@@ -545,6 +544,13 @@ section .section-title {
 	float: right;
 }
 
+/* Bus page */
+.bus-number-input{
+	width: 20%;
+}
+.bus-registration-input{
+	width: 70%;
+}
 
 /*
   ##Device = Desktops

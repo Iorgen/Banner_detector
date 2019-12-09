@@ -11,9 +11,9 @@ class BusListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     template_name = 'bus_list.html'
     model = Bus
     permission_required = 'banner_detector.view_bus'
-    ordering = ['registration_number']
+    # ordering = ['registration_number']
     context_object_name = 'buses'
-    paginate_by = 15
+    # paginate_by = 15
 
 
 class BusCreateAJAXView(LoginRequiredMixin, PermissionRequiredMixin, View):
@@ -24,11 +24,15 @@ class BusCreateAJAXView(LoginRequiredMixin, PermissionRequiredMixin, View):
 
     def get(self, request):
         number = request.GET.get('number', None)
+        registration_number = request.GET.get('registration_number', None)
+
         bus_object = Bus.objects.create(
-            registration_number=number
+            number=number,
+            registration_number=registration_number
         )
         bus = {'id': bus_object.id,
-               'number': bus_object.number}
+               'number': bus_object.number,
+               'registration_number': bus_object.registration_number}
 
         response = {
             'bus': bus
@@ -60,13 +64,16 @@ class BusUpdateAJAXView(LoginRequiredMixin, PermissionRequiredMixin, View):
     def get(self, request):
         bus_id = request.GET.get('id', None)
         number = request.GET.get('number', None)
+        registration_number = request.GET.get('registration_number', None)
 
         bus_object = Bus.objects.get(id=bus_id)
-        bus_object.bus_number = number
+        bus_object.number = number
+        bus_object.registration_number = registration_number
         bus_object.save()
 
         bus = {'id': bus_object.id,
-               'number': bus_object.bus_number}
+               'number': bus_object.number,
+               'registration_number': bus_object.registration_number}
 
         response = {
             'bus': bus

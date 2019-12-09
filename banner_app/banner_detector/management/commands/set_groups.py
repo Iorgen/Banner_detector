@@ -1,22 +1,28 @@
 from django.core.management.base import BaseCommand, CommandError
-from banner_detector.tasks import recalculate_base_banners_descriptors, parse_buses
+from django.contrib.auth.models import Group, Permission
+from django.conf import settings
 
 
 class Command(BaseCommand):
     """
-    management command for descriptors updating
+    management command setting base groups
     """
-    help = "Recalculate all descriptors in database"
+    help = "Set manager and worker groups"
 
     def handle(self, *args, **options):
         """
-        Method recalculate all descriptors in database
-        Start only if recognition model was updated
+        Method set all start groups, start after new place deployed
         :param args:
         :param options:
         :return:
         """
         try:
-            parse_buses()
+            manager_role, manager_created = Group.objects.get_or_create(name='manager')
+            if manager_created:
+                manager_role.permissions.add(Permission.objects.all())
+            worker_role, worker_created = Group.objects.get_or_create(name='worker')
+            if worker_created:
+                worker_role.permissions.add(Permission.objects.get(codename='add_billboard'))
+
         except Exception as e:
             raise CommandError('set groups error "%s"' % e)

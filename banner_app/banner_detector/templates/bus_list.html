@@ -3,12 +3,18 @@
 {% load crispy_forms_tags %}
 {% block content %}
     <div class="content-section">
+        {% csrf_token %}
         <div class="row">
             <div class="col-md-4 ">
                 <h3>Добавить автобус</h3>
                 <form id="addBus" action="">
                     <div class="form-group">
-                        <input class="form-control" type="text" name="number" placeholder="Номер" required>
+                        <label for="number">Номер маршрута</label>
+                        <input id="number" class="form-control" type="text" name="number" placeholder="Номер" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="registration_number">Регистрационный номер</label>
+                        <input id="registration_number"  class="form-control" type="text" name="registration_number" placeholder="Регистрационный номер" required>
                     </div>
                     <button class="btn btn-primary form-control" type="submit">Добавить</button>
                 </form>
@@ -20,18 +26,22 @@
                         <div id="bus-{{bus.id}}">
                             <form method="POST" id="updateBus" >
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-12">
                                         <div class="form-group">
-                                            <div >
-                                                <input class="form-control" id="form-id" type="hidden" name="formId" value="{{ bus.pk }}">
-                                                <div class="busNumber busData" name="number">
-                                                    <input class="form-control" id="form-number" type="text" value="{{bus.number }}" name="formNumber"/>
+                                            <input class="form-control" id="form-id" type="hidden" name="formId" value="{{ bus.pk }}">
+                                            <div class="busNumber busData input-group" name="number">
+                                                <div class="input-group-prepend">
+                                                        <span class="input-group-text" id="">
+                                                            Маршрут и гос. номер
+                                                        </span>
+                                                </div>
+                                                <input class="form-control" id="form-number" type="text" value="{{bus.number }}" name="formNumber"/>
+                                                <input class="form-control" id="form-registration-number" type="text" value="{{bus.registration_number }}" name="formRegistrationNumber"/>
+                                                <div class="input-group-append">
+                                                    <button class="btn btn-success form-control" type="submit">Редактировать</button>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <button class="btn btn-success form-control" type="submit">Редактировать</button>
                                     </div>
                                 </div>
                             </form>
