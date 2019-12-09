@@ -1,5 +1,6 @@
 body {
-	background: #f8f9fc;
+	background: #fafafa;
+	color: #333333;
 	margin-top: 5rem;
 	height: 100%;
 }
@@ -33,10 +34,10 @@ ul {
 }
 
 .content-section {
-	/*background: #f8f9fc;*/
+	background: #ffffff;
 	padding: 20px 20px;
-	/*border: 1px solid #dddddd;*/
-	/*border-radius: 3px;*/
+	border: 1px solid #dddddd;
+	border-radius: 3px;
 	margin-bottom: 20px;
 }
 
@@ -462,12 +463,11 @@ section .section-title {
 
 
 .card-home{
-	background-color: #f8f9fa;
+	/*background-color: #f8f9fa;*/
 }
 /* home cards hover effect */
 .card-home:hover {
-	background-color: #6fea4354;
-	opacity: 0.45;
+	box-shadow: 0 0 11px rgba(20,189,255,.4);
 }
 
 
@@ -544,13 +544,8 @@ section .section-title {
 	float: right;
 }
 
-/* Bus page */
-.bus-number-input{
-	width: 20%;
-}
-.bus-registration-input{
-	width: 70%;
-}
+
+
 
 /*
   ##Device = Desktops
