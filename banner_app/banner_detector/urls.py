@@ -2,7 +2,7 @@ from django.urls import path
 from .views.views import home, ImportBaseBanners
 from .views.bus_views import (BusCreateAJAXView, BusDeleteAJAXView, BusListView, BusUpdateAJAXView)
 from .views.bilboard_views import (BillboardListView, UserBillboardListView,
-                                   BillboardDetailView, BillboardCreateView, BillboardXmlExportView)
+                                   BillboardDetailView, BillboardCreateView, BillboardXmlExportView, BillboardDeleteView)
 from .views.base_banner_views import (BaseBannerCreateView, BaseBannerDetailView,
                                       BaseBannerListView, BaseBannerDeleteView)
 from .views.banner_views import (BannerListView, UserBannerListView, UnknownBannerListView,
@@ -21,6 +21,7 @@ urlpatterns = [
     path('billboards/new/', BillboardCreateView.as_view(), name='billboard-create'),
     # XML Export view
     path('billboard/xml/<int:id>', BillboardXmlExportView.as_view(), name='billboard-xml-detail'),
+    path('billboard/<int:pk>/delete/', BillboardDeleteView.as_view(), name='billboard-delete'),
 
     # path('post/<int:pk>/update/', PostUpdateView.as_view(), name='billboard-update'),
     # path('post/<int:pk>/delete/', PostDeleteView.as_view(), name='billboard-delete'),

@@ -10,8 +10,9 @@ from ..forms import BillboardImageCreationForm
 from ..models import Billboard, Banner, BannerObject
 from ML_detector.core.controller import ObjectDetectionController, ObjectRecognitionController
 from django.template.loader import render_to_string
-from django.views.generic import (View, ListView, DetailView, CreateView)
-from django.http import HttpResponse
+from django.views.generic import (View, ListView, DetailView, CreateView, DeleteView)
+from django.http import HttpResponse, HttpResponseRedirect
+from django.db.models import ProtectedError
 
 
 class BillboardListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
@@ -111,6 +112,31 @@ class BillboardCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateVie
         else:
             messages.add_message(self.request, messages.ERROR, 'Заполните все поля формы')
             return render(request, self.template_name, {'form': form})
+
+
+class BillboardDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
+    model = Billboard
+    template_name = "banner_detector/billboard/billboard_confirm_delete.html"
+    success_url = '/'
+    context_object_name = 'billboard'
+    permission_required = 'banner_detector.delete_billboard'
+
+    def delete(self, request, *args, **kwargs):
+        """
+        Call the delete() method on the fetched object and then redirect to the
+        success URL. If the object is protected, send an error message.
+        """
+        self.object = self.get_object()
+        success_url = self.get_success_url()
+
+        try:
+            self.object.delete()
+        except ProtectedError:
+            messages.add_message(request, messages.ERROR, 'Can not delete: this parent has a child!')
+            return  # The url of the delete view (or whatever you want)
+
+        messages.add_message(request, messages.ERROR, 'Биллборд успешно удалён')
+        return HttpResponseRedirect(success_url)
 
 
 class BillboardXmlExportView(LoginRequiredMixin, PermissionRequiredMixin, View):

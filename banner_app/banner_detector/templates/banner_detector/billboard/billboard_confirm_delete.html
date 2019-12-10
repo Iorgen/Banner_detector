@@ -1,0 +1,18 @@
+{% extends "banner_detector/base.html" %}
+{% block content %}
+    <div class="content-section">
+        <form method="POST">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">
+                    Удалить Биллборд
+                </legend>
+                <h2>Are you sure want to delete - {{ billboard }} {{ billboard.id }}</h2>
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-outline-danger" type="submit">Да удалить</button>
+                <a class="btn btn-outline-seconday" href="{% url 'billboard-detail' billboard.id %}">Cancel</a>
+            </div>
+        </form>
+    </div>
+{% endblock content %}

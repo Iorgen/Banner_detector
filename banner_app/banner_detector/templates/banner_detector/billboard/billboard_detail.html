@@ -11,6 +11,9 @@
             <legend class="">
                 <a class ="btn btn-primary" href="{% url 'billboard-xml-detail' billboard.id %}" download="">Скачать XML</a>
             </legend>
+            <div>
+                <a class = "btn btn-danger btn-sm mt-1 mb-1" href="{% url 'billboard-delete' billboard.id%}">Удалить</a>
+            </div>
         </div>
         <div class="row">
             {% for banner in banners %}
