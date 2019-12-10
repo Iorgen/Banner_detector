@@ -3,32 +3,38 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.contrib.auth.models import User
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.db import transaction
 from ..forms import ImportBaseBannersForm
-from ..models import BaseBanner, BannerType, BannerObject, Banner, Billboard
+from ..models import BaseBanner, BannerType, BannerObject, Banner, Billboard, Bus
 from ML_detector.core.controller import ObjectRecognitionController
 import os
 import re
 from zipfile import ZipFile
 from PIL import Image
 from io import BytesIO, StringIO
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
+from users.models import Profile
 
 
 def home(request):
-    time_threshold = datetime.now() - timedelta(hours=5)
-
+    today = date.today()
+    today_billboards = Billboard.objects.filter(date_added__year=today.year,
+                                                date_added__month=today.month,
+                                                date_added__day=today.day).count()
     context = {
         'title': 'Banner_detector',
-        'base_banners_count': BaseBanner.objects.count(),
-        'billboards_count': Billboard.objects.count(),
-        'banners_count': Banner.objects.count(),
-
-
-        'today_base_banners': BaseBanner.objects.filter(date_added__lt=time_threshold).count(),
-        'today_billboards': Billboard.objects.filter(date_added__lt=time_threshold).count(),
-        'today_banners': Banner.objects.filter(date_added__lt=time_threshold).count(),
+        'number_of_base_banners': BaseBanner.objects.count(),
+        'number_of_billboards': Billboard.objects.count(),
+        'number_of_banners': Banner.objects.count(),
+        'number_of_banner_objects': BannerObject.objects.count(),
+        'number_of_buses': Bus.objects.count(),
+        'number_of_workers': User.objects.filter(groups__name__contains='worker').count(),
+        # Today information
+        'today_billboards': today_billboards,
+        # Users
+        'profiles': Profile.objects.all()
     }
     return render(request, 'banner_detector/home.html', context)
 

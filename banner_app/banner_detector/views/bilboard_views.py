@@ -8,7 +8,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from ..tasks import recognize_banners
 from ..forms import BillboardImageCreationForm
 from ..models import Billboard, Banner, BannerObject
-from ML_detector.core.controller import ObjectDetectionController
+from ML_detector.core.controller import ObjectDetectionController, ObjectRecognitionController
 from django.template.loader import render_to_string
 from django.views.generic import (View, ListView, DetailView, CreateView)
 from django.http import HttpResponse
@@ -90,6 +90,9 @@ class BillboardCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateVie
                 with transaction.atomic():
                     banner_object = BannerObject()
                     banner_object.image.name = banner_crop[6:]
+                    image = ObjectRecognitionController().open_image(banner_object.image.path)
+                    banner_object.descriptor = ObjectRecognitionController().get_descriptor(image).tolist()
+
                     banner_object.save()
                     banner_object = BannerObject.objects.get(id=banner_object.id)
                     banner = Banner()

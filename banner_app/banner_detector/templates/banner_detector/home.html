@@ -2,165 +2,163 @@
 {% load static %}
 {% block content %}
     <div class="content-section">
-
         {% if user.is_authenticated %}
-
-            <!-- Page Heading -->
-            <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                <h1 class="h3 mb-0 text-gray-800">Редактирование</h1>
-            </div>
-
             <div class="row">
-                {% for group in user.groups.all %}
-                    {% if group.name == 'manager'  %}
-                        <div class="col-md-4 my-4">
-                            <div class="card card-home border-left-primary" style="">
-                                <div class="card-body">
-                                    <h5 class="card-title">Новый базовый баннер</h5>
-                                    <a class="stretched-link" href="{% url 'base-banner-create' %} "></a>
+                <div class="col-md-8">
+                    <!-- Page Heading -->
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">Редактирование</h1>
+                    </div>
+                    <div class="row">
+                        {% for group in user.groups.all %}
+                            {% if group.name == 'manager'  %}
+                                <div class="col-md-4 my-4">
+                                    <div class="card card-home border-left-primary" style="">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Новый базовый баннер</h5>
+                                            <a class="stretched-link" href="{% url 'base-banner-create' %} "></a>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
+                                <div class="col-md-4 my-4">
+                                    <div class="card card-home" style="">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Импорт базовых баннеров</h5>
+                                            <a class="stretched-link" href="{% url 'import-base-banners' %} "></a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 my-4">
+                                    <div class="card card-home" style="">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Добавить Автобус</h5>
+                                            <a class="stretched-link" href="{% url 'buses' %} "></a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 my-4">
+                                    <div class="card card-home" style="">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Добавить тип баннера</h5>
+                                            <a class="stretched-link" href="{% url 'banner-types' %} "></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
                         <div class="col-md-4 my-4">
                             <div class="card card-home" style="">
                                 <div class="card-body">
-                                    <h5 class="card-title">Импорт базовых баннеров</h5>
-                                    <a class="stretched-link" href="{% url 'import-base-banners' %} "></a>
+                                    <h5 class="card-title">Создать Биллборд</h5>
+                                    <a class="stretched-link" href="{% url 'billboard-create' %} "></a>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-md-4 my-4">
-                            <div class="card card-home" style="">
-                                <div class="card-body">
-                                    <h5 class="card-title">Добавить Автобус</h5>
-                                    <a class="stretched-link" href="{% url 'buses' %} "></a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4 my-4">
-                            <div class="card card-home" style="">
-                                <div class="card-body">
-                                    <h5 class="card-title">Добавить тип баннера</h5>
-                                    <a class="stretched-link" href="{% url 'banner-types' %} "></a>
-                                </div>
-                            </div>
-                        </div>
-                    {% endif %}
-                {% endfor %}
-                <div class="col-md-4 my-4">
-                    <div class="card card-home" style="">
-                        <div class="card-body">
-                            <h5 class="card-title">Создать Биллборд</h5>
-                            <a class="stretched-link" href="{% url 'billboard-create' %} "></a>
                         </div>
                     </div>
+                    {% for group in user.groups.all %}
+                        {% if group.name == 'manager'  %}
+                            <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                                <h1 class="h3 mb-0 text-gray-800">Просмотр</h1>
+                            </div>
+                            <div class="row">
+
+                                <div class="col-md-4 my-4">
+                                    <div class="card card-home" style="">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Все базовые баннеры</h5>
+                                            <a class="stretched-link" href="{% url 'base-banners' %}"></a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 my-4">
+                                    <div class="card card-home" style="">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Все баннеры</h5>
+                                            <a class="stretched-link" href="{% url 'banners' %}"></a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 my-4">
+                                    <div class="card card-home" style="">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Не классифицированные баннеры</h5>
+                                            <a class="stretched-link" href="{% url 'non-recognized-banners' %}"></a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 my-4">
+                                    <div class="card card-home" style="">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Все биллборды</h5>
+                                            <a class=" stretched-link" href="{% url 'billboards' %}"></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <div class="col-md-4">
+                    {% for group in user.groups.all %}
+                        {% if group.name == 'manager' %}
+                            <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                                <h1 class="h3 mb-0 text-gray-800">Общая информация о системе</h1>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 my-4">
+                                    <div class="list-group">
+                                        <div class="list-group-item">
+                                            <i class="fa fa-home"></i> Всего
+                                        </div>
+                                        <div class="list-group-item">
+                                            <i class="oi oi-crop"></i> Базовых баннеров
+                                            <span class="badge badge-pill badge-primary pull-right">
+                                                {{ number_of_base_banners }}
+                                            </span>
+                                        </div>
+                                        <div class="list-group-item">
+                                            <i class="oi oi-spreadsheet"></i> Биллбордов
+                                            <span class="badge badge-pill badge-primary pull-right">
+                                                {{ number_of_billboards }}
+                                            </span>
+                                        </div>
+                                        <div class="list-group-item">
+                                            <i class="oi oi-document"></i> Баннеров
+                                            <span class="badge badge-pill badge-primary pull-right">
+                                                {{ number_of_banners }}
+                                            </span>
+                                        </div>
+                                        <div class="list-group-item">
+                                            <i class="fa fa-music"></i> Объектов в системе
+                                            <span class="badge badge-pill badge-primary pull-right">
+                                                {{ number_of_banner_objects }}
+                                            </span>
+                                        </div>
+                                        <div class="list-group-item">
+                                            <i class="oi oi-spreadsheet"></i> Автобусов
+                                            <span class="badge badge-pill badge-primary pull-right">
+                                                {{ number_of_buses }}
+                                            </span>
+                                        </div>
+                                        <div class="list-group-item">
+                                            <i class="oi oi-person"></i> Расклейщиков
+                                            <span class="badge badge-pill badge-primary pull-right">
+                                                {{ number_of_workers }}
+                                            </span>
+                                        </div>
+                                        <div class="list-group-item">
+                                            <i class="oi oi-arrow-right"></i> Биллборды сегодня
+                                            <span class="badge badge-pill badge-success pull-right">
+                                                {{ today_billboards }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
                 </div>
             </div>
-            {% for group in user.groups.all %}
-                {% if group.name == 'manager'  %}
-                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Просмотр</h1>
-                    </div>
-                    <div class="row">
-
-                        <div class="col-md-4 my-4">
-                            <div class="card card-home" style="">
-                                <div class="card-body">
-                                    <h5 class="card-title">Все базовые баннеры</h5>
-                                    <a class="stretched-link" href="{% url 'base-banners' %}"></a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4 my-4">
-                            <div class="card card-home" style="">
-                                <div class="card-body">
-                                    <h5 class="card-title">Все баннеры</h5>
-                                    <a class="stretched-link" href="{% url 'banners' %}"></a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4 my-4">
-                            <div class="card card-home" style="">
-                                <div class="card-body">
-                                    <h5 class="card-title">Не классифицированные баннеры</h5>
-                                    <a class="stretched-link" href="{% url 'non-recognized-banners' %}"></a>
-                                </div>
-                            </div>
-                        </div>
-
-
-
-                        <div class="col-md-4 my-4">
-                            <div class="card card-home" style="">
-                                <div class="card-body">
-                                    <h5 class="card-title">Все биллборды</h5>
-                                    <a class=" stretched-link" href="{% url 'billboards' %}"></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                {% endif %}
-            {% endfor %}
-            {% for group in user.groups.all %}
-                {% if group.name == 'manager' %}
-                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Общая информация о системе</h1>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-4 my-4">
-                            <div class="list-group">
-                                <a href="#" class="list-group-item list-group-item-action active">
-                                    <i class="fa fa-home"></i> Всего
-                                </a>
-                                <a href="#" class="list-group-item list-group-item-action">
-                                    <i class="fa fa-camera"></i> Базовых баннеров
-                                    <span class="badge badge-pill badge-primary pull-right">
-                                        {{ base_banners_count }}
-                                    </span>
-                                </a>
-                                <a href="#" class="list-group-item list-group-item-action">
-                                    <i class="fa fa-music"></i> Баннеров
-                                    <span class="badge badge-pill badge-primary pull-right">
-                                        {{ banners_count }}
-                                    </span>
-                                </a>
-                                <a href="#" class="list-group-item list-group-item-action">
-                                    <i class="fa fa-film"></i> Биллбордов
-                                    <span class="badge badge-pill badge-primary pull-right">
-                                        {{ billboards_count }}
-                                    </span>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-md-4 my-4">
-                            <div class="list-group">
-                                <a href="#" class="list-group-item list-group-item-action active">
-                                    <i class="fa fa-home"></i> Сегодня
-                                </a>
-                                <a href="#" class="list-group-item list-group-item-action">
-                                    <i class="fa fa-camera"></i> Базовых баннеров
-                                    <span class="badge badge-pill badge-primary pull-right">1
-                                    {{ today_base_banners }}
-                                </span>
-                                </a>
-                                <a href="#" class="list-group-item list-group-item-action">
-                                    <i class="fa fa-music"></i> Баннеров
-                                    <span class="badge badge-pill badge-primary pull-right">
-                                    {{today_banners}}
-                                </span>
-                                </a>
-                                <a href="#" class="list-group-item list-group-item-action">
-                                    <i class="fa fa-film"></i> Биллбордов
-                                    <span class="badge badge-pill badge-primary pull-right">
-                                    {{ today_billboards }}
-                                </span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                {% endif %}
-            {% endfor %}
         {% endif %}
     </div>
 {% endblock content %}

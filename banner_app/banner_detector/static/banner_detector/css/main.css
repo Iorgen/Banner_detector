@@ -467,7 +467,7 @@ section .section-title {
 }
 /* home cards hover effect */
 .card-home:hover {
-	box-shadow: 0 0 11px rgba(20,189,255,.4);
+	box-shadow: 0 0 25px rgba(20,189,255,.4);
 }
 
 
