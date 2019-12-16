@@ -18,9 +18,11 @@ class Command(BaseCommand):
         """
         try:
             manager_role, manager_created = Group.objects.get_or_create(name='manager')
+            print('manager created:' + manager_created)
             if manager_created:
                 manager_role.permissions.add(Permission.objects.all())
             worker_role, worker_created = Group.objects.get_or_create(name='worker')
+            print('worker created:' + worker_created)
             if worker_created:
                 worker_role.permissions.add(Permission.objects.get(codename='add_billboard'))
 

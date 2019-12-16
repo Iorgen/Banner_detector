@@ -16,10 +16,12 @@
         </datalist>
         {% for banner in banners %}
             <div class="col-md-6" id="Banner-{{ banner.id }}">
-                <div class="lib-panel">
+                <div class="lib-panel" >
                     <div class="row box-shadow mx-1">
                         <div class="col-md-5">
-                            <img width="100%" class="banner-img " src="{{ banner.banner_object.image.url }}">
+                            <div class="lib-row" style="height: 100%;" >
+                                <img class="banner-img " src="{{ banner.banner_object.image.url }}">
+                            </div>
                         </div>
                         <div class="col-md-7">
                             <div class="lib-row">
@@ -30,6 +32,10 @@
                                     <div class="list-group-item" style="text-overflow: ellipsis;overflow: hidden;white-space: nowrap;">
                                         <i class="oi oi-target"></i>
                                         {{ banner.banner_object.banner_type }}
+                                    </div>
+                                    <div class="list-group-item" style="text-overflow: ellipsis;overflow: hidden;white-space: nowrap;">
+                                        <i class="oi oi-target"></i>
+                                        {{ banner.date_added }}
                                     </div>
                                     <div class="list-group-item">
                                         <i class="oi oi-document"></i> Базовый

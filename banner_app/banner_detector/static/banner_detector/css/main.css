@@ -5,10 +5,6 @@ body {
 	height: 100%;
 }
 
-
-
-
-
 h1, h2, h3, h4, h5, h6 {
 	color: #444444;
 }
@@ -334,7 +330,7 @@ a.article-title:hover {
 /* Footer */
 @import url('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
 section {
-	padding: 60px 0;
+	padding-bottom: 40px;
 }
 
 section .section-title {
@@ -412,20 +408,20 @@ section .section-title {
 	}
 }
 
-/*Billboard cards */
+/*Banner cards */
 
 .lib-panel {
-	margin-bottom: 20Px;
+	margin-bottom: 20px;
 }
-.lib-panel img {
+
+.lib-panel .billboard-img {
 	width: 100%;
-	background-color: transparent;
 }
 
 .lib-panel .lib-row {
-	padding-top: 20px;
-	padding-right: 20px;
-	padding-left: 0px;
+	padding-top: 10px;
+	padding-right: 10px;
+	padding-left: 10px;
 	padding-bottom: 0px;
 }
 
@@ -453,8 +449,10 @@ section .section-title {
 }
 
 .banner-img {
-	max-height: 250px;
-	margin: 10px;
+	max-width: 100%;
+	height: 100%;
+	/*max-height: 300px;*/
+	/*max-width: 300px;*/
 }
 
 .copyright {
@@ -472,7 +470,8 @@ section .section-title {
 
 
 .main-container{
-	padding: 0 5% 20px 5%;
+	/*padding: 0% 5% 20px 5%;*/
+	margin: 0% 5% 0% 5%;
 	min-height: 100vh;
 }
 
@@ -609,7 +608,7 @@ section .section-title {
 
 @media (min-width: 320px) and (max-width: 480px) {
 	.main-container{
-		padding: 0 10px 20px 10px;
+		padding: 0 0px 20px 0px;
 		min-height: 100vh;
 	}
 

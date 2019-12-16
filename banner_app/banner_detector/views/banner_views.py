@@ -13,7 +13,7 @@ class BannerListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     model = Banner
     template_name = 'banner_detector/banner/banner_list.html'
     permission_required = 'banner_detector.view_banner'
-    ordering = ['banner_object']
+    ordering = ['-date_added']
     context_object_name = 'banners'
     paginate_by = 15
     list_header = 'Все баннеры'
@@ -36,6 +36,7 @@ class UserBannerListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     permission_required = 'banner_detector.view_banner'
     context_object_name = 'banners'
     paginate_by = 15
+    ordering = ['-date_added']
     list_header = 'Список баннеров от'
 
     def get_queryset(self):
@@ -60,6 +61,7 @@ class UnknownBannerListView(LoginRequiredMixin, ListView):
     permission_required = 'banner_detector.view_banner'
     context_object_name = 'banners'
     paginate_by = 15
+    ordering = ['-date_added']
     list_header = 'Список баннеров с неизвестным классом'
 
     def get_queryset(self):

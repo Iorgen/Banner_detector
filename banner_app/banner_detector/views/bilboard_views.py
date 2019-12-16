@@ -23,7 +23,7 @@ class BillboardListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     template_name = 'banner_detector/billboard/billboards_list.html'
     permission_required = 'banner_detector.view_billboard'
     context_object_name = 'billboards'
-    ordering = ['date_added']
+    ordering = ['-date_added']
     paginate_by = 5
 
     def get_context_data(self, **kwargs):
@@ -39,6 +39,7 @@ class UserBillboardListView(LoginRequiredMixin, PermissionRequiredMixin, ListVie
     template_name = 'banner_detector/billboard/user_billboards_list.html'
     permission_required = 'banner_detector.view_billboard'
     context_object_name = 'billboards'
+    ordering = ['-date_added']
     paginate_by = 5
 
     def get_queryset(self):

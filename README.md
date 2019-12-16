@@ -9,7 +9,7 @@ docker rmi $(docker images -q -f "dangling=true")
 ```
 # start redis 
 $ docker run -p 6379:6379 -d redis:2.8    
-# start worker
+# start worker 
 $ celery -A banner_app worker -l info
 ```
  
