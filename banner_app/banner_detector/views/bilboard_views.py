@@ -103,8 +103,8 @@ class BillboardCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateVie
                     banner.banner_object = banner_object
                     banner.save()
                     banner_ids.append(banner.id)
-            # recognize_banners.delay(banner_ids)
-            recognize_banners(banner_ids)
+            recognize_banners.delay(banner_ids)
+            # recognize_banners(banner_ids)
             billboard.save()
             messages.add_message(self.request, messages.INFO, 'Биллборд загружен, банеры отправлены на распознавание')
             # if request.user.groups.all()
