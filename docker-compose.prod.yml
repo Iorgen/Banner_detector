@@ -34,6 +34,8 @@ services:
       - media_volume:/home/banner_app/web/media
     depends_on:
       - web
+    networks:
+      - main
 
   web:
     build:
@@ -65,7 +67,7 @@ services:
       - db
       - redis
     hostname: celery_worker
-    image: app-image
+    image: web-image
     networks:
       - main
     restart: on-failure
