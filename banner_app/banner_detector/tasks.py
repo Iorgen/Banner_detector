@@ -10,11 +10,14 @@ import csv
 
 @shared_task
 def recognize_banners(banner_ids):
+    print('inside task')
+    print(banner_ids)
     banners_descriptors = []
     banners_distance = {}
     base_banners = BaseBanner.descriptors_to_dataframe()
     # TODO empty BaseBanners handler
     base_banners_descriptors = torch.Tensor([np.array(i) for i in base_banners.banner_object__descriptor.values])
+    print('after descriptors')
     for i, banner_id in enumerate(banner_ids):
         # Comment
         banner = Banner.objects.get(pk=banner_id)
@@ -65,6 +68,3 @@ def parse_buses():
                 number=row[0],
                 registration_number=row[1]
             )
-# @celery_app.task
-# def query_every_five_mins():
-#     pass

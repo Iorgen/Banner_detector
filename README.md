@@ -71,4 +71,10 @@ $ docker-compose -f docker-compose.prod.yml exec web python3 manage.py collectst
 ```
 $ docker logs --tail 50 --follow --timestamps celery_worker
 ```
+
+
+``` Run Celery command works perfect 
+$ celery -A banner_app worker --loglevel=debug -P solo --without-gossip --without-mingle --without-heartbeat
+
+```
  
