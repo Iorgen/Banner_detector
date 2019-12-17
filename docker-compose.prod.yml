@@ -18,7 +18,7 @@ services:
       dockerfile: Dockerfile.prod
     depends_on:
       - db
-    #command: gunicorn banner_app.wsgi:application --timeout 500 --bind  0.0.0.0:8000
+    command: gunicorn banner_app.wsgi:application --timeout 500 --bind  0.0.0.0:8000
     volumes:
       - static_volume:/home/banner_app/web/static
       - media_volume:/home/banner_app/web/media
@@ -39,6 +39,30 @@ services:
 
   redis:
     image: "redis:alpine"
+
+  celery-worker1:
+    build:
+      context: ./banner_app
+    container_name: celery-worker1
+    hostname: worker1
+    command: bash -c "celery -A banner_app worker -l info"
+    volumes:
+      - static_volume:/home/banner_app/web/static
+      - media_volume:/home/banner_app/web/media
+    depends_on:
+      - redis
+
+  celery-beat:
+    build:
+      context: ./banner_app
+    container_name: celery-beat
+    hostname: beat
+    command: bash -c "celery -A banner_app beat -l info"
+    volumes:
+      - static_volume:/home/banner_app/web/static
+      - media_volume:/home/banner_app/web/media
+    depends_on:
+      - redis
 
 volumes:
   postgres_data:
