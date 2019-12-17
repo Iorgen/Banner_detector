@@ -23,6 +23,7 @@ ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
 INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'banner_detector.apps.BannerDetectorConfig',
+    'ML_detector.apps.MlDetectorConfig',
     'crispy_forms',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -30,8 +31,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django_celery_results',
-    'ML_detector.apps.MlDetectorConfig',
     'debug_permissions',
     'django_celery_beat',
     'django_celery_results'
