@@ -45,7 +45,7 @@ services:
     container_name: web
     depends_on:
       - db
-      - redis
+      - rabbitmq
     expose:
       - 8000
     volumes:
@@ -60,12 +60,12 @@ services:
       - ./.env.prod
 
   celery-worker:
-    command: sh -c "wait-for redis:6379 && wait-for app:8000 -- celery -A banner_app worker -l info"
+    command: sh -c "wait-for rabbitmq:6379 && wait-for app:8000 -- celery -A banner_app worker -l info"
     container_name: celery_worker
     depends_on:
       - web
       - db
-      - redis
+      - rabbitmq
     hostname: celery_worker
     image: web-image
     networks:
@@ -83,7 +83,7 @@ services:
     depends_on:
       - web
       - db
-      - redis
+      - rabbitmq
     hostname: celery_beat
     image: web-image
     networks:
