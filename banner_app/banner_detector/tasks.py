@@ -7,6 +7,7 @@ import torch
 import numpy as np
 import csv
 
+
 @shared_task
 def recognize_banners(banner_ids):
     banners_descriptors = []
@@ -64,9 +65,6 @@ def parse_buses():
                 number=row[0],
                 registration_number=row[1]
             )
-#
-#
 # @celery_app.task
-# def query_every_five_mins(self):
-#     print('Request: {0!r}'.format(self.request))
-#
+# def query_every_five_mins():
+#     pass
