@@ -33,7 +33,8 @@ INSTALLED_APPS = [
     'django_celery_results',
     'ML_detector.apps.MlDetectorConfig',
     'debug_permissions',
-    'celery'
+    'django_celery_beat',
+    'django_celery_results'
 ]
 
 MIDDLEWARE = [
@@ -141,12 +142,12 @@ EMAIL_HOST_PASSWORD = ''
 # CELERY_RESULT_SERIALIZER = 'json'
 CELERY_BROKER_URL = 'pyamqp://rabbitmq:5672'
 CELERY_RESULT_BACKEND = 'django-db'
-CELERY_BEAT_SCHEDULE = {
-    'queue_every_five_mins': {
-        'task': 'banner_detector.tasks.query_every_five_mins',
-        'schedule': crontab(minute=5),
-    },
-}
+# CELERY_BEAT_SCHEDULE = {
+#     'queue_every_five_mins': {
+#         'task': 'banner_detector.tasks.query_every_five_mins',
+#         'schedule': crontab(minute=5),
+#     },
+# }
 
 os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
 os.environ['CUDA_VISIBLE_DEVICES'] = '-1'

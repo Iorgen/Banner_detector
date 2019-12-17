@@ -6,8 +6,6 @@ from ML_detector.core.controller import ObjectRecognitionController
 import torch
 import numpy as np
 import csv
-from banner_app.celery import app as celery_app
-
 
 @shared_task
 def recognize_banners(banner_ids):
@@ -66,8 +64,9 @@ def parse_buses():
                 number=row[0],
                 registration_number=row[1]
             )
-
-
-@celery_app.task
-def query_every_five_mins(self):
-    print('Request: {0!r}'.format(self.request))
+#
+#
+# @celery_app.task
+# def query_every_five_mins(self):
+#     print('Request: {0!r}'.format(self.request))
+#

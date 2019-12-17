@@ -21,9 +21,11 @@ cymem==2.0.2
 dataclasses==0.7
 decorator==4.4.0
 Django==2.2.6
+django-celery-beat==1.5.0
 django-celery-results==1.1.2
 django-crispy-forms==1.8.0
 django-debug-permissions==1.0.0
+django-timezone-field==4.0
 dominate==2.3.5
 editdistance==0.5.3
 entrypoints==0.3
@@ -83,6 +85,7 @@ pydot-ng==2.0.0
 pyflakes==2.1.1
 Pygments==2.4.2
 pyparsing==2.4.0
+python-crontab==2.4.0
 python-dateutil==2.8.0
 python-editor==1.0.4
 pytz==2019.3
