@@ -141,6 +141,7 @@ EMAIL_HOST_PASSWORD = ''
 # CELERY_RESULT_SERIALIZER = 'json'
 CELERY_BROKER_URL = 'pyamqp://rabbitmq:5672'
 CELERY_RESULT_BACKEND = 'django-db'
+CELERY_CACHE_BACKEND = 'django-cache'
 # CELERY_BEAT_SCHEDULE = {
 #     'queue_every_five_mins': {
 #         'task': 'banner_detector.tasks.query_every_five_mins',

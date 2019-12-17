@@ -11,6 +11,9 @@ then
     echo "PostgreSQL started"
 fi
 
-python3 manage.py update_descriptors --no-input --clear
+python3 manage.py update_descriptors
+python3 manage.py migrate
+python3 manage.py collectstatic
+
 
 exec "$@"
