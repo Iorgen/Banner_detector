@@ -60,7 +60,7 @@ services:
       - ./.env.prod
 
   celery-worker:
-    command: sh -c "wait-for rabbitmq:6379 && wait-for app:8000 -- celery -A banner_app worker -l info"
+    command: sh -c "celery -A banner_app worker -l info"
     container_name: celery_worker
     depends_on:
       - web
@@ -78,7 +78,7 @@ services:
       - ./.env.prod
 
   celery-beat:
-    command: sh -c " wait-for web:8000 -- celery -A banner_app beat -l info --scheduler django_celery_beat.schedulers:DatabaseScheduler"
+    command: sh -c " celery -A banner_app beat -l info --scheduler django_celery_beat.schedulers:DatabaseScheduler"
     volumes:
       - static_volume:/home/banner_app/web/static
       - media_volume:/home/banner_app/web/media
