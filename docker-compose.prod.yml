@@ -2,14 +2,14 @@ version: '3.3'
 
 services:
 
-  redis:
-    container_name: redis
-    hostname: redis
-    image: redis:alpine
+  rabbitmq:
+    container_name: rabbitmq
+    hostname: rabbitmq
+    image: rabbitmq:latest
     networks:
       - main
     ports:
-      - "6379:6379"
+      - "5672:5672"
     restart: on-failure
 
   db:
@@ -45,7 +45,7 @@ services:
     container_name: web
     depends_on:
       - db
-      - redis
+      - rabbitmq
     expose:
       - 8000
     volumes:
@@ -60,12 +60,12 @@ services:
       - ./.env.prod
 
   celery-worker:
-    command: sh -c "celery -A banner_app worker --loglevel=info -P solo --without-gossip --without-mingle --without-heartbeat"
+    command: sh -c "celery -A banner_app worker -l info --loglevel=INFO -P solo --without-gossip --without-mingle --without-heartbeat"
     container_name: celery_worker
     depends_on:
       - web
       - db
-      - redis
+      - rabbitmq
     hostname: celery_worker
     image: web-image
     networks:
@@ -78,14 +78,14 @@ services:
       - ./.env.prod
 
   celery-beat:
-    command: sh -c " celery -A banner_app beat -l info --scheduler django_celery_beat.schedulers:DatabaseScheduler --loglevel=INFO --without-gossip --without-mingle --without-heartbeat -Ofair"
+    command: sh -c " celery -A banner_app beat -l info --scheduler django_celery_beat.schedulers:DatabaseScheduler -P solo --without-gossip --without-mingle --without-heartbeat"
     volumes:
       - static_volume:/home/banner_app/web/static
       - media_volume:/home/banner_app/web/media
     depends_on:
       - web
       - db
-      - redis
+      - rabbitmq
     hostname: celery_beat
     image: web-image
     networks:
