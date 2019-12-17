@@ -43,25 +43,25 @@ services:
   celery-worker1:
     build:
       context: ./banner_app
-    container_name: celery-worker1
-    hostname: worker1
+      dockerfile: Dockerfile.prod
     command: bash -c "celery -A banner_app worker -l info"
     volumes:
       - static_volume:/home/banner_app/web/static
       - media_volume:/home/banner_app/web/media
     depends_on:
+      - db
       - redis
 
   celery-beat:
     build:
       context: ./banner_app
-    container_name: celery-beat
-    hostname: beat
+      dockerfile: Dockerfile.prod
     command: bash -c "celery -A banner_app beat -l info"
     volumes:
       - static_volume:/home/banner_app/web/static
       - media_volume:/home/banner_app/web/media
     depends_on:
+      - db
       - redis
 
 volumes:
