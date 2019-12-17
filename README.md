@@ -66,3 +66,9 @@ $ docker-compose -f docker-compose.prod.yml up -d --no-deps --build web
 $ docker-compose -f docker-compose.prod.yml exec web python3 manage.py migrate --noinput
 $ docker-compose -f docker-compose.prod.yml exec web python3 manage.py collectstatic --no-input --clear
 ```
+
+# Command for looking at full logs and errors 
+```
+$ docker logs --tail 50 --follow --timestamps celery_worker
+```
+ 

@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 import os
 from ML_detector.core.controller import ObjectDetectionController, ObjectRecognitionController
+from celery.schedules import crontab
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -138,8 +139,7 @@ EMAIL_HOST_PASSWORD = ''
 # CELERY_ACCEPT_CONTENT = ['application/json']
 # CELERY_TASK_SERIALIZER = 'json'
 # CELERY_RESULT_SERIALIZER = 'json'
-from celery.schedules import crontab
-CELERY_BROKER_URL= 'pyamqp://rabbitmq:5672'
+CELERY_BROKER_URL = 'pyamqp://rabbitmq:5672'
 CELERY_RESULT_BACKEND = 'django-db'
 CELERY_BEAT_SCHEDULE = {
     'queue_every_five_mins': {
@@ -147,7 +147,6 @@ CELERY_BEAT_SCHEDULE = {
         'schedule': crontab(minute=5),
     },
 }
-
 
 os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
 os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
