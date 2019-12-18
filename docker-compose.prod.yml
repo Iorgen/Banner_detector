@@ -2,16 +2,15 @@ version: '3.3'
 
 services:
 
-  redis:
-    container_name: redis
-    hostname: redis
-    image: redis:latest
+  rabbitmq:
+    container_name: rabbitmq
+    hostname: rabbitmq
+    image: rabbitmq:latest
     networks:
       - main
     ports:
-      - "6379:6379"
+      - "5672:5672"
     restart: on-failure
-
   db:
     container_name: postgres
     hostname: postgres
@@ -45,7 +44,7 @@ services:
     container_name: web
     depends_on:
       - db
-      - redis
+      - rabbitmq
     expose:
       - 8000
     volumes:
@@ -65,7 +64,7 @@ services:
     depends_on:
       - web
       - db
-      - redis
+      - rabbitmq
     hostname: celery_worker
     image: web-image
     networks:
@@ -83,7 +82,7 @@ services:
     depends_on:
       - web
       - db
-      - redis
+      - rabbitmq
     hostname: celery_beat
     image: web-image
     networks:
