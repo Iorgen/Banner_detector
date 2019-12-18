@@ -146,7 +146,6 @@ CELERY_RESULT_BACKEND = 'django-db'
 #         'task': 'banner_detector.tasks.query_every_five_mins',
 #         'schedule': crontab(minute=5),
 #     },
-# }
 
 os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
 os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
