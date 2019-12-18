@@ -59,6 +59,9 @@ services:
       - ./.env.prod
 
   celery-worker:
+    build:
+      context: ./banner_app
+      dockerfile: Dockerfile.prod
     command: sh -c "celery -A banner_app worker -l info --loglevel=INFO -P solo --without-gossip --without-mingle --without-heartbeat"
     container_name: celery_worker
     depends_on:
@@ -77,6 +80,9 @@ services:
       - ./.env.prod
 
   celery-beat:
+    build:
+      context: ./banner_app
+      dockerfile: Dockerfile.prod
     command: sh -c " celery -A banner_app beat -l info --scheduler django_celery_beat.schedulers:DatabaseScheduler -P solo --without-gossip --without-mingle --without-heartbeat"
     volumes:
       - static_volume:/home/banner_app/web/static
