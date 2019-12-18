@@ -12,7 +12,7 @@ $ docker run -p 6379:6379 -d redis:2.8
 # start worker 
 $ celery -A banner_app worker -l info
 ```
- 
+
 # Algorithm 
 create superuser
 create groups worker and manager
@@ -74,6 +74,5 @@ $ docker logs --tail 50 --follow --timestamps celery_worker
 
 ``` Running this command Celery works perfect 
 $ celery -A banner_app worker --loglevel=debug -P solo --without-gossip --without-mingle --without-heartbeat
-
 ```
  
