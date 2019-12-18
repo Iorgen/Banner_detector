@@ -73,7 +73,7 @@ $ docker logs --tail 50 --follow --timestamps celery_worker
 ```
 
 
-``` Run Celery command works perfect 
+``` Running this command Celery works perfect 
 $ celery -A banner_app worker --loglevel=debug -P solo --without-gossip --without-mingle --without-heartbeat
 
 ```
