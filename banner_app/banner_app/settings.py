@@ -134,18 +134,12 @@ EMAIL_HOST_USER = ''
 EMAIL_HOST_PASSWORD = ''
 
 # Celery application definition
-# CELERY_BROKER_URL = 'redis://redis:6379/0'
-# CELERY_RESULT_BACKEND = 'redis://redis:6379/0'
-# CELERY_ACCEPT_CONTENT = ['application/json']
-# CELERY_TASK_SERIALIZER = 'json'
-# CELERY_RESULT_SERIALIZER = 'json'
-CELERY_BROKER_URL = 'pyamqp://rabbitmq:5672'
-CELERY_RESULT_BACKEND = 'django-db'
-# CELERY_BEAT_SCHEDULE = {
-#     'queue_every_five_mins': {
-#         'task': 'banner_detector.tasks.query_every_five_mins',
-#         'schedule': crontab(minute=5),
-#     },
+
+CELERY_BROKER_URL = 'redis://redis:6379/0'
+CELERY_RESULT_BACKEND = 'redis://redis:6379/0'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
 
 os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
 os.environ['CUDA_VISIBLE_DEVICES'] = '-1'

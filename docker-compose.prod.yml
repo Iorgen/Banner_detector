@@ -2,14 +2,14 @@ version: '3.3'
 
 services:
 
-  rabbitmq:
-    container_name: rabbitmq
-    hostname: rabbitmq
-    image: rabbitmq:latest
+  redis:
+    container_name: redis
+    hostname: redis
+    image: redis:latest
     networks:
       - main
     ports:
-      - "5672:5672"
+      - "6379:6379"
     restart: on-failure
   db:
     container_name: postgres
@@ -37,21 +37,18 @@ services:
       - main
 
   web:
-    build:
-      context: ./banner_app
-      dockerfile: Dockerfile.prod
     command: gunicorn banner_app.wsgi:application --timeout 500 --bind  0.0.0.0:8000
     container_name: web
     depends_on:
       - db
-      - rabbitmq
+      - redis
     expose:
       - 8000
     volumes:
       - static_volume:/home/banner_app/web/static
       - media_volume:/home/banner_app/web/media
     hostname: web
-#    image: web-image
+    image: web-image
     networks:
       - main
     restart: on-failure
@@ -59,45 +56,38 @@ services:
       - ./.env.prod
 
   celery-worker:
-    build:
-      context: ./banner_app
-      dockerfile: Dockerfile.prod
-    command: sh -c "celery -A banner_app worker -l info --loglevel=INFO -P solo --without-gossip --without-mingle --without-heartbeat"
+    command: sh -c "celery -A banner_app worker --loglevel=INFO -P solo"
     container_name: celery_worker
     depends_on:
       - web
       - db
-      - rabbitmq
+      - redis
     hostname: celery_worker
-#    image: web-image
+    image: web-image
     networks:
       - main
     restart: on-failure
     volumes:
       - static_volume:/home/banner_app/web/static
       - media_volume:/home/banner_app/web/media
-    env_file:
-      - ./.env.prod
 
   celery-beat:
     build:
       context: ./banner_app
       dockerfile: Dockerfile.prod
-    command: sh -c " celery -A banner_app beat -l info --scheduler django_celery_beat.schedulers:DatabaseScheduler -P solo --without-gossip --without-mingle --without-heartbeat"
+    command: sh -c " celery -A banner_app beat --scheduler django_celery_beat.schedulers:DatabaseScheduler -P solo"
     volumes:
       - static_volume:/home/banner_app/web/static
       - media_volume:/home/banner_app/web/media
     depends_on:
       - web
       - db
-      - rabbitmq
+      - redis
     hostname: celery_beat
-#    image: web-image
+    image: web-image
     networks:
       - main
     restart: on-failure
-    env_file:
-      - ./.env.prod
 
 networks:
   main:
