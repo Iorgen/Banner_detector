@@ -20,3 +20,5 @@ models
 
 # development script for enviroment variables
 banner_app/env_var.py
+
+temporary_files

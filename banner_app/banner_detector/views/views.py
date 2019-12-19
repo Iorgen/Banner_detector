@@ -1,3 +1,6 @@
+import os
+import re
+import tarfile
 from django.views.generic import View
 from django.shortcuts import render, redirect
 from django.urls import reverse
@@ -6,16 +9,15 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from django.contrib.auth.models import User
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.db import transaction
-from ..forms import ImportBaseBannersForm
+from ..forms import ImportBaseBannersForm, ImportBannersTypesForm
 from ..models import BaseBanner, BannerType, BannerObject, Banner, Billboard, Bus
+from ..tasks import save_banner_type, update_active_banner_types, recalculate_base_banners_descriptors
 from ML_detector.core.controller import ObjectRecognitionController
-import os
-import re
+from users.models import Profile
 from zipfile import ZipFile
 from PIL import Image
-from io import BytesIO, StringIO
+from io import BytesIO
 from datetime import datetime, timedelta, date
-from users.models import Profile
 
 
 def home(request):
@@ -23,6 +25,7 @@ def home(request):
     today_billboards = Billboard.objects.filter(date_added__year=today.year,
                                                 date_added__month=today.month,
                                                 date_added__day=today.day).count()
+
     context = {
         'title': 'Banner_detector',
         'number_of_base_banners': BaseBanner.objects.count(),
@@ -75,21 +78,44 @@ class ImportBaseBanners(LoginRequiredMixin, PermissionRequiredMixin, View):
                                     charset='utf-8'
                                 )
 
-                                # TODO bug fix B-1 task
                                 base_banner_image = Image.open(image).convert('RGB')
                                 descriptor = ObjectRecognitionController().get_descriptor(base_banner_image).tolist()
-                                banner_object = BannerObject()
-                                banner_object.image = image
-                                banner_object.descriptor = descriptor
-                                banner_object.banner_type = banner_type
-                                banner_object.save()
-
+                                banner_object, banner_object_created = BannerObject.objects.get_or_create(
+                                    descriptor=descriptor,
+                                    defaults={
+                                        'image': image,
+                                        'banner_type': banner_type,
+                                    }
+                                )
                                 base_banner, base_banner_created = BaseBanner.objects.get_or_create(
                                     banner_object=banner_object,
                                     defaults={
                                         'author': request.user,
                                     })
             messages.add_message(self.request, messages.INFO, 'Базовые баннеры успешно занесены, список типов расширен')
+            return redirect(reverse('detector-home'))
+        else:
+            messages.add_message(self.request, messages.ERROR, 'Произошла ошибка!')
+            return render(request, 'banner_detector/import_base_banners.html', {'form': form})
+
+
+class ImportBannersTypesFromFile(LoginRequiredMixin, PermissionRequiredMixin, View):
+    """
+
+    """
+    form_class = ImportBannersTypesForm
+    permission_required = 'banner_detector.add_bannertype'
+
+    def get(self, request, *args, **kwargs):
+        form = self.form_class()
+        return render(request, 'banner_detector/import_base_banners.html', {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST, request.FILES)
+        if form.is_valid():
+            inputs = tarfile.open(fileobj=request.FILES['archive_file'], mode="r|", encoding='cp1251')
+            save_banner_type(inputs, request.user)
+            messages.add_message(self.request, messages.INFO, 'Типы баннеров занесены, активность типов обновлена')
             return redirect(reverse('detector-home'))
         else:
             messages.add_message(self.request, messages.ERROR, 'Произошла ошибка!')

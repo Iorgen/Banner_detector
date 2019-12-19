@@ -105,6 +105,7 @@ USE_L10N = True
 
 USE_TZ = True
 
+COVERS_URL = 'http://reports.fiesta.tomsk.ru/files/cover/~folder.tar?recursive'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
@@ -139,5 +140,5 @@ CELERY_TASK_SERIALIZER = 'json'
 
 os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
 os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
-ObjectDetectionController()
-ObjectRecognitionController()
+# ObjectDetectionController()
+# ObjectRecognitionController()

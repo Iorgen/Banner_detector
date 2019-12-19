@@ -1,5 +1,6 @@
 from django.urls import path
-from .views.views import home, ImportBaseBanners
+from .views.views import (home, ImportBaseBanners, ImportBannersTypesFromFile)
+from .views.task_views import (ImportBannersTypesFromUrl, UpdateBannerObjectsDescriptors)
 from .views.bus_views import (BusCreateAJAXView, BusDeleteAJAXView, BusListView, BusUpdateAJAXView)
 from .views.bilboard_views import (BillboardListView, UserBillboardListView,
                                    BillboardDetailView, BillboardCreateView, BillboardXmlExportView, BillboardDeleteView)
@@ -57,6 +58,11 @@ urlpatterns = [
     # path('banner_type/crud/delete/', BusDeleteAJAXView.as_view(), name='banner-type-ajax-delete'),
 
     # Import Base Banner
-    path('import_base_banners/', ImportBaseBanners.as_view(), name='import-base-banners')
+    path('import_base_banners/', ImportBaseBanners.as_view(), name='import-base-banners'),
+    path('import_banners_type/', ImportBannersTypesFromFile.as_view(), name='import-banners-type'),
+
+    # Task views
+    path('import_banners_type_from_url/', ImportBannersTypesFromUrl.as_view(), name='task-import-banners-type-url'),
+    path('update_banner_objects_descriptors/', UpdateBannerObjectsDescriptors.as_view(), name='task-update-banner-objects')
 
 ]

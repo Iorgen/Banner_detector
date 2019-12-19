@@ -44,6 +44,22 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-md-4 my-4">
+                                    <div class="card card-home" style="">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Загрузить актуальные типы баннеров </h5>
+                                            <a class="stretched-link" href="{% url 'task-import-banners-type-url' %} "></a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 my-4">
+                                    <div class="card card-home" style="">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Пересчет баннеров и переназначение типов</h5>
+                                            <a class="stretched-link" href="{% url 'task-update-banner-objects' %} "></a>
+                                        </div>
+                                    </div>
+                                </div>
                             {% endif %}
                         {% endfor %}
                         <div class="col-md-4 my-4">
@@ -55,6 +71,7 @@
                             </div>
                         </div>
                     </div>
+
                     {% for group in user.groups.all %}
                         {% if group.name == 'manager'  %}
                             <div class="d-sm-flex align-items-center justify-content-between mb-4">

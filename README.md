@@ -1,6 +1,12 @@
 # Banner detector App: 
 
 # Development
+
+### 
+check before commit 
+```
+flake8 --ignore=E501,F401,F403,F405 .
+```
 ### Delete all unused dockers 
 ```
 docker rmi $(docker images -q -f "dangling=true")
