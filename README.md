@@ -86,4 +86,13 @@ $ celery -A banner_app worker --loglevel=debug -P solo --without-gossip --withou
 1) install docker docker-compose 
 2) clone project 
 3) copy models folder to server in banner_app/ folder with all including stuff 
+3.1) copy default.jpg to server and then copyy docker cp to container:/media
 4) copy output.csv for initial bus loading 
+5) docker-compose -f docker-compose.prod.yml up -d --build
+6) docker-compose -f docker-compose.prod.yml exec web python3 manage.py createsuperuser
+7) docker-compose -f docker-compose.prod.yml exec web python3 manage.py collectstatic --no-input --clear
+8) docker-compose -f docker-compose.prod.yml exec web python3 manage.py migrate --noinput
+9) docker-compose -f docker-compose.prod.yml exec web python3 manage.py set_groups
+10) docker-compose -f docker-compose.prod.yml exec web python3 manage.py bus_parsing
+
+
