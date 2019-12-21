@@ -82,3 +82,8 @@ $ docker logs --tail 50 --follow --timestamps celery_worker
 $ celery -A banner_app worker --loglevel=debug -P solo --without-gossip --without-mingle --without-heartbeat
 ```
  
+ 
+1) install docker docker-compose 
+2) clone project 
+3) copy models folder to server in banner_app/ folder with all including stuff 
+4) copy output.csv for initial bus loading 

@@ -37,6 +37,9 @@ services:
       - main
 
   web:
+    build:
+      context: ./banner_app
+      dockerfile: Dockerfile.prod
     command: gunicorn banner_app.wsgi:application --timeout 500 --bind  0.0.0.0:8000
     container_name: web
     depends_on:
@@ -74,9 +77,6 @@ services:
       - ./.env.prod
 
   celery-beat:
-    build:
-      context: ./banner_app
-      dockerfile: Dockerfile.prod
     command: sh -c " celery -A banner_app beat --scheduler django_celery_beat.schedulers:DatabaseScheduler -P solo"
     volumes:
       - static_volume:/home/banner_app/web/static
