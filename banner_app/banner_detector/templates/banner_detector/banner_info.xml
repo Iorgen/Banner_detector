@@ -8,7 +8,7 @@
                 <type>stand</type>
                 <ads>
                     {% for banner in banners %}
-                        <c>{{ banner.banner_class.name }}</c>
+                        <c>{{ banner.banner_object.banner_type.name }}</c>
                     {% endfor %}
                 </ads>
             </stand>

@@ -21,7 +21,7 @@ class BannerListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super(BannerListView, self).get_context_data(**kwargs)
         context['list_header'] = self.list_header
-        context['banner_types'] = BannerType.objects.all()
+        context['banner_types'] = BannerType.objects.filter(active=True)
         context['banner_objects_ids_in_base_banners'] = list(
             BaseBanner.objects.values_list('banner_object_id', flat=True))
         return context
@@ -46,7 +46,7 @@ class UserBannerListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super(UserBannerListView, self).get_context_data(**kwargs)
         context['list_header'] = self.list_header
-        context['banner_types'] = BannerType.objects.all()
+        context['banner_types'] = BannerType.objects.filter(active=True)
         context['banner_objects_ids_in_base_banners'] = list(
             BaseBanner.objects.values_list('banner_object_id', flat=True))
         return context
@@ -70,7 +70,7 @@ class UnknownBannerListView(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super(UnknownBannerListView, self).get_context_data(**kwargs)
         context['list_header'] = self.list_header
-        context['banner_types'] = BannerType.objects.all()
+        context['banner_types'] = BannerType.objects.filter(active=True)
         return context
 
 

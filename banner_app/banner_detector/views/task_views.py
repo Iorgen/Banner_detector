@@ -13,7 +13,7 @@ class ImportBannersTypesFromUrl(LoginRequiredMixin, PermissionRequiredMixin, Vie
     permission_required = 'banner_detector.add_bannertype'
 
     def get(self, request, *args, **kwargs):
-        update_active_banner_types.delay()
+        update_active_banner_types()
         messages.add_message(self.request, messages.INFO, 'Обновление типов баннеров поставлено в очередь')
         return redirect(reverse('detector-home'))
 
