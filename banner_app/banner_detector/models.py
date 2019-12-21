@@ -73,6 +73,9 @@ class Billboard(models.Model):
                                {'banners': banner, 'billboard': self})
         return xml
 
+    def get_formatted(self):
+        return self.date_added.strftime("%Y-%m-%dT%H:%M:%S")
+
 
 class BannerType(models.Model):
     """
