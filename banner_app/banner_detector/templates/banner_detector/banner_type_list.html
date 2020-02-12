@@ -5,7 +5,7 @@
     <div class="content-section">
         <div class="row">
             <div class="col-md-4 ">
-                <h3>Добавить Класс баннера</h3>
+                <h3>Добавить Класс афишы</h3>
                 <form id="addBannerType" action="">
                     <div class="form-group">
                         <input class="form-control" type="text" name="name" placeholder="Name" required>
@@ -14,7 +14,7 @@
                 </form>
             </div>
             <div class="col-md-8">
-                <h3>Типы Баннеров</h3>
+                <h3>Типы Афиш</h3>
                 <div id="bannerTypeTable" class="table table-striped">
                     {% for banner_type in banner_types %}
                         <div id="bannerType-{{banner_type.id}}">

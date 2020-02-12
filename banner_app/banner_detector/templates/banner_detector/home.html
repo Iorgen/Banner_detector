@@ -15,7 +15,7 @@
                                 <div class="col-md-4 my-4">
                                     <div class="card card-home border-left-primary" style="">
                                         <div class="card-body">
-                                            <h5 class="card-title">Новый базовый баннер</h5>
+                                            <h5 class="card-title">Новая базовая афиша</h5>
                                             <a class="stretched-link" href="{% url 'base-banner-create' %} "></a>
                                         </div>
                                     </div>
@@ -23,7 +23,7 @@
                                 <div class="col-md-4 my-4">
                                     <div class="card card-home" style="">
                                         <div class="card-body">
-                                            <h5 class="card-title">Импорт базовых баннеров</h5>
+                                            <h5 class="card-title">Импорт базовых афиш</h5>
                                             <a class="stretched-link" href="{% url 'import-base-banners' %} "></a>
                                         </div>
                                     </div>
@@ -39,7 +39,7 @@
                                 <div class="col-md-4 my-4">
                                     <div class="card card-home" style="">
                                         <div class="card-body">
-                                            <h5 class="card-title">Добавить тип баннера</h5>
+                                            <h5 class="card-title">Добавить тип афишаа</h5>
                                             <a class="stretched-link" href="{% url 'banner-types' %} "></a>
                                         </div>
                                     </div>
@@ -47,7 +47,7 @@
                                 <div class="col-md-4 my-4">
                                     <div class="card card-home" style="">
                                         <div class="card-body">
-                                            <h5 class="card-title">Загрузить актуальные типы баннеров </h5>
+                                            <h5 class="card-title">Загрузить актуальные типы афиш </h5>
                                             <a class="stretched-link" href="{% url 'task-import-banners-type-url' %} "></a>
                                         </div>
                                     </div>
@@ -55,7 +55,7 @@
                                 <div class="col-md-4 my-4">
                                     <div class="card card-home" style="">
                                         <div class="card-body">
-                                            <h5 class="card-title">Пересчет баннеров и переназначение типов</h5>
+                                            <h5 class="card-title">Пересчет афиш и переназначение типов</h5>
                                             <a class="stretched-link" href="{% url 'task-update-banner-objects' %} "></a>
                                         </div>
                                     </div>
@@ -65,7 +65,7 @@
                         <div class="col-md-4 my-4">
                             <div class="card card-home" style="">
                                 <div class="card-body">
-                                    <h5 class="card-title">Создать Биллборд</h5>
+                                    <h5 class="card-title">Загрузить стенд</h5>
                                     <a class="stretched-link" href="{% url 'billboard-create' %} "></a>
                                 </div>
                             </div>
@@ -82,7 +82,7 @@
                                 <div class="col-md-4 my-4">
                                     <div class="card card-home" style="">
                                         <div class="card-body">
-                                            <h5 class="card-title">Все базовые баннеры</h5>
+                                            <h5 class="card-title">Все базовые афишы</h5>
                                             <a class="stretched-link" href="{% url 'base-banners' %}"></a>
                                         </div>
                                     </div>
@@ -90,7 +90,7 @@
                                 <div class="col-md-4 my-4">
                                     <div class="card card-home" style="">
                                         <div class="card-body">
-                                            <h5 class="card-title">Все баннеры</h5>
+                                            <h5 class="card-title">Все афишы</h5>
                                             <a class="stretched-link" href="{% url 'banners' %}"></a>
                                         </div>
                                     </div>
@@ -98,7 +98,7 @@
                                 <div class="col-md-4 my-4">
                                     <div class="card card-home" style="">
                                         <div class="card-body">
-                                            <h5 class="card-title">Не классифицированные баннеры</h5>
+                                            <h5 class="card-title">Не классифицированные афишы</h5>
                                             <a class="stretched-link" href="{% url 'non-recognized-banners' %}"></a>
                                         </div>
                                     </div>
@@ -106,7 +106,7 @@
                                 <div class="col-md-4 my-4">
                                     <div class="card card-home" style="">
                                         <div class="card-body">
-                                            <h5 class="card-title">Все биллборды</h5>
+                                            <h5 class="card-title">Все стенды</h5>
                                             <a class=" stretched-link" href="{% url 'billboards' %}"></a>
                                         </div>
                                     </div>
@@ -128,19 +128,19 @@
                                             <i class="fa fa-home"></i> Всего
                                         </div>
                                         <div class="list-group-item">
-                                            <i class="oi oi-crop"></i> Базовых баннеров
+                                            <i class="oi oi-crop"></i> Базовых афиш
                                             <span class="badge badge-pill badge-primary pull-right">
                                                 {{ number_of_base_banners }}
                                             </span>
                                         </div>
                                         <div class="list-group-item">
-                                            <i class="oi oi-spreadsheet"></i> Биллбордов
+                                            <i class="oi oi-spreadsheet"></i> Стендов
                                             <span class="badge badge-pill badge-primary pull-right">
                                                 {{ number_of_billboards }}
                                             </span>
                                         </div>
                                         <div class="list-group-item">
-                                            <i class="oi oi-document"></i> Баннеров
+                                            <i class="oi oi-document"></i> Афиш
                                             <span class="badge badge-pill badge-primary pull-right">
                                                 {{ number_of_banners }}
                                             </span>
@@ -164,11 +164,29 @@
                                             </span>
                                         </div>
                                         <div class="list-group-item">
-                                            <i class="oi oi-arrow-right"></i> Биллборды сегодня
+                                            <i class="oi oi-arrow-right"></i> Стендов сегодня
                                             <span class="badge badge-pill badge-success pull-right">
                                                 {{ today_billboards }}
                                             </span>
                                         </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 my-4">
+                                    <div class="list-group" style = "height: 400px; overflow:scroll;">
+                                        {% for result in background_tasks_results %}
+                                            <div class="list-group-item bg-light">
+                                            {{ result.date_done }}
+                                                {% if result.task_name == 'banner_detector.tasks.update_active_banner_types'%}
+                                                    <div> Обновление актуальных типов афиш
+                                                {% elif result.task_name == 'banner_detector.tasks.recognize_banners'%}
+                                                    <div> Распознавание стендов
+                                                {% elif result.task_name == 'banner_detector.tasks.recalculate_base_banners_descriptors' %}
+                                                    <div> Пересчёт афиш и переназначение типов
+                                                {% endif %} - {{ result.status }} </div>
+                                            </div>
+                                        {% endfor %}
                                     </div>
                                 </div>
                             </div>

@@ -5,13 +5,13 @@
             {% csrf_token %}
             <fieldset class="form-group">
                 <legend class="border-bottom mb-4">
-                    Удалить Биллборд
+                    Удалить Стенд
                 </legend>
-                <h2>Are you sure want to delete - {{ billboard }} {{ billboard.id }}</h2>
+                <h2>Уверены что хотите удалить стенд - {{ billboard }} {{ billboard.id }}</h2>
             </fieldset>
             <div class="form-group">
                 <button class="btn btn-outline-danger" type="submit">Да удалить</button>
-                <a class="btn btn-outline-seconday" href="{% url 'billboard-detail' billboard.id %}">Cancel</a>
+                <a class="btn btn-outline-seconday" href="{% url 'billboard-detail' billboard.id %}">Удалить</a>
             </div>
         </form>
     </div>

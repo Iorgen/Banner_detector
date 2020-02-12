@@ -71,7 +71,7 @@
                                     <form method="POST" id="updateBanner">
                                         {% csrf_token %}
                                         <input class="form-control" id="form-id" type="hidden" name="formId" value="{{ banner.pk }}">
-                                        <label for="banner_type" class=" requiredField">Тип баннера<span class="asteriskField">*</span> </label>
+                                        <label for="banner_type" class=" requiredField">Тип афишы<span class="asteriskField">*</span> </label>
                                         <div class="form-group">
                                             <input class="form-control" type="text" name="banner_type" value="{{ banner.banner_object.banner_type }}" list="banner_type_list" base-attr="banner-{{ banner.id }}">
                                         </div>

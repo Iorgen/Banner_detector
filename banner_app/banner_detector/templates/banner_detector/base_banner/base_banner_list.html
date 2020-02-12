@@ -1,6 +1,6 @@
 {% extends 'banner_detector/base.html' %}
 {% block content %}
-    <h1> Базовые баннеры</h1>
+    <h1> Базовые афишы</h1>
     <div class="row">
         {% for base_banner in base_banners %}
             <div class="col-md-4">
@@ -18,7 +18,7 @@
                                     <p>Добавил: {{ base_banner.author.username }} {{ base_banner.day_month_added }}</p>
                                 </div>
                                 <div class="lib-row">
-                                    <p>Тип Баннера: {{ base_banner.banner_object.banner_type }}</p>
+                                    <p>Тип афишы: {{ base_banner.banner_object.banner_type }}</p>
                                     <p></p>
                                 </div>
                             </div>

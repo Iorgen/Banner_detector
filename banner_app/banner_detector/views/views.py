@@ -18,6 +18,7 @@ from zipfile import ZipFile
 from PIL import Image
 from io import BytesIO
 from datetime import datetime, timedelta, date
+from django_celery_results.models import TaskResult
 
 
 def home(request):
@@ -37,7 +38,8 @@ def home(request):
         # Today information
         'today_billboards': today_billboards,
         # Users
-        'profiles': Profile.objects.all()
+        'profiles': Profile.objects.all(),
+        'background_tasks_results': TaskResult.objects.all()
     }
     return render(request, 'banner_detector/home.html', context)
 

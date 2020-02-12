@@ -32,9 +32,9 @@
             <div class="collapse navbar-collapse" id="navbarToggle">
                 <div class="navbar-nav mr-auto">
                     {% if user.is_authenticated %}
-                        <a class="nav-item nav-link" href="{% url 'user-billboards' user.username %}">Мои Билборды</a>
-                        <a class="nav-item nav-link" href="{% url 'user-banners' user.username %}">Мои Баннеры</a>
-                        <a class="nav-item nav-link" href="{% url 'billboard-create' %}">Добавить Биллборд</a>
+                        <a class="nav-item nav-link" href="{% url 'user-billboards' user.username %}">Мои Стенды</a>
+                        <a class="nav-item nav-link" href="{% url 'user-banners' user.username %}">Мои афишы</a>
+                        <a class="nav-item nav-link" href="{% url 'billboard-create' %}">Добавить Стенд</a>
                     {% else %}
 
                     {% endif %}
