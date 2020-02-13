@@ -1,7 +1,7 @@
 {% extends 'banner_detector/base.html' %}
 {% block content %}
     <h1 class = "mb-3">Стенды от {{ view.kwargs.username }} ({{ page_obj.paginator.count }})</h1>
-    {% for billboard in billboards %}
+    {% for stand in billboards %}
         <div class="lib-panel">
             <div class="row box-shadow">
                 <div class="col-md-6">

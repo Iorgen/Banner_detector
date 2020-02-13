@@ -6,6 +6,7 @@ from django.urls import reverse
 from django.contrib.postgres.fields import ArrayField
 from django.template.loader import render_to_string
 from .managers import BannerManager
+from datetime import datetime, timedelta, date
 
 
 class Bus(models.Model):
@@ -17,6 +18,15 @@ class Bus(models.Model):
 
     def __str__(self):
         return self.number + '-' + self.registration_number
+
+    @property
+    def today_billboards(self):
+        today = date.today()
+        current_bus_billboards = Billboard.objects.filter(date_added__year=today.year,
+                                                          date_added__month=today.month,
+                                                          date_added__day=today.day,
+                                                          bus_id=self.pk)
+        return current_bus_billboards
 
 
 class Billboard(models.Model):
@@ -31,7 +41,7 @@ class Billboard(models.Model):
     bus = models.ForeignKey(Bus, on_delete=models.CASCADE)
 
     def __str__(self):
-        return "Биллборд в '" + self.bus.number + "' за " + self.day_month_added()
+        return "Стенд в '" + self.bus.registration_number + "' за " + self.day_month_added()
 
     def get_absolute_url(self):
         return reverse('billboard-detail', kwargs={'pk': self.pk})
@@ -75,6 +85,10 @@ class Billboard(models.Model):
 
     def get_formatted(self):
         return self.date_added.strftime("%Y-%m-%dT%H:%M:%S")
+
+    @property
+    def get_banners(self):
+        return Banner.objects.filter(billboard=self)
 
 
 class BannerType(models.Model):

@@ -7,12 +7,13 @@ from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from ..tasks import recognize_banners
 from ..forms import BillboardImageCreationForm
-from ..models import Billboard, Banner, BannerObject
+from ..models import Billboard, Banner, BannerObject, Bus
 from ML_detector.core.controller import ObjectDetectionController, ObjectRecognitionController
 from django.template.loader import render_to_string
 from django.views.generic import (View, ListView, DetailView, CreateView, DeleteView)
 from django.http import HttpResponse, HttpResponseRedirect
 from django.db.models import ProtectedError
+from datetime import datetime, timedelta, date
 
 
 class BillboardListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
@@ -141,10 +142,10 @@ class BillboardDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteVie
 
 
 class BillboardXmlExportView(LoginRequiredMixin, PermissionRequiredMixin, View):
-    """
+    """ Return download link for xml with passed stand id
 
     """
-    template_name = 'banner_detector/billboard/billboard_detail.html'
+    template_name = 'banner_detector/banner_info.xml'
     permission_required = 'banner_detector.view_billboard'
     model = Billboard
     context_object_name = 'billboard'
@@ -152,6 +153,31 @@ class BillboardXmlExportView(LoginRequiredMixin, PermissionRequiredMixin, View):
     def get(self, request, id):
         billboard = Billboard.objects.get(id=id)
         banners = Banner.objects.filter(billboard_id=billboard.pk, banner_object__banner_type__isnull=False)
-        xml = render_to_string('banner_detector/banner_info.xml',
+        xml = render_to_string(self.template_name,
                                {'banners': banners, 'billboard': billboard})
-        return HttpResponse(xml)
+        response = HttpResponse(xml)
+        return response
+
+
+class TodayBillboardsXmlExportView(LoginRequiredMixin, PermissionRequiredMixin, View):
+    """ Return download link for xml with today stands
+
+    """
+    template_name = 'banner_detector/today_banner_info.xml'
+    permission_required = 'banner_detector.view_billboard'
+    model = Billboard
+    context_object_name = 'billboard'
+
+    def get(self, request):
+        today = date.today()
+        today_buses = Billboard.objects.filter(date_added__year=today.year,
+                                               date_added__month=today.month,
+                                               date_added__day=today.day).values_list('bus_id').distinct()
+        # TODO check how i can
+        today_buses = Bus.objects.filter(id__in=today_buses)
+        xml = render_to_string(self.template_name, {
+            'buses': today_buses
+        })
+        response = HttpResponse(xml)
+        response['Content-Disposition'] = 'attachment; filename="' + str(today) + '.xml"'
+        return response
