@@ -26,6 +26,7 @@ def parse_buses():
 
 
 def save_banner_type(tar_inputs, author):
+    # TODO refactoring on temporary built-in temporary files
     BannerType.objects.all().update(active=False)
     tar_inputs.extractall(path='temporary_files')
     for fn in os.listdir(os.path.join('temporary_files', 'cover')):
