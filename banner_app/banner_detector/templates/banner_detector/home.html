@@ -39,7 +39,7 @@
                             <div class="col-md-4 my-4">
                                 <div class="card card-home" style="">
                                     <div class="card-body">
-                                        <h5 class="card-title">Добавить тип афишаа</h5>
+                                        <h5 class="card-title">Добавить тип афиши</h5>
                                         <a class="stretched-link" href="{% url 'banner-types' %} "></a>
                                     </div>
                                 </div>
@@ -63,8 +63,8 @@
                             <div class="col-md-4 my-4">
                                 <div class="card card-home" style="">
                                     <div class="card-body">
-                                        <h5 class="card-title">Загрузить стенд</h5>
-                                        <a class="stretched-link" href="{% url 'billboard-create' %} "></a>
+                                        <h5 class="card-title">XML выгрузка за сегодня</h5>
+                                        <a class="stretched-link" href="{% url 'today-billboard-xml-detail' %}" download=""></a>
                                     </div>
                                 </div>
                             </div>
@@ -73,13 +73,12 @@
                     <div class="col-md-4 my-4">
                         <div class="card card-home" style="">
                             <div class="card-body">
-                                <h5 class="card-title">XML выгрузка за сегодня</h5>
-                                <a class="stretched-link" href="{% url 'today-billboard-xml-detail' %}" download=""></a>
+                                <h5 class="card-title">Загрузить стенд</h5>
+                                <a class="stretched-link" href="{% url 'billboard-create' %} "></a>
                             </div>
                         </div>
                     </div>
                 </div>
-
                 {% for group in user.groups.all %}
                     {% if group.name == 'manager'  %}
                         <div class="d-sm-flex align-items-center justify-content-between mb-4">
@@ -182,6 +181,9 @@
                     </div>
                     <div class="row">
                     <div class="col-md-12 my-4">
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">Результаты фоновых задач</h1>
+                    </div>
                     <div class="list-group" style = "height: 400px; overflow:scroll;">
                         {% for result in background_tasks_results %}
                             <div class="list-group-item bg-light">

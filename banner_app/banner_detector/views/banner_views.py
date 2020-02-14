@@ -16,7 +16,7 @@ class BannerListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     ordering = ['-date_added']
     context_object_name = 'banners'
     paginate_by = 15
-    list_header = 'Все баннеры'
+    list_header = 'Все афиши'
 
     def get_context_data(self, **kwargs):
         context = super(BannerListView, self).get_context_data(**kwargs)
@@ -37,7 +37,7 @@ class UserBannerListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     context_object_name = 'banners'
     paginate_by = 15
     ordering = ['-date_added']
-    list_header = 'Список баннеров от'
+    list_header = 'Список афиш от'
 
     def get_queryset(self):
         user = get_object_or_404(User, username=self.kwargs.get('username'))
@@ -62,7 +62,7 @@ class UnknownBannerListView(LoginRequiredMixin, ListView):
     context_object_name = 'banners'
     paginate_by = 15
     ordering = ['-date_added']
-    list_header = 'Список баннеров с неизвестным классом'
+    list_header = 'Список афиш с неизвестным классом'
 
     def get_queryset(self):
         return Banner.objects.unknown()
