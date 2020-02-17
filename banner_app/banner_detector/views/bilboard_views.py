@@ -13,6 +13,7 @@ from django.template.loader import render_to_string
 from django.views.generic import (View, ListView, DetailView, CreateView, DeleteView)
 from django.http import HttpResponse, HttpResponseRedirect
 from django.db.models import ProtectedError
+from django.http import JsonResponse
 from datetime import datetime, timedelta, date
 
 
@@ -65,7 +66,8 @@ class BillboardDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailVie
 
 
 class BillboardCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
-    """
+    # TODO create normal ajax view
+    """ Ajax view for added new stand in the system and then send to recognizer
 
     """
     model = Billboard
@@ -85,10 +87,8 @@ class BillboardCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateVie
             billboard = Billboard.objects.get(pk=billboard_form.id)
             banners_crops = ObjectDetectionController().banner_detection(billboard)
             # TODO fix костыль связанный с несовместимостью путей Django и image.ai
-            billboard.detected_image.name = os.path.join(
-                'detected_banners', billboard.image.name)
+            billboard.detected_image.name = os.path.join('detected_banners', billboard.image.name)
             banner_ids = []
-            # _banners = []
             for idx, banner_crop in enumerate(banners_crops[1]):
                 with transaction.atomic():
                     banner_object = BannerObject()
@@ -105,15 +105,12 @@ class BillboardCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateVie
                     banner.save()
                     banner_ids.append(banner.id)
             recognize_banners.delay(banner_ids)
-            # recognize_banners(banner_ids)
             billboard.save()
-            messages.add_message(self.request, messages.INFO, 'Биллборд загружен, банеры отправлены на распознавание')
-            # if request.user.groups.all()
-            # return redirect(reverse('billboard-detail', kwargs={'pk': billboard_form.id}))
-            return redirect(reverse('billboard-create'))
+            response = {'recognize': True}
+            return JsonResponse(response)
         else:
-            messages.add_message(self.request, messages.ERROR, 'Заполните все поля формы')
-            return render(request, self.template_name, {'form': form})
+            response = {'recognize': False}
+            return JsonResponse(response)
 
 
 class BillboardDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
