@@ -172,8 +172,6 @@ class TodayBillboardsXmlExportView(LoginRequiredMixin, PermissionRequiredMixin, 
                                                date_added__day=today.day).values_list('bus_id').distinct()
         # TODO check how i can
         today_buses = Bus.objects.filter(id__in=today_buses)
-
-
         xml = render_to_string(self.template_name, {
             'buses': today_buses,
             'today': date.today()
