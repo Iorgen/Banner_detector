@@ -3,7 +3,7 @@
     {% for bus in buses %}
         <bus>
             <bus_number>{{ bus.registration_number }}</bus_number>
-            <date_time>{{  }}</date_time>
+            <date_time>{{ today }}</date_time>
             <stands>
                 {% for billboard in bus.today_billboards %}
                     <stand>

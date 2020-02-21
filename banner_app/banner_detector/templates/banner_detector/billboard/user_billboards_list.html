@@ -6,24 +6,24 @@
             <div class="row box-shadow">
                 <div class="col-md-6">
                     <div class="lib-row lib-img-show">
-                        <img class="billboard-img" src="{{ billboard.detected_image.url }}">
+                        <img class="billboard-img" src="{{ stand.detected_image.url }}">
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="lib-row">
-                        <a href="{% url 'billboard-detail' billboard.id %}">
-                            <h3 class="">{{ billboard }} за {{ billboard.day_month_added }}</h3>
+                        <a href="{% url 'billboard-detail' stand.id %}">
+                            <h3 class="">{{ stand }} за {{ stand.day_month_added }}</h3>
                         </a>
                         <p class="text-muted">
                             <strong>
-                                {{ billboard.date_added }}
+                                {{ stand.date_added }}
                             </strong>
                         </p>
                     </div>
                     <div class="lib-row">
-                        <p>Детектировано: {{ billboard.banners_count }}</p>
-                        <p>Распознанных как неизвестно: {{ billboard.get_not_classified_banners }}</p>
-                        <p>Распознано: {{ billboard.get_recognized_banners }}</p>
+                        <p>Детектировано: {{ stand.banners_count }}</p>
+                        <p>Распознанных как неизвестно: {{ stand.get_not_classified_banners }}</p>
+                        <p>Распознано: {{ stand.get_recognized_banners }}</p>
                     </div>
                 </div>
             </div>
