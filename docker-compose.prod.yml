@@ -59,7 +59,7 @@ services:
       - ./.env.prod
 
   celery-worker:
-    command: sh -c "celery -A banner_app worker --loglevel=INFO -P solo"
+    command: sh -c "celery -A banner_app worker --loglevel=INFO --concurrency=4"
     container_name: celery_worker
     depends_on:
       - web
@@ -77,7 +77,7 @@ services:
       - ./.env.prod
 
   celery-beat:
-    command: sh -c " celery -A banner_app beat --scheduler django_celery_beat.schedulers:DatabaseScheduler"
+    command: sh -c " celery -A banner_app beat --loglevel=INFO"
     volumes:
       - static_volume:/home/banner_app/web/static
       - media_volume:/home/banner_app/web/media

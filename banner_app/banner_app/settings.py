@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 import os
 from ML_detector.core.controller import ObjectDetectionController, ObjectRecognitionController
+from celery.schedules import crontab
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -134,6 +135,15 @@ CELERY_CACHE_BACKEND = 'django-cache'
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TASK_SERIALIZER = 'json'
+
+CELERY_TIMEZONE = 'Asia/Novosibirsk'
+# Other Celery settings
+CELERY_BEAT_SCHEDULE = {
+    'update-base-banners': {
+        'task': 'banner_detector.tasks.update_active_banner_types',
+        'schedule': crontab(hour="*", minute=1),
+    },
+}
 
 os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
 os.environ['CUDA_VISIBLE_DEVICES'] = '-1'

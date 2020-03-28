@@ -25,18 +25,21 @@ class BusCreateAJAXView(LoginRequiredMixin, PermissionRequiredMixin, View):
     def get(self, request):
         number = request.GET.get('number', None)
         registration_number = request.GET.get('registration_number', None)
+        stand_number = request.GET.get('stand_number', None)
 
         bus_object = Bus.objects.create(
+            stand_number=stand_number,
             number=number,
             registration_number=registration_number
         )
-        bus = {'id': bus_object.id,
-               'number': bus_object.number,
-               'registration_number': bus_object.registration_number}
-
-        response = {
-            'bus': bus
+        bus = {
+            'id': bus_object.id,
+            'number': bus_object.number,
+            'stand_number': bus_object.number,
+            'registration_number': bus_object.registration_number
         }
+
+        response = {'bus': bus}
         return JsonResponse(response)
 
 

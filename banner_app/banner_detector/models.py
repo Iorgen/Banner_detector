@@ -15,9 +15,10 @@ class Bus(models.Model):
     """
     number = models.CharField(max_length=20, default="1")
     registration_number = models.CharField(max_length=20, default="1")
+    stand_number = models.IntegerField(default=1)
 
     def __str__(self):
-        return self.number + '-' + self.registration_number
+        return f'{str(self.stand_number)}-{self.number}-{self.registration_number}'
 
     @property
     def today_billboards(self):

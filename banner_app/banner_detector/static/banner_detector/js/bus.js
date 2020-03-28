@@ -1,12 +1,27 @@
+// Basic example
+$(document).ready(function () {
+    $('#dtBasicExample').DataTable({
+        "searching": true, // false to disable search (or any other option)
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"
+        },
+        "ordering": true // false to disable sorting (or any other option)
+
+    });
+    $('.dataTables_length').addClass('bs-select');
+});
+
 // Bus create AJAX request
 $("form#addBus").submit(function() {
     var numberInput = $('input[name="number"]').val().trim();
     var registrationNumberInput = $('input[name="registration_number"]').val().trim();
+    var standNumberInput = $('input[name="stand_number"]').val().trim();
     if (numberInput) {
         $.ajax({
             url: localStorage.getItem('bus-add-link'),
             data: {
                 'number': numberInput,
+                'stand_number': standNumberInput,
                 'registration_number': registrationNumberInput,
                 'csrfmiddlewaretoken': $('input[name="csrfmiddlewaretoken"]').val()
             },
