@@ -59,7 +59,7 @@ services:
       - ./.env.prod
 
   celery-worker:
-    command: sh -c "celery -A banner_app worker --loglevel=INFO --concurrency=2"
+    command: sh -c "celery -E --app=banner_app worker --loglevel=INFO --pool=gevent --concurrency=4"
     container_name: celery_worker
     depends_on:
       - web

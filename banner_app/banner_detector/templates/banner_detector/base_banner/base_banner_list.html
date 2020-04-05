@@ -13,6 +13,11 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
+                                <div class="lib-row lib-img-show">
+                                    <img width="100%" class="banner-img" src="{{ base_banner.banner_object.banner_type.image.url }}">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
                                 <div class="lib-row">
                                     <a href="{% url 'base-banner-detail' base_banner.id %}">Базовый {{ base_banner.id }}</a>
                                     <p>Добавил: {{ base_banner.author.username }} {{ base_banner.day_month_added }}</p>

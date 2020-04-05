@@ -418,6 +418,11 @@ section .section-title {
 	width: 100%;
 }
 
+.billboard-img {
+	max-width: 100%;
+	height: 80%;
+}
+
 .lib-panel .lib-row {
 	padding-top: 10px;
 	padding-right: 10px;
@@ -450,8 +455,8 @@ section .section-title {
 
 .banner-img {
 	max-width: 100%;
-	height: 100%;
-	/*max-height: 300px;*/
+	height: 80%;
+	max-height: 350px;
 	/*max-width: 300px;*/
 }
 
@@ -476,67 +481,67 @@ section .section-title {
 }
 
 .inputfile {
-    width: 0.1px ;
-    height: 0.1px ;
-    opacity: 0;
-    overflow: hidden;
-    position: absolute;
-    z-index: -1;
+	width: 0.1px ;
+	height: 0.1px ;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
 }
 
 .inputfile + label {
 	margin-top: 20px;
-    width: 100%;
-    font-size: 1.25rem;
-    /* 20px */
-    font-weight: 700;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    cursor: pointer;
-    display: inline-block;
-    overflow: hidden;
-    padding: 0.625rem 1.25rem;
-    /* 10px 20px */
+	width: 100%;
+	font-size: 1.25rem;
+	/* 20px */
+	font-weight: 700;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	cursor: pointer;
+	display: inline-block;
+	overflow: hidden;
+	padding: 0.625rem 1.25rem;
+	/* 10px 20px */
 }
 
 .no-js .inputfile + label {
-    display: none;
+	display: none;
 }
 
 .inputfile:focus + label,
 .inputfile.has-focus + label {
-    outline: 1px dotted #000;
-    outline: -webkit-focus-ring-color auto 5px;
+	outline: 1px dotted #000;
+	outline: -webkit-focus-ring-color auto 5px;
 }
 
 .inputfile + label * {
-    /* pointer-events: none; */
-    /* in case of FastClick lib use */
+	/* pointer-events: none; */
+	/* in case of FastClick lib use */
 }
 
 .inputfile + label svg {
-    width: 1em;
-    height: 1em;
-    vertical-align: middle;
-    fill: currentColor;
-    margin-top: -0.25em;
-    /* 4px */
-    margin-right: 0.25em;
-    /* 4px */
+	width: 1em;
+	height: 1em;
+	vertical-align: middle;
+	fill: currentColor;
+	margin-top: -0.25em;
+	/* 4px */
+	margin-right: 0.25em;
+	/* 4px */
 }
 
 
 /* style 1 */
 
 .inputfile-1 + label {
-    color: #f1e5e6;
-    background-color: #d3394c;
+	color: #f1e5e6;
+	background-color: #d3394c;
 }
 
 .inputfile-1:focus + label,
 .inputfile-1.has-focus + label,
 .inputfile-1 + label:hover {
-    background-color: #722040;
+	background-color: #722040;
 }
 
 .billboard_send_timer{
@@ -553,9 +558,84 @@ table.dataTable thead .sorting_desc:after,
 table.dataTable thead .sorting_desc:before,
 table.dataTable thead .sorting_desc_disabled:after,
 table.dataTable thead .sorting_desc_disabled:before {
-  bottom: .5em;
+	bottom: .5em;
 }
 
+
+input[type="checkbox"][class="banner_type_check"] {
+	display: none;
+}
+.banner-type-modal-body {
+	height:70vh;
+	overflow: scroll;
+}
+
+
+.checkbox_label {
+	/*border: 1px solid #fff;*/
+	padding: 10px;
+	display: block;
+	position: relative;
+	margin: 10px;
+	cursor: pointer;
+}
+.checkbox_label:focus, .checkbox_label:focus{
+    outline-style: none;
+    outline: none;
+}
+
+.checkbox_label::-moz-focus-inner {
+   border: 0;
+}
+
+.checkbox_label:before {
+	background-color: white;
+	color: white;
+	content: " ";
+	display: block;
+	border-radius: 50%;
+	border: 1px solid grey;
+	position: absolute;
+	top: -5px;
+	left: -5px;
+	width: 40px;
+	height: 40px;
+	text-align: center;
+	line-height: 28px;
+	transition-duration: 0.4s;
+	transform: scale(0);
+}
+
+.checkbox_label img {
+
+	height: 250px;
+	width: 150px;
+	transition-duration: 0.2s;
+	transform-origin: 50% 50%;
+}
+
+.checkbox_label img:before {
+	height: 250px;
+	width: 150px;
+	transition-duration: 0.2s;
+	transform-origin: 50% 50%;
+}
+
+:checked + label {
+	border-color: #ddd;
+}
+
+:checked + label:before {
+	/*content: "✓";*/
+	background-color: green;
+	transform: scale(1);
+}
+
+:checked + label img {
+	/*transform: scale(0.9);*/
+	/* box-shadow: 0 0 5px #333; */
+	/*z-index: -1;*/
+}
 
 
 /*
@@ -625,3 +705,4 @@ table.dataTable thead .sorting_desc_disabled:before {
 	}
 
 }
+

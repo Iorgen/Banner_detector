@@ -95,7 +95,6 @@ class BillboardCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateVie
                     banner_object.image.name = banner_crop[6:]
                     image = ObjectRecognitionController().open_image(banner_object.image.path)
                     banner_object.descriptor = ObjectRecognitionController().get_descriptor(image).tolist()
-
                     banner_object.save()
                     banner_object = BannerObject.objects.get(id=banner_object.id)
                     banner = Banner()
@@ -104,7 +103,8 @@ class BillboardCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateVie
                     banner.banner_object = banner_object
                     banner.save()
                     banner_ids.append(banner.id)
-            recognize_banners.delay(banner_ids)
+            # recognize_banners.apply_async(args=[banner_ids])
+            recognize_banners.delay(banner_ids=banner_ids)
             billboard.save()
             response = {'recognize': True}
             return JsonResponse(response)

@@ -2,8 +2,8 @@
 {% load static %}
 {% load crispy_forms_tags %}
 {% block header-links %}
-    <link href="{% static 'banner_detector/data_table/css/datatables.min.css' %}" rel="stylesheet">
-    <link href="{% static 'banner_detector/data_table/css/datatables-select.min.css' %}" rel="stylesheet">
+    <link href="{% static 'banner_detector/css/data_table/css/datatables.min.css' %}" rel="stylesheet">
+    <link href="{% static 'banner_detector/css/data_table/css/datatables-select.min.css' %}" rel="stylesheet">
 {% endblock %}
 
 {% block content %}
@@ -30,7 +30,7 @@
             </div>
             <div class="col-md-8">
                 <h3>Список Автобусов</h3>
-                <table id="dtBasicExample" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
+                <table id="bus-dt" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
                     <thead>
                     <tr>
                         <th class="th-sm">ID
@@ -111,8 +111,8 @@
         localStorage.setItem('bus-update-link', '{% url "bus-ajax-update" %}');
         localStorage.setItem('bus-add-link', '{% url "bus-ajax-add" %}');
     </script>
-    <script type="text/javascript" src="{% static 'banner_detector/data_table/js/datatables.min.js' %}"></script>
-    <script type="text/javascript" src="{% static 'banner_detector/data_table/js/datatables-select.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'banner_detector/css/data_table/js/datatables.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'banner_detector/css/data_table/js/datatables-select.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'banner_detector/js/bus.js' %}"></script>
 
 {% endblock scripts %}

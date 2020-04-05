@@ -12,6 +12,11 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 import os
 from ML_detector.core.controller import ObjectDetectionController, ObjectRecognitionController
 from celery.schedules import crontab
+import tensorflow as tf
+# Set CPU as available physical device
+my_devices = tf.config.experimental.list_physical_devices(device_type='CPU')
+tf.config.experimental.set_visible_devices(devices= my_devices, device_type='CPU')
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -143,15 +148,15 @@ CELERY_TASK_SERIALIZER = 'json'
 
 CELERY_TIMEZONE = 'Asia/Novosibirsk'
 # Other Celery settings
-CELERY_BEAT_SCHEDULE = {
-    'task-number-one': {
-        'task': 'banner_detector.tasks.update_active_banner_types',
-        # 'schedule': crontab(minute=59, hour=23),
-        # 'schedule': crontab(hour="*", minute=1),
-        'schedule': crontab(minute="*"),
-    },
-}
-
+# CELERY_BEAT_SCHEDULE = {
+#     'task-number-one': {
+#         'task': 'banner_detector.tasks.update_active_banner_types',
+#         # 'schedule': crontab(minute=59, hour=23),
+#         # 'schedule': crontab(hour="*", minute=1),
+#         'schedule': crontab(minute="*"),
+#     },
+# }
+#
 os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
 os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
 # ObjectDetectionController()

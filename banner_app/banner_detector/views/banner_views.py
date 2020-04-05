@@ -21,7 +21,8 @@ class BannerListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super(BannerListView, self).get_context_data(**kwargs)
         context['list_header'] = self.list_header
-        context['banner_types'] = BannerType.objects.filter(active=True)
+        context['active_banner_types'] = BannerType.objects.filter(active=True)
+        context['in_active_banner_types'] = BannerType.objects.filter(active=False)
         context['banner_objects_ids_in_base_banners'] = list(
             BaseBanner.objects.values_list('banner_object_id', flat=True))
         return context
@@ -46,7 +47,8 @@ class UserBannerListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super(UserBannerListView, self).get_context_data(**kwargs)
         context['list_header'] = self.list_header
-        context['banner_types'] = BannerType.objects.filter(active=True)
+        context['active_banner_types'] = BannerType.objects.filter(active=True)
+        context['in_active_banner_types'] = BannerType.objects.filter(active=False)
         context['banner_objects_ids_in_base_banners'] = list(
             BaseBanner.objects.values_list('banner_object_id', flat=True))
         return context
@@ -60,17 +62,18 @@ class UnknownBannerListView(LoginRequiredMixin, ListView):
     template_name = 'banner_detector/banner/banner_list.html'
     permission_required = 'banner_detector.view_banner'
     context_object_name = 'banners'
-    paginate_by = 15
-    ordering = ['-date_added']
+    paginate_by = 30
+    # ordering = ['-date_added']
     list_header = 'Список афиш с неизвестным классом'
 
     def get_queryset(self):
-        return Banner.objects.unknown()
+        return Banner.objects.unknown().order_by('-date_added')
 
     def get_context_data(self, **kwargs):
         context = super(UnknownBannerListView, self).get_context_data(**kwargs)
         context['list_header'] = self.list_header
-        context['banner_types'] = BannerType.objects.filter(active=True)
+        context['active_banner_types'] = BannerType.objects.filter(active=True)
+        context['in_active_banner_types'] = BannerType.objects.filter(active=False)
         return context
 
 

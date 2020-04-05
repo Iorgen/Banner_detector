@@ -1,4 +1,4 @@
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseBadRequest
 from django.db import transaction
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from ..models import Banner, BannerType, BaseBanner
@@ -13,23 +13,26 @@ class BannerUpdateAJAXView(LoginRequiredMixin, PermissionRequiredMixin, View):
 
     def get(self, request):
         banner_id = request.GET.get('id', None)
-        banner_type_name = request.GET.get('banner_type_name', None)
+        banner_type_id = request.GET.get('bannerTypeId', None)
         banner = Banner.objects.get(id=banner_id)
-        banner_type, created = BannerType.objects.get_or_create(
-            name=banner_type_name,
-            defaults={'author': request.user})
-        banner.banner_object.banner_type = banner_type
-        banner.banner_object.save()
-        banner.recognition_status = True
-        banner.save()
-        # create base banner instance
-        BaseBanner.objects.create(
-            banner_object=banner.banner_object,
-            author=request.user,
-        )
-        banner = {'id': banner.id, 'banner_type': banner.banner_object.banner_type.id}
-        response = {'banner': banner}
-        return JsonResponse(response)
+        banner_type = BannerType.objects.filter(pk=banner_type_id).first()
+        if banner_type is not None:
+            # create base banner instance
+            base_banner, banner_created = BaseBanner.objects.get_or_create(
+                banner_object=banner.banner_object,
+                author=request.user,
+            )
+            banner.banner_object.banner_type = banner_type
+            banner.banner_object.save()
+            banner.base_banner = base_banner
+            banner.recognition_status = True
+            banner.save()
+            banner = {'id': banner.id, 'banner_type': banner.banner_object.banner_type.id}
+            response = {'banner': banner}
+            return JsonResponse(response)
+        else:
+            response = HttpResponseBadRequest('Wrong banner identifier')
+            return response
 
 
 class BannerDeleteAJAXView(LoginRequiredMixin, PermissionRequiredMixin, View):

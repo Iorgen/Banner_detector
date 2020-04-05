@@ -36,14 +36,14 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-4 my-4">
-                                <div class="card card-home" style="">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Добавить тип афиши</h5>
-                                        <a class="stretched-link" href="{% url 'banner-types' %} "></a>
-                                    </div>
-                                </div>
-                            </div>
+{#                            <div class="col-md-4 my-4">#}
+{#                                <div class="card card-home" style="">#}
+{#                                    <div class="card-body">#}
+{#                                        <h5 class="card-title">Добавить тип афиши</h5>#}
+{#                                        <a class="stretched-link" href="{% url 'banner-types' %} "></a>#}
+{#                                    </div>#}
+{#                                </div>#}
+{#                            </div>#}
                             <div class="col-md-4 my-4">
                                 <div class="card card-home" style="">
                                     <div class="card-body">
@@ -123,87 +123,90 @@
                 {% endfor %}
             </div>
             <div class="col-md-4">
-            {% for group in user.groups.all %}
-                {% if group.name == 'manager' %}
-                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Общая информация о системе</h1>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12 my-4">
-                            <div class="list-group">
-                                <div class="list-group-item">
-                                    <i class="fa fa-home"></i> Всего
-                                </div>
-                                <div class="list-group-item">
-                                    <i class="oi oi-crop"></i> Базовых афиш
-                                    <span class="badge badge-pill badge-primary pull-right">
+                {% for group in user.groups.all %}
+                    {% if group.name == 'manager' %}
+                        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                            <h1 class="h3 mb-0 text-gray-800">Общая информация о системе</h1>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 my-4">
+                                <div class="list-group">
+                                    <div class="list-group-item">
+                                        <i class="fa fa-home"></i> Всего
+                                    </div>
+                                    <div class="list-group-item">
+                                        <i class="oi oi-crop"></i> Базовых афиш
+                                        <span class="badge badge-pill badge-primary pull-right">
                                                 {{ number_of_base_banners }}
                                             </span>
-                                </div>
-                                <div class="list-group-item">
-                                    <i class="oi oi-spreadsheet"></i> Стендов
-                                    <span class="badge badge-pill badge-primary pull-right">
+                                    </div>
+                                    <div class="list-group-item">
+                                        <i class="oi oi-spreadsheet"></i> Стендов
+                                        <span class="badge badge-pill badge-primary pull-right">
                                                 {{ number_of_billboards }}
                                             </span>
-                                </div>
-                                <div class="list-group-item">
-                                    <i class="oi oi-document"></i> Афиш
-                                    <span class="badge badge-pill badge-primary pull-right">
+                                    </div>
+                                    <div class="list-group-item">
+                                        <i class="oi oi-document"></i> Афиш
+                                        <span class="badge badge-pill badge-primary pull-right">
                                                 {{ number_of_banners }}
                                             </span>
-                                </div>
-                                <div class="list-group-item">
-                                    <i class="fa fa-music"></i> Объектов в системе
-                                    <span class="badge badge-pill badge-primary pull-right">
+                                    </div>
+                                    <div class="list-group-item">
+                                        <i class="fa fa-music"></i> Объектов в системе
+                                        <span class="badge badge-pill badge-primary pull-right">
                                                 {{ number_of_banner_objects }}
                                             </span>
-                                </div>
-                                <div class="list-group-item">
-                                    <i class="oi oi-spreadsheet"></i> Автобусов
-                                    <span class="badge badge-pill badge-primary pull-right">
+                                    </div>
+                                    <div class="list-group-item">
+                                        <i class="oi oi-spreadsheet"></i> Автобусов
+                                        <span class="badge badge-pill badge-primary pull-right">
                                                 {{ number_of_buses }}
                                             </span>
-                                </div>
-                                <div class="list-group-item">
-                                    <i class="oi oi-person"></i> Расклейщиков
-                                    <span class="badge badge-pill badge-primary pull-right">
+                                    </div>
+                                    <div class="list-group-item">
+                                        <i class="oi oi-person"></i> Расклейщиков
+                                        <span class="badge badge-pill badge-primary pull-right">
                                                 {{ number_of_workers }}
                                             </span>
-                                </div>
-                                <div class="list-group-item">
-                                    <i class="oi oi-arrow-right"></i> Стендов сегодня
-                                    <span class="badge badge-pill badge-success pull-right">
+                                    </div>
+                                    <div class="list-group-item">
+                                        <i class="oi oi-arrow-right"></i> Стендов сегодня
+                                        <span class="badge badge-pill badge-success pull-right">
                                                 {{ today_billboards }}
                                             </span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                    <div class="col-md-12 my-4">
-                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Результаты фоновых задач</h1>
-                    </div>
-                    <div class="list-group" style = "height: 400px; overflow:scroll;">
-                        {% for result in background_tasks_results %}
-                            <div class="list-group-item bg-light">
-                            {{ result.date_done }}
-                            {% if result.task_name == 'banner_detector.tasks.update_active_banner_types'%}
-                                <div> Обновление актуальных типов афиш
-                            {% elif result.task_name == 'banner_detector.tasks.recognize_banners'%}
-                                <div> Распознавание стендов
-                            {% elif result.task_name == 'banner_detector.tasks.recalculate_base_banners_descriptors' %}
-                                <div> Пересчёт афиш и переназначение типов
-                            {% endif %} - {{ result.status }} </div>
+                        <div class="row">
+                            <div class="col-md-12 my-4">
+                                <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                                    <h1 class="h3 mb-0 text-gray-800">Результаты фоновых задач</h1>
+                                </div>
+                                <div class="list-group" style = "height: 400px; overflow:scroll;">
+                                    {% for result in background_tasks_results %}
+                                        <div class="list-group-item bg-light">
+                                            {{ result.date_done }} -
+{#                                            {% if result.task_name == 'banner_detector.tasks.update_active_banner_types'%}#}
+{#                                                Обновление актуальных типов афиш#}
+{#                                            {% elif result.task_name == 'banner_detector.tasks.recognize_banners'%}#}
+{#                                                Распознавание стендов#}
+{#                                            {% elif result.task_name == 'banner_detector.tasks.recognize_banners'%}#}
+{#                                                Пересчёт афиш и переназначение типов#}
+{#                                            {% endif %}#}
+                                            {{ result.task_name }}
+                                            -
+                                            {{ result.status }}
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
                         </div>
-                        {% endfor %}
-                        </div>
-                        </div>
-                    </div>
-                {% endif %}
-            {% endfor %}
-        </div>
-        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
         {% endif %}
         </div>
+    </div>
 {% endblock content %}

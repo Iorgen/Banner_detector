@@ -8,7 +8,10 @@
 
     {% endblock %}
     <link rel="icon" href="{% static 'banner_detector/detector.png' %}" type="image/x-icon">
+    {#    <link rel="stylesheet" href="{% static 'banner_detector/css/mdb_bootstrap/mdb.css' %}">#}
     <link rel="stylesheet" href="{% static 'banner_detector/bootstrap-4.3.1/css/bootstrap.min.css' %}">
+
+
     <link rel="stylesheet" type="text/css" href="{% static 'banner_detector/css/main.css' %}">
     <link href="{% static 'banner_detector/open-iconic/font/css/open-iconic-bootstrap.css' %}" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -21,37 +24,38 @@
 <body>
 {% csrf_token %}
 {#<header class="site-header">#}
-    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-        <div class="container-fluid">
-            <a class="navbar-brand mr-4" href="{% url 'detector-home' %}">
-                <img src="{% static 'banner_detector/detector.png' %}" width="50" height="40" class="d-inline-block align-top" alt="">
-            </a>
-            <button class="navbar-toggler" type="button" data-toggle  ="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarToggle">
-                <div class="navbar-nav mr-auto">
-                    {% if user.is_authenticated %}
-                        <a class="nav-item nav-link" href="{% url 'user-billboards' user.username %}">Мои Стенды</a>
-                        <a class="nav-item nav-link" href="{% url 'user-banners' user.username %}">Мои афишы</a>
-                        <a class="nav-item nav-link" href="{% url 'billboard-create' %}">Добавить Стенд</a>
-                    {% else %}
+<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+    <div class="container-fluid">
+        <a class="navbar-brand mr-4" href="{% url 'detector-home' %}">
+            <img src="{% static 'banner_detector/detector.png' %}" width="50" height="40" class="d-inline-block align-top" alt="">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle  ="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarToggle">
+            <div class="navbar-nav mr-auto">
+                {% if user.is_authenticated %}
+                    <a class="nav-item nav-link" href="{% url 'billboards' %}">Все Стенды</a>
+                    <a class="nav-item nav-link" href="{% url 'banners' %}">Все афиши</a>
+                    <a class="nav-item nav-link" href="{% url 'billboard-create' %}">Сфотографировать Стенд</a>
+                    <a class="nav-item nav-link" href="{% url 'billboard-create' %}">Добавить автобус</a>
+                {% else %}
 
-                    {% endif %}
-                </div>
-                <!-- Navbar Right Side -->
-                <div class="navbar-nav">
-                    {% if user.is_authenticated %}
-                        <a class="nav-item nav-link" href="{% url 'profile' %}">Профиль</a>
-                        <a class="nav-item nav-link" href="{% url 'logout' %}">Выйти</a>
-                    {% else %}
-                        <a class="nav-item nav-link" href="{% url 'login' %}">Авторизация</a>
-                        <a class="nav-item nav-link" href="{% url 'register' %}">Регистрация</a>
-                    {% endif %}
-                </div>
+                {% endif %}
+            </div>
+            <!-- Navbar Right Side -->
+            <div class="navbar-nav">
+                {% if user.is_authenticated %}
+                    <a class="nav-item nav-link" href="{% url 'profile' %}">Профиль</a>
+                    <a class="nav-item nav-link" href="{% url 'logout' %}">Выйти</a>
+                {% else %}
+                    <a class="nav-item nav-link" href="{% url 'login' %}">Авторизация</a>
+                    <a class="nav-item nav-link" href="{% url 'register' %}">Регистрация</a>
+                {% endif %}
             </div>
         </div>
-    </nav>
+    </div>
+</nav>
 {#</header>#}
 
 <section role="main" class="container-fluid">
@@ -85,7 +89,7 @@
     <div class="container-fluid" style="padding: 0% 10% 0% 10%; ">
     </div>
     <div class="copyright text-center">
-        Copyright &copy; 2019 <span>Banner detector App</span>
+        Copyright &copy; 2020 <span>Banner detector App</span> v0.3.12
     </div>
 </footer>
 

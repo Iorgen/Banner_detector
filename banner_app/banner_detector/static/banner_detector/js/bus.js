@@ -1,6 +1,6 @@
 // Basic example
 $(document).ready(function () {
-    $('#dtBasicExample').DataTable({
+    $('#bus-dt').DataTable({
         "searching": true, // false to disable search (or any other option)
         "language": {
             "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"

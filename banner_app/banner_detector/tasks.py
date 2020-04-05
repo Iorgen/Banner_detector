@@ -31,21 +31,21 @@ def save_banner_type(tar_inputs, author):
     tar_inputs.extractall(path='temporary_files')
     for fn in os.listdir(os.path.join('temporary_files', 'cover')):
         with open(os.path.join('temporary_files', 'cover', fn), "rb") as image:
-            django_file = File(image)
+            banner_type_cover = File(image)
             banner_type, banner_type_created = BannerType.objects.get_or_create(
                 name=fn[2:-4],
                 defaults={
-                    'image': django_file,
+                    'image': banner_type_cover,
                     'author': author,
                     'active': True
                 })
-            if not banner_type_created:
-                banner_type.active = True
-                banner_type.save()
+            banner_type.image = banner_type_cover
+            banner_type.active = True
+            banner_type.save()
     os.system('rm -rf temporary_files')
 
 
-@shared_task
+@shared_task(name="Распознавание баннеров")
 def recognize_banners(banner_ids):
     print('start recognize task')
     banners_descriptors = []
@@ -84,7 +84,7 @@ def recognize_banners(banner_ids):
     print('finish recognize task')
 
 
-@shared_task
+@shared_task(name="пересчёт базовых дескрипторов")
 def recalculate_base_banners_descriptors():
     print('start recalculate task ')
     banner_objects = BannerObject.objects.all()
@@ -97,7 +97,7 @@ def recalculate_base_banners_descriptors():
     print('finish recalculate task')
 
 
-@shared_task
+@shared_task(name="Обновить типы баннеров")
 def update_active_banner_types():
     ftpstream = urllib.request.urlopen(settings.COVERS_URL)
     inputs = tarfile.open(fileobj=ftpstream, mode="r|", encoding='cp1251')
