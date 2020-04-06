@@ -147,15 +147,12 @@ CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TASK_SERIALIZER = 'json'
 
 CELERY_TIMEZONE = 'Asia/Novosibirsk'
-# Other Celery settings
-# CELERY_BEAT_SCHEDULE = {
-#     'task-number-one': {
-#         'task': 'banner_detector.tasks.update_active_banner_types',
-#         # 'schedule': crontab(minute=59, hour=23),
-#         # 'schedule': crontab(hour="*", minute=1),
-#         'schedule': crontab(minute="*"),
-#     },
-# }
+CELERY_BEAT_SCHEDULE = {
+    'update-base-banners': {
+        'task': 'Обновить типы баннеров',
+        'schedule': crontab(minute="*"),
+    },
+}
 #
 os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
 os.environ['CUDA_VISIBLE_DEVICES'] = '-1'

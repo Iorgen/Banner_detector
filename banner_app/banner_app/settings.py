@@ -140,7 +140,7 @@ CELERY_TIMEZONE = 'Asia/Novosibirsk'
 # Other Celery settings
 CELERY_BEAT_SCHEDULE = {
     'update-base-banners': {
-        'task': 'banner_detector.tasks.update_active_banner_types',
+        'task': 'пересчёт базовых дескрипторов',
         'schedule': crontab(hour="*", minute=1),
     },
 }
