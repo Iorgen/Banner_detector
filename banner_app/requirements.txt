@@ -26,15 +26,19 @@ django-celery-results==1.1.2
 django-crispy-forms==1.8.0
 django-debug-permissions==1.0.0
 django-timezone-field==4.0
+dnspython==1.16.0
 dominate==2.3.5
 editdistance==0.5.3
 entrypoints==0.3
+eventlet==0.25.1
 fastai==1.0.59
 fastprogress==0.1.21
 flake8==3.7.9
 gast==0.2.2
+gevent==1.4.0
 google-pasta==0.1.7
 graphviz==0.11.1
+greenlet==0.4.15
 grpcio==1.22.0
 gunicorn==19.9.0
 h5py==2.9.0
@@ -58,6 +62,7 @@ Markdown==3.1.1
 MarkupSafe==1.1.1
 matplotlib==3.1.1
 mccabe==0.6.1
+monotonic==1.5
 more-itertools==7.2.0
 murmurhash==1.0.2
 networkx==2.3
