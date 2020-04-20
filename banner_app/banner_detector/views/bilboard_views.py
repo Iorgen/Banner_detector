@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from ..tasks import recognize_banners
 from ..forms import BillboardImageCreationForm
-from ..models import Billboard, Banner, BannerObject, Bus
+from ..models import Billboard, Banner, BannerObject, Bus, BannerType
 from ML_detector.core.controller import ObjectDetectionController, ObjectRecognitionController
 from django.template.loader import render_to_string
 from django.views.generic import (View, ListView, DetailView, CreateView, DeleteView)
@@ -62,6 +62,8 @@ class BillboardDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailVie
         context = super(BillboardDetailView, self).get_context_data(**kwargs)
         banners = Banner.objects.filter(billboard__id=self.object.id)
         context['banners'] = banners
+        context['active_banner_types'] = BannerType.objects.filter(active=True)
+        context['in_active_banner_types'] = BannerType.objects.filter(active=False)
         return context
 
 

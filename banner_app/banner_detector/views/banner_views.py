@@ -3,7 +3,6 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from django.contrib.auth.models import User
 from ..models import Banner, BannerType, BannerObject, BaseBanner
 from django.views.generic import (View, ListView, DetailView)
-from ..managers import BannerManager
 
 
 class BannerListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):

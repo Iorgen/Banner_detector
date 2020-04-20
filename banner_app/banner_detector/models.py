@@ -28,7 +28,10 @@ class Bus(models.Model):
     stand = models.ForeignKey(BillboardType, null=True, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f'{self.number}-{self.registration_number}-{self.stand.name}'
+        if self.stand.name == 'Стенд за водителем':
+            return f'{self.number}-{self.registration_number}'
+        else:
+            return f'{self.number}-{self.registration_number}-{self.stand.id}'
 
     @property
     def today_billboards(self):
@@ -171,4 +174,5 @@ class Banner(models.Model):
     distance = models.FloatField(blank=True, null=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     base_banner = models.ForeignKey(BaseBanner, on_delete=models.CASCADE, blank=True, null=True)
+    active = models.BooleanField(default=False)
     objects = BannerManager()

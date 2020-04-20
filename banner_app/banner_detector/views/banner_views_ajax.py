@@ -57,20 +57,13 @@ class BannerSetAsBaseAJAXView(LoginRequiredMixin, PermissionRequiredMixin, View)
     def get(self, request):
         with transaction.atomic():
             banner_id = request.GET.get('id', None)
-            banner_type_name = request.GET.get('banner_type', None)
+            banner_type_id = request.GET.get('banner_type_id', None)
             banner = Banner.objects.get(id=banner_id)
-            banner_type, banner_type_created = BannerType.objects.get_or_create(
-                name=banner_type_name,
-                defaults={'author': request.user})
-
-            banner.banner_object.banner_type = banner_type
-            banner.banner_object.save()
-
+            # banner_type = BannerType.objects.get(pk=banner_type_id)
             base_banner, base_banner_created = BaseBanner.objects.get_or_create(
-                banner_object=banner.banner_object,
+                banner_object_id=banner.banner_object.id,
                 author=request.user,
             )
 
-            response = {'banner_type_created': banner_type_created,
-                        'base_banner_created': base_banner_created}
+            response = {'base_banner_created': base_banner_created}
         return JsonResponse(response)

@@ -3,210 +3,186 @@
 {% block content %}
     <div class="content-section">
         {% if user.is_authenticated %}
+            {% for group in user.groups.all %}
+                {% if group.name == 'manager' %}
+                {% endif %}
+            {% endfor %}
             <div class="row">
-            <div class="col-md-8">
-                <!-- Page Heading -->
-                <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                    <h1 class="h3 mb-0 text-gray-800">Редактирование</h1>
-                </div>
-                <div class="row">
-                    {% for group in user.groups.all %}
-                        {% if group.name == 'manager'  %}
-                            <div class="col-md-4 my-4">
-                                <div class="card card-home border-left-primary" style="">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Новая базовая афиша</h5>
-                                        <a class="stretched-link" href="{% url 'base-banner-create' %} "></a>
-                                    </div>
+                <div class="col-md-8">
+
+                    <!-- Page Heading -->
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">Афиши</h1>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 my-4">
+                            <div class="card card-home border-left-primary" style="">
+                                <div class="card-body">
+                                    <h5 class="card-title">Новая базовая афиша</h5>
+                                    <a class="stretched-link" href="{% url 'base-banner-create' %} "></a>
                                 </div>
                             </div>
-                            <div class="col-md-4 my-4">
-                                <div class="card card-home" style="">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Импорт базовых афиш</h5>
-                                        <a class="stretched-link" href="{% url 'import-base-banners' %} "></a>
-                                    </div>
+                        </div>
+                        <div class="col-md-4 my-4">
+                            <div class="card card-home" style="">
+                                <div class="card-body">
+                                    <h5 class="card-title">Импорт базовых афиш</h5>
+                                    <a class="stretched-link" href="{% url 'import-base-banners' %} "></a>
                                 </div>
                             </div>
-                            <div class="col-md-4 my-4">
-                                <div class="card card-home" style="">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Добавить Автобус</h5>
-                                        <a class="stretched-link" href="{% url 'buses' %} "></a>
-                                    </div>
+                        </div>
+                        <div class="col-md-4 my-4">
+                            <div class="card card-home" style="">
+                                <div class="card-body">
+                                    <h5 class="card-title">Все базовые афишы</h5>
+                                    <a class="stretched-link" href="{% url 'base-banners' %}"></a>
                                 </div>
                             </div>
-{#                            <div class="col-md-4 my-4">#}
-{#                                <div class="card card-home" style="">#}
-{#                                    <div class="card-body">#}
-{#                                        <h5 class="card-title">Добавить тип афиши</h5>#}
-{#                                        <a class="stretched-link" href="{% url 'banner-types' %} "></a>#}
-{#                                    </div>#}
-{#                                </div>#}
-{#                            </div>#}
-                            <div class="col-md-4 my-4">
-                                <div class="card card-home" style="">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Загрузить актуальные типы афиш </h5>
-                                        <a class="stretched-link" href="{% url 'task-import-banners-type-url' %} "></a>
-                                    </div>
+                        </div>
+                        <div class="col-md-4 my-4">
+                            <div class="card card-home" style="">
+                                <div class="card-body">
+                                    <h5 class="card-title">Нераспознанные афишы</h5>
+                                    <a class="stretched-link" href="{% url 'non-recognized-banners' %}"></a>
                                 </div>
                             </div>
-                            <div class="col-md-4 my-4">
-                                <div class="card card-home" style="">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Пересчет афиш и переназначение типов</h5>
-                                        <a class="stretched-link" href="{% url 'task-update-banner-objects' %} "></a>
-                                    </div>
+                        </div>
+                    </div>
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">Типы стендов</h1>
+                    </div>
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">Стенды</h1>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 my-4">
+                            <div class="card card-home" style="">
+                                <div class="card-body">
+                                    <h5 class="card-title">XML выгрузка за сегодня</h5>
+                                    <a class="stretched-link" href="{% url 'today-billboard-xml-detail' %}" download=""></a>
                                 </div>
                             </div>
-                            <div class="col-md-4 my-4">
-                                <div class="card card-home" style="">
-                                    <div class="card-body">
-                                        <h5 class="card-title">XML выгрузка за сегодня</h5>
-                                        <a class="stretched-link" href="{% url 'today-billboard-xml-detail' %}" download=""></a>
-                                    </div>
+                        </div>
+
+                        <div class="col-md-4 my-4">
+                            <div class="card card-home" style="">
+                                <div class="card-body">
+                                    <h5 class="card-title">Сфотографировать стенд</h5>
+                                    <a class="stretched-link" href="{% url 'billboard-create' %} "></a>
                                 </div>
                             </div>
-                        {% endif %}
-                    {% endfor %}
-                    <div class="col-md-4 my-4">
-                        <div class="card card-home" style="">
-                            <div class="card-body">
-                                <h5 class="card-title">Сфотографировать стенд</h5>
-                                <a class="stretched-link" href="{% url 'billboard-create' %} "></a>
+                        </div>
+
+                        <div class="col-md-4 my-4">
+                            <div class="card card-home" style="">
+                                <div class="card-body">
+                                    <h5 class="card-title">Все стенды</h5>
+                                    <a class=" stretched-link" href="{% url 'billboards' %}"></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">Типы афиш</h1>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 my-4">
+                            <div class="card card-home" style="">
+                                <div class="card-body">
+                                    <h5 class="card-title">Добавить тип афиши</h5>
+                                    <a class="stretched-link" href="{% url 'create-banner-type' %} "></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 my-4">
+                            <div class="card card-home" style="">
+                                <div class="card-body">
+                                    <h5 class="card-title">Загрузить актуальные типы афиш </h5>
+                                    <a class="stretched-link" href="{% url 'task-import-banners-type-url' %} "></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 my-4">
+                            <div class="card card-home" style="">
+                                <div class="card-body">
+                                    <h5 class="card-title">Пересчет афиш и переназначение типов</h5>
+                                    <a class="stretched-link" href="{% url 'task-update-banner-objects' %} "></a>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                {% for group in user.groups.all %}
-                    {% if group.name == 'manager'  %}
-                        <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                            <h1 class="h3 mb-0 text-gray-800">Просмотр</h1>
-                        </div>
-                        <div class="row">
-
-                            <div class="col-md-4 my-4">
-                                <div class="card card-home" style="">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Все базовые афишы</h5>
-                                        <a class="stretched-link" href="{% url 'base-banners' %}"></a>
-                                    </div>
+                <div class="col-md-4">
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">Общая информация о системе</h1>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 my-4">
+                            <div class="list-group">
+                                <div class="list-group-item">
+                                    <i class="fa fa-home"></i> Всего
                                 </div>
-                            </div>
-                            <div class="col-md-4 my-4">
-                                <div class="card card-home" style="">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Все афишы</h5>
-                                        <a class="stretched-link" href="{% url 'banners' %}"></a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4 my-4">
-                                <div class="card card-home" style="">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Нераспознанные афишы</h5>
-                                        <a class="stretched-link" href="{% url 'non-recognized-banners' %}"></a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4 my-4">
-                                <div class="card card-home" style="">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Все стенды</h5>
-                                        <a class=" stretched-link" href="{% url 'billboards' %}"></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    {% endif %}
-                {% endfor %}
-            </div>
-            <div class="col-md-4">
-                {% for group in user.groups.all %}
-                    {% if group.name == 'manager' %}
-                        <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                            <h1 class="h3 mb-0 text-gray-800">Общая информация о системе</h1>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12 my-4">
-                                <div class="list-group">
-                                    <div class="list-group-item">
-                                        <i class="fa fa-home"></i> Всего
-                                    </div>
-                                    <div class="list-group-item">
-                                        <i class="oi oi-crop"></i> Базовых афиш
-                                        <span class="badge badge-pill badge-primary pull-right">
+                                <div class="list-group-item">
+                                    <i class="oi oi-crop"></i> Базовых афиш
+                                    <span class="badge badge-pill badge-primary pull-right">
                                                 {{ number_of_base_banners }}
                                             </span>
-                                    </div>
-                                    <div class="list-group-item">
-                                        <i class="oi oi-spreadsheet"></i> Стендов
-                                        <span class="badge badge-pill badge-primary pull-right">
+                                </div>
+                                <div class="list-group-item">
+                                    <i class="oi oi-spreadsheet"></i> Стендов
+                                    <span class="badge badge-pill badge-primary pull-right">
                                                 {{ number_of_billboards }}
                                             </span>
-                                    </div>
-                                    <div class="list-group-item">
-                                        <i class="oi oi-document"></i> Афиш
-                                        <span class="badge badge-pill badge-primary pull-right">
+                                </div>
+                                <div class="list-group-item">
+                                    <i class="oi oi-document"></i> Афиш
+                                    <span class="badge badge-pill badge-primary pull-right">
                                                 {{ number_of_banners }}
                                             </span>
-                                    </div>
-                                    <div class="list-group-item">
-                                        <i class="fa fa-music"></i> Объектов в системе
-                                        <span class="badge badge-pill badge-primary pull-right">
+                                </div>
+                                <div class="list-group-item">
+                                    <i class="fa fa-music"></i> Объектов в системе
+                                    <span class="badge badge-pill badge-primary pull-right">
                                                 {{ number_of_banner_objects }}
                                             </span>
-                                    </div>
-                                    <div class="list-group-item">
-                                        <i class="oi oi-spreadsheet"></i> Автобусов
-                                        <span class="badge badge-pill badge-primary pull-right">
+                                </div>
+                                <div class="list-group-item">
+                                    <i class="oi oi-spreadsheet"></i> Автобусов
+                                    <span class="badge badge-pill badge-primary pull-right">
                                                 {{ number_of_buses }}
                                             </span>
-                                    </div>
-                                    <div class="list-group-item">
-                                        <i class="oi oi-person"></i> Расклейщиков
-                                        <span class="badge badge-pill badge-primary pull-right">
+                                </div>
+                                <div class="list-group-item">
+                                    <i class="oi oi-person"></i> Расклейщиков
+                                    <span class="badge badge-pill badge-primary pull-right">
                                                 {{ number_of_workers }}
                                             </span>
-                                    </div>
-                                    <div class="list-group-item">
-                                        <i class="oi oi-arrow-right"></i> Стендов сегодня
-                                        <span class="badge badge-pill badge-success pull-right">
+                                </div>
+                                <div class="list-group-item">
+                                    <i class="oi oi-arrow-right"></i> Стендов сегодня
+                                    <span class="badge badge-pill badge-success pull-right">
                                                 {{ today_billboards }}
                                             </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 my-4">
+                            <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                                <h1 class="h3 mb-0 text-gray-800">Результаты фоновых задач</h1>
+                            </div>
+                            <div class="list-group" style = "height: 400px; overflow:scroll;">
+                                {% for result in background_tasks_results %}
+                                    <div class="list-group-item bg-light">
+                                        {{ result.date_done }} - {{ result.task_name }} - {{ result.status }}
                                     </div>
-                                </div>
+                                {% endfor %}
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-md-12 my-4">
-                                <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                                    <h1 class="h3 mb-0 text-gray-800">Результаты фоновых задач</h1>
-                                </div>
-                                <div class="list-group" style = "height: 400px; overflow:scroll;">
-                                    {% for result in background_tasks_results %}
-                                        <div class="list-group-item bg-light">
-                                            {{ result.date_done }} -
-{#                                            {% if result.task_name == 'banner_detector.tasks.update_active_banner_types'%}#}
-{#                                                Обновление актуальных типов афиш#}
-{#                                            {% elif result.task_name == 'banner_detector.tasks.recognize_banners'%}#}
-{#                                                Распознавание стендов#}
-{#                                            {% elif result.task_name == 'banner_detector.tasks.recognize_banners'%}#}
-{#                                                Пересчёт афиш и переназначение типов#}
-{#                                            {% endif %}#}
-                                            {{ result.task_name }}
-                                            -
-                                            {{ result.status }}
-                                        </div>
-                                    {% endfor %}
-                                </div>
-                            </div>
-                        </div>
-                    {% endif %}
-                {% endfor %}
+                    </div>
+                </div>
             </div>
         {% endif %}
-        </div>
     </div>
 {% endblock content %}

@@ -33,8 +33,8 @@ class BannerTypeCreationForm(forms.ModelForm):
 
     class Meta:
         model = BannerType
-        fields = ['name']
-        labels = {'name': 'Название'}
+        fields = ['name', 'image', 'active']
+        labels = {'name': 'Название', 'image': 'Изображение'}
 
 
 class BusCreationForm(forms.ModelForm):

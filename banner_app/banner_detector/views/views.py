@@ -41,7 +41,11 @@ def home(request):
         'profiles': Profile.objects.all(),
         'background_tasks_results': TaskResult.objects.all()
     }
-    return render(request, 'banner_detector/home.html', context)
+    # if 'manager' not request.user.groups:
+    if request.user.groups.filter(name='manager').exists():
+        return render(request, 'banner_detector/home.html', context)
+    else:
+        return redirect('billboard-create')
 
 
 class ImportBaseBanners(LoginRequiredMixin, PermissionRequiredMixin, View):

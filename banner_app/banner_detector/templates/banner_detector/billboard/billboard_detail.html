@@ -1,4 +1,6 @@
 {% extends "banner_detector/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
 {% block content %}
     <div class="content-section">
         <div class="col-md-12">
@@ -8,41 +10,24 @@
         </div>
 
         <div class="col-md-12">
-            <legend class="">
-                <a class ="btn btn-primary" href="{% url 'billboard-xml-detail' billboard.id %}" download="">Скачать XML</a>
-            </legend>
-            <div>
-                <a class = "btn btn-danger btn-sm mt-1 mb-1" href="{% url 'billboard-delete' billboard.id%}">Удалить</a>
+            <div style ="display: inline;">
+                <legend class="">
+                    <a class ="btn btn-primary" href="{% url 'billboard-xml-detail' billboard.id %}" download="">Скачать XML</a>
+                </legend>
+                <div>
+                    <a class = "btn btn-danger btn-sm mt-1 mb-1" href="{% url 'billboard-delete' billboard.id%}">Удалить</a>
+                </div>
             </div>
         </div>
-        <div class="row">
-            {% for banner in banners %}
-                <div class="col-md-3">
-                    <div class="card">
-                        <img class="" style ="height: 200px;" src="{{ banner.banner_object.image.url }}" alt="banner cap">
-                        <div class="card-body">
-                            <h5 class="card-title">Афиша определился как
-                                {% if banner.banner_object.banner_type is None %}
-                                    <p>неизвестен</p>
-                                {% else %}
-                                    <p>{{ banner.banner_object.banner_type }}</p>
-                                    </h5>
-                                    {% if banner.recognition_status%}
-                                        <p>Распознан</p>
-                                    {% else %}
-                                        <p>В очереди на распознавание</p>
-                                    {% endif %}
-
-                                {% endif %}
-                            <p>distance: {{ banner.distance }}</p>
-                            <p>
-                                <span class="oi oi-person" title="icon person" aria-hidden="true"></span>
-                                {{ banner.billboard.author }}
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
-        </div>
+        {% include 'banner_detector/banner/banners_partial.html' %}
     </div>
 {% endblock content %}
+
+{% block scripts %}
+    <script>
+        localStorage.setItem('banner-update-link', '{% url "banner-ajax-update" %}');
+        localStorage.setItem('banner-delete-link', '{% url "banner-ajax-delete" %}');
+        localStorage.setItem('banner-set-as-base-link', '{% url "banner-ajax-set-as-base" %}');
+    </script>
+    <script type="text/javascript" src="{% static 'banner_detector/js/banners_lists.js' %}"></script>
+{% endblock scripts %}

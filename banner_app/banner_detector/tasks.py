@@ -77,6 +77,7 @@ def recognize_banners(banner_ids):
         if sorted(distance)[0] > ObjectRecognitionController.distance_threshold:
             print('не распознан')
             banner.recognition_status = True
+            banner.active = False
             # banner.banner_object.descriptor = banners_descriptors[i].tolist()
             banner.banner_object.save()
             banner.save()
@@ -85,6 +86,7 @@ def recognize_banners(banner_ids):
             banner.banner_object.banner_type = target_base_banner.banner_object.banner_type
             banner.banner_object.save()
             banner.base_banner = target_base_banner
+            banner.active = target_base_banner.banner_object.banner_type.active
             banner.recognition_status = True
             banner.save()
     print('finish recognize task')
