@@ -22,7 +22,9 @@
                             <div class="lib-row">
                                 <p>Детектировано: {{ billboard.banners_count }}</p>
                                 <p>Распознанных как неизвестно: {{ billboard.get_not_classified_banners }}</p>
-                                <p>Распознано: {{ billboard.get_recognized_banners }}</p>
+                                <p>Мусор: {{ billboard.number_of_trash_posters }}</p>
+                                <p>Социальная реклама: {{ billboard.number_of_social_posters }}</p>
+{#                                <p>Распознано: {{ billboard.get_recognized_banners }}</p>#}
                             </div>
                         </div>
                     </div>

@@ -3,6 +3,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from django.contrib.auth.models import User
 from ..models import Banner, BannerType, BannerObject, BaseBanner
 from django.views.generic import (View, ListView, DetailView)
+from django.conf import settings
 
 
 class BannerListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
@@ -24,6 +25,8 @@ class BannerListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
         context['in_active_banner_types'] = BannerType.objects.filter(active=False)
         context['banner_objects_ids_in_base_banners'] = list(
             BaseBanner.objects.values_list('banner_object_id', flat=True))
+        context['garbage_banner_type_name'] = settings.GARBAGE_BANNER_TYPE
+        context['social_banner_type_name'] = settings.SOCIAL_BANNER_TYPE
         return context
 
 
@@ -50,6 +53,8 @@ class UserBannerListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
         context['in_active_banner_types'] = BannerType.objects.filter(active=False)
         context['banner_objects_ids_in_base_banners'] = list(
             BaseBanner.objects.values_list('banner_object_id', flat=True))
+        context['garbage_banner_type_name'] = settings.GARBAGE_BANNER_TYPE
+        context['social_banner_type_name'] = settings.SOCIAL_BANNER_TYPE
         return context
 
 
@@ -73,6 +78,8 @@ class UnknownBannerListView(LoginRequiredMixin, ListView):
         context['list_header'] = self.list_header
         context['active_banner_types'] = BannerType.objects.filter(active=True)
         context['in_active_banner_types'] = BannerType.objects.filter(active=False)
+        context['garbage_banner_type_name'] = settings.GARBAGE_BANNER_TYPE
+        context['social_banner_type_name'] = settings.SOCIAL_BANNER_TYPE
         return context
 
 

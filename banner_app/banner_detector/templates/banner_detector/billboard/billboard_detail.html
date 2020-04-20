@@ -28,6 +28,8 @@
         localStorage.setItem('banner-update-link', '{% url "banner-ajax-update" %}');
         localStorage.setItem('banner-delete-link', '{% url "banner-ajax-delete" %}');
         localStorage.setItem('banner-set-as-base-link', '{% url "banner-ajax-set-as-base" %}');
+        localStorage.setItem('banner-set-as-garbage-link', '{% url "banner-ajax-set-as-garbage" %}');
+        localStorage.setItem('banner-set-as-social-link', '{% url "banner-ajax-set-as-social" %}');
     </script>
     <script type="text/javascript" src="{% static 'banner_detector/js/banners_lists.js' %}"></script>
 {% endblock scripts %}

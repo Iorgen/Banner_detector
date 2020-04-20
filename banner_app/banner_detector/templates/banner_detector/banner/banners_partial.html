@@ -27,7 +27,7 @@
                                 {% for banner_type in active_banner_types %}
                                     <div class="col-md-3 banner-type">
                                         <input type="checkbox" id="banner_type_checkbox_{{banner_type.pk}}" class="banner_type_check" value="{{banner_type.pk}}" name="banner_type_id"
-                                        banner_type_name = "{{banner_type.name}}"  banner_type_id ="{{banner_type.pk}}"
+                                               banner_type_name = "{{banner_type.name}}"  banner_type_id ="{{banner_type.pk}}"
                                         />
                                         <label class="checkbox_label" for="banner_type_checkbox_{{banner_type.pk}}">
                                             <p>{{ banner_type.name }}</p>
@@ -72,6 +72,7 @@
             <div class="row box-shadow mx-3 my-3">
                 <div class="col-md-3 py-3 " >
                     <p> Выделенное изображение афишы</p>
+                    {{ banner.distance }}
                     <br>
                     <img class="banner-img" src="{{ banner.banner_object.image.url }}">
                 </div>
@@ -89,12 +90,22 @@
                     <div class="lib-row">
                         <div class="list-group">
                             {{ banner.active }}
+                            {% if banner.banner_object.banner_type.name != None %}
+                                {% if banner.banner_object.banner_type.name == social_banner_type %}
+                                    соц реклама
+                                {% elif banner.banner_object.banner_type.name == garbage_banner_type %}
+                                    Мусор
+                                {% else %}
+                                    -
+                                {% endif %}
+                            {% endif %}
+
+
                             <a href="{% url 'billboard-detail' banner.billboard.id %}" class="list-group-item list-group-item-action">
                                 Ссылка на исходный Стенд
                             </a>
                             <div class="list-group-item" style="text-overflow: ellipsis;overflow: hidden;white-space: nowrap;">
                                 {{ banner.date_added }}
-                                {#                                     <span class="badge badge-pill pull-right"> Добавлено  </span>#}
                             </div>
                             <div class="list-group-item">
                                 {{ banner.billboard.author }}
@@ -110,7 +121,7 @@
 
                                 <div class="form-group">
                                     <input class="form-control" type="text" name="banner_type" id="set_banner_type_btn" banner_type_id="{{ banner.banner_object.banner_type.pk }}"
-                                    value="{{ banner.banner_object.banner_type.name }}" banner-attr="banner-{{ banner.id }}" readonly>
+                                           value="{{ banner.banner_object.banner_type.name }}" banner-attr="banner-{{ banner.id }}" readonly>
                                 </div>
                                 <div class="form-group">
                                     <button class="btn btn-primary form-control" type="submit">Обновить тип и установить базовым</button>
@@ -122,10 +133,10 @@
                             <button class="btn btn-danger form-control" onClick="deleteBanner({{banner.id}});">Удалить</button>
                         </div>
                         <div class="form-group">
-                            <button id="set_as_garbage" class="btn btn-danger form-control">Мусор</button>
+                            <button id="set_as_garbage" class="btn btn-danger form-control" onclick="setAsGarbage({{ banner.id }})">Мусор</button>
                         </div>
                         <div class="form-group">
-                            <button id ="set_as_social" class="btn btn-outline-success form-control" >Социальная реклама </button>
+                            <button id ="set_as_social" class="btn btn-outline-success form-control" onclick="setAsSocial({{ banner.id }})" >Социальная реклама </button>
                         </div>
                         {% if banner.banner_object.banner_type is None %}
                             <p> Класс неизвестен</p>

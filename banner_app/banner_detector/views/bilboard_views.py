@@ -15,6 +15,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.db.models import ProtectedError
 from django.http import JsonResponse
 from datetime import datetime, timedelta, date
+from django.conf import settings
 
 
 class BillboardListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
@@ -30,6 +31,8 @@ class BillboardListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super(BillboardListView, self).get_context_data(**kwargs)
+        context['garbage_banner_type_name'] = settings.GARBAGE_BANNER_TYPE
+        context['social_banner_type_name'] = settings.SOCIAL_BANNER_TYPE
         return context
 
 
@@ -64,6 +67,8 @@ class BillboardDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailVie
         context['banners'] = banners
         context['active_banner_types'] = BannerType.objects.filter(active=True)
         context['in_active_banner_types'] = BannerType.objects.filter(active=False)
+        context['garbage_banner_type_name'] = settings.GARBAGE_BANNER_TYPE
+        context['social_banner_type_name'] = settings.SOCIAL_BANNER_TYPE
         return context
 
 

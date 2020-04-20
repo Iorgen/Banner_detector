@@ -10,17 +10,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from PIL import Image
 
 
-# Create your views here.
-def home(request):
-    context = {
-        'title': 'Banner_detector',
-    }
-    return render(request, 'banner_detector/home.html', context)
-
-
 class BannerTypeCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
-    """
-    View for new banner type creation
+    """ Create new banner type using ['name', 'image', 'active']
     """
     model = BannerType
     form_class = BannerTypeCreationForm

@@ -1,10 +1,12 @@
 import pandas as pd
+import torch
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 from django.urls import reverse
 from django.contrib.postgres.fields import ArrayField
 from django.template.loader import render_to_string
+from django.conf import settings
 from .managers import BannerManager
 from datetime import date
 
@@ -31,7 +33,7 @@ class Bus(models.Model):
         if self.stand.name == 'Стенд за водителем':
             return f'{self.number}-{self.registration_number}'
         else:
-            return f'{self.number}-{self.registration_number}-{self.stand.id}'
+            return f'{self.number}-{self.registration_number}-{self.stand.serial_number}'
 
     @property
     def today_billboards(self):
@@ -81,12 +83,6 @@ class Billboard(models.Model):
         not_classified_banners = Banner.objects.filter(billboard__id=self.pk, recognition_status=True)
         return len(not_classified_banners)
 
-    def banners_count(self):
-        """
-        :return: int()
-        """
-        return Banner.objects.filter(billboard_id=self.pk).count()
-
     def export_xml(self):
         """
 
@@ -103,6 +99,23 @@ class Billboard(models.Model):
     @property
     def get_banners(self):
         return Banner.objects.filter(billboard=self)
+
+    @property
+    def banners_count(self):
+        """
+        :return: int()
+        """
+        return Banner.objects.filter(billboard_id=self.pk).count()
+
+    @property
+    def number_of_trash_posters(self):
+        trash_type = BannerType.objects.filter(name=settings.GARBAGE_BANNER_TYPE).first()
+        return Banner.objects.filter(billboard_id=self.pk, banner_object__banner_type_id=trash_type.id).count()
+
+    @property
+    def number_of_social_posters(self):
+        social_type = BannerType.objects.filter(name=settings.SOCIAL_BANNER_TYPE).first()
+        return Banner.objects.filter(billboard_id=self.pk, banner_object__banner_type_id=social_type.id).count()
 
 
 class BannerType(models.Model):
@@ -126,7 +139,7 @@ class BannerObject(models.Model):
     date_added = models.DateTimeField(default=timezone.now)
     image = models.ImageField(default='default.jpg', upload_to='banners')
     descriptor = ArrayField(models.FloatField(), null=False)
-    banner_type = models.ForeignKey(BannerType, on_delete=models.CASCADE, blank=True, null=True)
+    banner_type = models.ForeignKey(BannerType, on_delete=models.SET_NULL, blank=True, null=True)
 
 
 class BaseBanner(models.Model):
@@ -173,6 +186,16 @@ class Banner(models.Model):
     date_added = models.DateTimeField(default=timezone.now)
     distance = models.FloatField(blank=True, null=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
-    base_banner = models.ForeignKey(BaseBanner, on_delete=models.CASCADE, blank=True, null=True)
+    base_banner = models.ForeignKey(BaseBanner, on_delete=models.SET_NULL, blank=True, null=True)
     active = models.BooleanField(default=False)
     objects = BannerManager()
+
+    def save(self, *args, **kwargs):
+        if (self.base_banner is not None) and \
+                (self.banner_object is not None):
+            self.distance = torch.pairwise_distance(
+                torch.FloatTensor(self.banner_object.descriptor),
+                torch.FloatTensor([self.base_banner.banner_object.descriptor])
+            ).cpu().numpy()[0]
+            self.active = self.base_banner.banner_object.banner_type.active
+        super(Banner, self).save(*args, **kwargs)

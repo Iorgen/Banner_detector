@@ -102,25 +102,49 @@ $("input:checkbox").on('click', function() {
 
 })
 
+function setAsGarbage(bannerId){
+    $.ajax({
+        method: "POST",
+        url: localStorage.getItem('banner-set-as-garbage-link'),
+        data: {
+            'id': bannerId,
+            'csrfmiddlewaretoken': $('input[name="csrfmiddlewaretoken"]').val()
+        },
+        dataType: 'json',
+        success: function (data) {
+            var message = '';
+            if (data.set) {
+                message = message + 'Афиша установлена как Мусорная';
+            } else {
+                message = message + 'Ошибка ';
+            }
+            showAlert(message);
+        }
+    });
+}
 
 
-
-
-
-// Force set as garbage type
-$("input[id='set_as_garbage']").on('click', function(event) {
-    var bannerTypeId = $("input[banner-attr=" + tag + "]").val();
-
-
-});
-// Force set as social adword type
-$("input[id='set_as_social']").on('click', function(event) {
-    var banner_id = $(this.form).find("input[name='formId']").val()
-    $("input[name='intermediate_banner_id']").val(banner_id);
-    $('#banner_type_modal_select').modal('show');
-});
-
-
+//
+function setAsSocial(bannerId){
+    $.ajax({
+        method: "POST",
+        url: localStorage.getItem('banner-set-as-social-link'),
+        data: {
+            'id': bannerId,
+            'csrfmiddlewaretoken': $('input[name="csrfmiddlewaretoken"]').val()
+        },
+        dataType: 'json',
+        success: function (data) {
+            var message = '';
+            if (data.set) {
+                message = message + 'Афиша установлена как Социальная';
+            } else {
+                message = message + 'Ошибка ';
+            }
+            showAlert(message);
+        }
+    });
+}
 
 // Set banner as base banner function
 function setAsBase(bannerId) {

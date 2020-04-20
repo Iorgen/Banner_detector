@@ -10,8 +10,13 @@ from .views.base_banner_views import (BaseBannerCreateView, BaseBannerDetailView
                                       BaseBannerListView, BaseBannerDeleteView)
 from .views.banner_views import (BannerListView, UserBannerListView, UnknownBannerListView,
                                  BannerDetailView)
-from .views.banner_views_ajax import (BannerUpdateAJAXView, BannerDeleteAJAXView, BannerSetAsBaseAJAXView)
+from .views.banner_views_ajax import (BannerUpdateAJAXView, BannerDeleteAJAXView,
+                                      BannerSetAsBaseAJAXView, BannerSetAsGarbageAJAXView,
+                                      BannerSetAsSocialAJAXView
+                                      )
 from .views.banner_type_views_ajax import (BannerTypeCreateAJAXView, BannerTypeCreateView, BannerTypeUpdateAJAXView)
+from .views.stand_type_views import (StandTypeCreateView)
+
 
 urlpatterns = [
     # Main app page
@@ -49,6 +54,8 @@ urlpatterns = [
     path('banners/crud/delete/', BannerDeleteAJAXView.as_view(), name='banner-ajax-delete'),
     path('banners/crud/update/', BannerUpdateAJAXView.as_view(), name='banner-ajax-update'),
     path('banners/crud/set-as-base/', BannerSetAsBaseAJAXView.as_view(), name='banner-ajax-set-as-base'),
+    path('banners/crud/set-as-garbage/', BannerSetAsGarbageAJAXView.as_view(), name='banner-ajax-set-as-garbage'),
+    path('banners/crud/set-as-social/', BannerSetAsSocialAJAXView.as_view(), name='banner-ajax-set-as-social'),
 
     # Bus Ajax CRUD Operations
     path('buses/', BusListView.as_view(), name='buses'),
@@ -64,6 +71,9 @@ urlpatterns = [
     path('banner_type/crud/update/', BannerTypeUpdateAJAXView.as_view(), name='banner-type-ajax-update'),
     # path('banner_type/crud/delete/', BusDeleteAJAXView.as_view(), name='banner-type-ajax-delete'),
 
+    # Stand type views
+    path('stand_type/create', StandTypeCreateView.as_view(), name='create-stand-type'),
+
     # Import Base Banner
     path('import_base_banners/', ImportBaseBanners.as_view(), name='import-base-banners'),
     path('import_banners_type/', ImportBannersTypesFromFile.as_view(), name='import-banners-type'),
@@ -71,5 +81,6 @@ urlpatterns = [
     # Task views
     path('import_banners_type_from_url/', ImportBannersTypesFromUrl.as_view(), name='task-import-banners-type-url'),
     path('update_banner_objects_descriptors/', UpdateBannerObjectsDescriptors.as_view(), name='task-update-banner-objects')
+
 
 ]
