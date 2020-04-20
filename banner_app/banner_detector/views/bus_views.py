@@ -18,7 +18,7 @@ class BusListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super(BusListView, self).get_context_data(**kwargs)
-        stand_types =  BillboardType.objects.all()
+        stand_types = BillboardType.objects.all()
         context['stand_types'] = stand_types
         return context
 
