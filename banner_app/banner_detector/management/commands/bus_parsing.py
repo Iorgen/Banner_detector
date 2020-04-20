@@ -3,15 +3,11 @@ from banner_detector.tasks import recalculate_base_banners_descriptors, parse_bu
 
 
 class Command(BaseCommand):
-    """
-    management command for descriptors updating
-    """
-    help = "Recalculate all descriptors in database"
+    help = "Upload into database all buses from buses.csv "
 
     def handle(self, *args, **options):
         """
-        Method recalculate all descriptors in database
-        Start only if recognition model was updated
+        Method load buses into database
         :param args:
         :param options:
         :return:

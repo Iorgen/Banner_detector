@@ -1,6 +1,6 @@
 from __future__ import absolute_import, unicode_literals
 from celery import shared_task
-from .models import Banner, BaseBanner, Bus, BannerObject, BannerType
+from .models import Banner, BaseBanner, Bus, BannerObject, BannerType, BillboardType
 from PIL import Image
 from ML_detector.core.controller import ObjectRecognitionController
 from django.contrib.auth.models import User
@@ -16,12 +16,18 @@ import os
 
 
 def parse_buses():
-    with open('output.csv', 'r') as f:
+    with open('buses.csv', 'r') as f:
         reader = csv.reader(f)
+        stand_type, created = BillboardType.objects.get_or_create(
+            pk=0,
+            defaults={'serial_number': 1, 'name': 'Стенд за водителем', 'description': 'Описание'}
+        )
+        print('Default stand type created')
         for row in reader:
             Bus.objects.create(
                 number=row[0],
-                registration_number=row[1]
+                registration_number=row[1],
+                stand_id=stand_type.id
             )
 
 

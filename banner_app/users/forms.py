@@ -10,8 +10,8 @@ class UserRegisterForm(UserCreationForm):
     class Meta:
         model = User
         fields = ['username', 'email', 'password1', 'password2']
-        labels = {'username': 'Никнейм', 'password1': 'Пароль',
-                  'password2': 'Подтверждение пароля'}
+        # labels = {'username': 'Никнейм', 'password1': 'Пароль',
+        #           'password2': 'Подтверждение пароля'}
 
 
 class UserUpdateForm(forms.ModelForm):
@@ -20,12 +20,12 @@ class UserUpdateForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['username', 'email']
-        labels = {'username': 'Никнейм', 'email': 'Емэйл'}
+        # labels = {'username': 'Никнейм', 'email': 'Емэйл'}
 
 
 class ProfileUpdateForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ['first_name', 'second_name', 'image']
-        labels = {'image': 'Аватар', 'first_name': 'Имя',
-                  'second_name': 'Фамилия'}
+        # labels = {'image': 'Аватар', 'first_name': 'Имя',
+        #           'second_name': 'Фамилия'}

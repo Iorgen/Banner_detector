@@ -1,5 +1,4 @@
-// Basic example
-$(document).ready(function () {
+function initSearchTable(){
     $('#bus-dt').DataTable({
         "searching": true, // false to disable search (or any other option)
         "language": {
@@ -9,19 +8,23 @@ $(document).ready(function () {
 
     });
     $('.dataTables_length').addClass('bs-select');
+}
+
+$(document).ready(function () {
+    initSearchTable();
 });
 
 // Bus create AJAX request
 $("form#addBus").submit(function() {
     var numberInput = $('input[name="number"]').val().trim();
     var registrationNumberInput = $('input[name="registration_number"]').val().trim();
-    var standNumberInput = $('input[name="stand_number"]').val().trim();
+    var standTypeId = $('select[name="stand_type"] option:selected').val().trim();
     if (numberInput) {
         $.ajax({
             url: localStorage.getItem('bus-add-link'),
             data: {
                 'number': numberInput,
-                'stand_number': standNumberInput,
+                'standTypeId': standTypeId,
                 'registration_number': registrationNumberInput,
                 'csrfmiddlewaretoken': $('input[name="csrfmiddlewaretoken"]').val()
             },
@@ -29,6 +32,7 @@ $("form#addBus").submit(function() {
             success: function (data) {
                 if (data.bus) {
                     appendToBusTable(data.bus);
+                    showAlert("Автобус успешно создан");
                 }
             }
         });
@@ -78,32 +82,14 @@ $("form#updateBus").submit(function(event) {
 
 // Append bus new bus to bus list
 function appendToBusTable(bus) {
-    $("#busTable:last-child").append(`
-<div id="bus-${bus.id}">
-<form method="POST" id="updateBus">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <div>
-                                            <input class="form-control" id="form-id" type="hidden" name="formId" value="${ bus.id }">
-                                            <div class="busNumber busData input-group" name="number">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text" id="">
-                                                        Маршрут и гос. номер
-                                                    </span>
-                                                </div>
-                                        
-                                            <input class="form-control" id="form-number" type="text" value="${bus.number}"name="formNumber"/>
-                                            <input class="form-control" id="form-registration-number" type="text" value="${bus.registration_number}"name="formRegistrationNumber"/>
-                                            <div class="input-group-append">
-                                                 <button class="btn btn-success form-control" type="submit">Редактировать</button>
-                                            </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                        </div>
-    `);
+    var table = $('#bus-dt').DataTable();
+    var rowNode = table.row.add([
+        bus.stand.stand_name,
+        bus.number,
+        bus.registration_number
+    ]).draw().node();
+
+    $(rowNode)
+    .css( 'color', 'red' )
+    .animate( { color: 'black' } );
 }

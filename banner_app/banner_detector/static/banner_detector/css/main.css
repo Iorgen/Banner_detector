@@ -607,9 +607,8 @@ input[type="checkbox"][class="banner_type_check"] {
 }
 
 .checkbox_label img {
-
-	height: 250px;
-	width: 150px;
+	height: auto ;
+	width: 100%;
 	transition-duration: 0.2s;
 	transform-origin: 50% 50%;
 }

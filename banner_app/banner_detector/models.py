@@ -6,7 +6,17 @@ from django.urls import reverse
 from django.contrib.postgres.fields import ArrayField
 from django.template.loader import render_to_string
 from .managers import BannerManager
-from datetime import datetime, timedelta, date
+from datetime import date
+
+
+class BillboardType(models.Model):
+    """ Store information about billboard type (for bus side)"""
+    serial_number = models.IntegerField(default=1)
+    name = models.CharField(max_length=20, default="Название")
+    description = models.CharField(max_length=100, default="Описание")
+
+    def __str__(self):
+        return f'Тип Стенда номер{self.serial_number}-{self.description}'
 
 
 class Bus(models.Model):
@@ -15,10 +25,10 @@ class Bus(models.Model):
     """
     number = models.CharField(max_length=20, default="1")
     registration_number = models.CharField(max_length=20, default="1")
-    stand_number = models.IntegerField(default=1)
+    stand = models.ForeignKey(BillboardType, null=True, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f'{str(self.stand_number)}-{self.number}-{self.registration_number}'
+        return f'{self.number}-{self.registration_number}-{self.stand.name}'
 
     @property
     def today_billboards(self):

@@ -1,6 +1,7 @@
 from django.urls import path
 from .views.views import (home, ImportBaseBanners, ImportBannersTypesFromFile)
 from .views.task_views import (ImportBannersTypesFromUrl, UpdateBannerObjectsDescriptors)
+
 from .views.bus_views import (BusCreateAJAXView, BusDeleteAJAXView, BusListView, BusUpdateAJAXView)
 from .views.bilboard_views import (BillboardListView, UserBillboardListView,
                                    BillboardDetailView, BillboardCreateView, BillboardXmlExportView,

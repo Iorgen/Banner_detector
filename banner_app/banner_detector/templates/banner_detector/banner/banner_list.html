@@ -15,9 +15,9 @@
                 <input type="hidden" name="intermediate_banner_id" value=""/>
 
                 <div class="modal-header">
-                    <h4 class="modal-title w-100" id="myModalLabel">Modal title</h4>
+                    <h4 class="modal-title w-100" id="myModalLabel">Образцы афиш</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
+                        <span aria-hidden="true"></span>
                     </button>
                 </div>
 
@@ -33,24 +33,28 @@
                         </ul>
                         <div class="tab-content" id="pills-tabContent">
                             <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
-                                 <div class="row">
+                                <div class="row">
                                     {% for banner_type in active_banner_types %}
-                                        <div class="col-md-3 banner-type">
+                                        <div class="col-md-4 banner-type">
                                             <input type="checkbox" id="banner_type_checkbox_{{banner_type.pk}}" class="banner_type_check" value="{{banner_type.pk}}" name="banner_type_id" />
                                             <label class="checkbox_label" for="banner_type_checkbox_{{banner_type.pk}}">
-                                                <img alt="{{banner_type.name}}" src="{{ banner_type.image.url }}"  width="100%" height="300px"/>
+                                                <img alt="{{banner_type.name}}" src="{{ banner_type.image.url }}"
+{#                                                     width="100%" height="300px"#}
+                                                />
                                             </label>
                                         </div>
                                     {% endfor %}
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
-                                 <div class="row">
+                                <div class="row">
                                     {% for banner_type in in_active_banner_types %}
                                         <div class="col-md-3 banner-type">
                                             <input type="checkbox" id="banner_type_checkbox_{{banner_type.pk}}" class="banner_type_check" value="{{banner_type.pk}}" name="banner_type_id" />
                                             <label class="checkbox_label" for="banner_type_checkbox_{{banner_type.pk}}">
-                                                <img alt="{{banner_type.name}}" src="{{ banner_type.image.url }}"  width="100%" height="300px"/>
+                                                <img alt="{{banner_type.name}}" src="{{ banner_type.image.url }}"
+{#                                                     width="100%" height="300px"#}
+                                                />
                                             </label>
                                         </div>
                                     {% endfor %}
@@ -90,19 +94,16 @@
                     <div class="col-md-3 py-3">
                         <div class="lib-row">
                             <div class="list-group">
-                                <a href="{% url 'billboard-detail' banner.billboard.id %}" class="list-group-item list-group-item-action ">
-                                    Биллборд
+                                <a href="{% url 'billboard-detail' banner.billboard.id %}" class="list-group-item list-group-item-action">
+                                    Ссылка на исходный Стенд
                                 </a>
                                 <div class="list-group-item" style="text-overflow: ellipsis;overflow: hidden;white-space: nowrap;">
                                     {{ banner.date_added }}
+{#                                     <span class="badge badge-pill pull-right"> Добавлено  </span>#}
                                 </div>
                                 <div class="list-group-item">
-                                    Дистанция
-                                    <span class="badge badge-pill pull-right"> {{ banner.distance|floatformat }} </span>
-                                </div>
-                                <div class="list-group-item">
-                                    Автор
-                                    <span class="badge badge-pill pull-right">  {{ banner.billboard.author }} </span>
+                                    {{ banner.billboard.author }}
+                                    <span class="badge badge-pill pull-right"> Автор  </span>
                                 </div>
                             </div>
 
@@ -123,6 +124,12 @@
                             </div>
                             <div class="form-group">
                                 <button class="btn btn-danger form-control" onClick="deleteBanner({{banner.id}});">Удалить</button>
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-danger form-control" onClick="deleteBanner({{banner.id}});">Мусор</button>
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-outline-success form-control" onClick="alert('Отметить как социальная')">Социальная реклама </button>
                             </div>
                             {% if banner.banner_object.banner_type is None %}
                                 <p> Класс неизвестен</p>
