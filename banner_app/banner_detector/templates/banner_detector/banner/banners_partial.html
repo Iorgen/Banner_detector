@@ -72,7 +72,7 @@
             <div class="row box-shadow mx-3 my-3">
                 <div class="col-md-3 py-3 " >
                     <p> Выделенное изображение афишы</p>
-                    {{ banner.distance }}
+{#                    {{ banner.distance }}#}
                     <br>
                     <img class="banner-img" src="{{ banner.banner_object.image.url }}">
                 </div>
@@ -89,18 +89,16 @@
                 <div class="col-md-3 py-3">
                     <div class="lib-row">
                         <div class="list-group">
-                            {{ banner.active }}
-                            {% if banner.banner_object.banner_type.name != None %}
-                                {% if banner.banner_object.banner_type.name == social_banner_type %}
-                                    соц реклама
-                                {% elif banner.banner_object.banner_type.name == garbage_banner_type %}
-                                    Мусор
-                                {% else %}
-                                    -
-                                {% endif %}
-                            {% endif %}
-
-
+{#                            {{ banner.active }}#}
+{#                            {% if banner.banner_object.banner_type.name != None %}#}
+{#                                {% if banner.banner_object.banner_type.name == social_banner_type %}#}
+{#                                    соц реклама#}
+{#                                {% elif banner.banner_object.banner_type.name == garbage_banner_type %}#}
+{#                                    Мусор#}
+{#                                {% else %}#}
+{#                                    #}
+{#                                {% endif %}#}
+{#                            {% endif %}#}
                             <a href="{% url 'billboard-detail' banner.billboard.id %}" class="list-group-item list-group-item-action">
                                 Ссылка на исходный Стенд
                             </a>

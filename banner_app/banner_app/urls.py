@@ -26,7 +26,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('banner_detector.urls')),
 
-    # registraion user urls
+    # registration user urls
     path('register/', user_views.register, name='register'),
     path('profile/', user_views.profile, name='profile'),
 
