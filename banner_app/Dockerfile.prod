@@ -48,7 +48,7 @@ WORKDIR $APP_HOME
 
 # install dependencies
 RUN apt-get update && apt-get install libpq-dev && apt-get install -y netcat
-RUN apt-get install software-properties-common && apt-add-repository multiverse && sudo apt-get update -y
+RUN apt-get install software-properties-common && apt-add-repository multiverse && apt-get update -y
 COPY --from=builder /usr/src/banner_app/wheels /wheels
 COPY --from=builder /usr/src/banner_app/requirements.txt .
 RUN pip3 install --upgrade pip
