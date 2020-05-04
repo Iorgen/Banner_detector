@@ -5,7 +5,7 @@ from .views.task_views import (ImportBannersTypesFromUrl, UpdateBannerObjectsDes
 from .views.bus_views import (BusCreateAJAXView, BusDeleteAJAXView, BusListView, BusUpdateAJAXView)
 from .views.bilboard_views import (BillboardListView, UserBillboardListView,
                                    BillboardDetailView, BillboardCreateView, BillboardXmlExportView,
-                                   BillboardDeleteView, TodayBillboardsXmlExportView)
+                                   BillboardDeleteView, TodayBillboardsXmlExportView, ImportBillboards, XmlExportPage)
 from .views.base_banner_views import (BaseBannerCreateView, BaseBannerDetailView,
                                       BaseBannerListView, BaseBannerDeleteView)
 from .views.banner_views import (BannerListView, UserBannerListView, UnknownBannerListView,
@@ -31,6 +31,7 @@ urlpatterns = [
 
     path('billboard/xml/<int:id>', BillboardXmlExportView.as_view(), name='billboard-xml-detail'),
     path('billboard/today_xml/', TodayBillboardsXmlExportView.as_view(), name='today-billboard-xml-detail'),
+    path('billboard/xml_interval/', XmlExportPage.as_view(), name='interval-billboard-xml-detail'),
 
     path('billboard/<int:pk>/delete/', BillboardDeleteView.as_view(), name='billboard-delete'),
 
@@ -76,7 +77,10 @@ urlpatterns = [
 
     # Import Base Banner
     path('import_base_banners/', ImportBaseBanners.as_view(), name='import-base-banners'),
+    # Import banner types
     path('import_banners_type/', ImportBannersTypesFromFile.as_view(), name='import-banners-type'),
+    # Import billboards
+    path('import_billboards/', ImportBillboards.as_view(), name='import-billboards'),
 
     # Task views
     path('import_banners_type_from_url/', ImportBannersTypesFromUrl.as_view(), name='task-import-banners-type-url'),

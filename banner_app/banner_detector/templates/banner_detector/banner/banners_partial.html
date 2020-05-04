@@ -99,7 +99,7 @@
 {#                                    #}
 {#                                {% endif %}#}
 {#                            {% endif %}#}
-                            <a href="{% url 'billboard-detail' banner.billboard.id %}" class="list-group-item list-group-item-action">
+                            <a href="{% url 'billboard-detail' banner.billboard.id %}#Banner-{{ banner.id }}" class="list-group-item list-group-item-action">
                                 Ссылка на исходный Стенд
                             </a>
                             <div class="list-group-item" style="text-overflow: ellipsis;overflow: hidden;white-space: nowrap;">

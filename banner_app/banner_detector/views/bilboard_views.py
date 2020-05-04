@@ -1,21 +1,23 @@
 import os
+from django.core.files.storage import default_storage
+from django.core.files.base import ContentFile
 from django.shortcuts import render, redirect, get_object_or_404
 from django.db import transaction
 from django.urls import reverse
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-from ..tasks import recognize_banners
-from ..forms import BillboardImageCreationForm
-from ..models import Billboard, Banner, BannerObject, Bus, BannerType
-from ML_detector.core.controller import ObjectDetectionController, ObjectRecognitionController
 from django.template.loader import render_to_string
 from django.views.generic import (View, ListView, DetailView, CreateView, DeleteView)
 from django.http import HttpResponse, HttpResponseRedirect
 from django.db.models import ProtectedError
 from django.http import JsonResponse
-from datetime import datetime, timedelta, date
+from datetime import date, datetime
 from django.conf import settings
+from ..tasks import recognize_banners, recognize_billboards_from_rar
+from ..forms import BillboardImageCreationForm, ImportBillboardsForm, XMLExportForm
+from ..models import Billboard, Banner, BannerObject, Bus, BannerType
+from ML_detector.core.controller import ObjectDetectionController, ObjectRecognitionController
 
 
 class BillboardListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
@@ -160,6 +162,7 @@ class BillboardXmlExportView(LoginRequiredMixin, PermissionRequiredMixin, View):
         xml = render_to_string(self.template_name,
                                {'banners': banners, 'billboard': billboard})
         response = HttpResponse(xml)
+        response['Content-Disposition'] = 'attachment; filename="' + str(billboard.date_added) + '.xml"'
         return response
 
 
@@ -186,3 +189,75 @@ class TodayBillboardsXmlExportView(LoginRequiredMixin, PermissionRequiredMixin, 
         response = HttpResponse(xml)
         response['Content-Disposition'] = 'attachment; filename="' + str(today) + '.xml"'
         return response
+
+
+class ImportBillboards(LoginRequiredMixin, PermissionRequiredMixin, View):
+    """
+
+    """
+    form_class = ImportBillboardsForm
+    permission_required = 'banner_detector.add_basebanner'
+
+    def get(self, request, *args, **kwargs):
+        form = self.form_class()
+        return render(request, 'banner_detector/import_billboards.html', {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST, request.FILES)
+        if form.is_valid():
+            default_storage.save('temporary_files/billboards/recognize.rar',
+                                 ContentFile(request.FILES['archive_file'].read()))
+            recognize_billboards_from_rar.delay('temporary_files/billboards/recognize.rar', request.user.id)
+            messages.add_message(self.request, messages.INFO, 'стенды загружены и отправлены на распознавание')
+            return redirect(reverse('detector-home'))
+        else:
+            messages.add_message(self.request, messages.ERROR, 'Произошла ошибка!')
+            return render(request, 'banner_detector/import_base_banners.html', {'form': form})
+
+
+class XmlExportPage(LoginRequiredMixin, PermissionRequiredMixin, View):
+    """
+
+    """
+    template_name = 'banner_detector/interval_banner_info.xml'
+    permission_required = 'banner_detector.view_billboard'
+    form_class = XMLExportForm
+    model = Billboard
+
+    def get(self, request, *args, **kwargs):
+        form = self.form_class()
+        return render(request, 'banner_detector/export_templates/XML_export.html', {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST, request.FILES)
+        if form.is_valid():
+            # Get date from POST form
+            date_from = form.cleaned_data['date_from']
+            date_to = form.cleaned_data['date_to']
+            # Convert to datetime and set hour and minute
+            datetime_from = datetime(year=date_from.year, month=date_from.month, day=date_from.day, hour=0, minute=0)
+            datetime_to = datetime(year=date_to.year, month=date_to.month, day=date_to.day, hour=23, minute=59)
+            # Get interval buses
+            current_buses = Billboard.objects.filter(
+                date_added__lte=datetime_to,
+                date_added__gte=datetime_from,
+
+            ).values_list('bus_id').distinct()
+            # TODO check how i can
+            current_buses = Bus.objects.filter(id__in=current_buses)
+            bus_billboards_list = []
+            for bus in current_buses:
+                bus_billboards_list.extend(bus.interval_billboards(datetime_from, datetime_to))
+
+            xml = render_to_string(self.template_name, {
+                'datetime_from': datetime_from,
+                'datetime_to': datetime_to,
+                'buses': current_buses,
+                'billboards_list': bus_billboards_list
+            })
+            response = HttpResponse(xml)
+            response['Content-Disposition'] = 'attachment; filename="' + str(datetime_from) + str(datetime_to) + '.xml"'
+            return response
+        else:
+            messages.add_message(self.request, messages.ERROR, 'Произошла ошибка!')
+            return render(request, 'banner_detector/export_templates/XML_export.html', {'form': form})

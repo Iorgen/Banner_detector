@@ -1,18 +1,23 @@
 from __future__ import absolute_import, unicode_literals
-from celery import shared_task
-from .models import Banner, BaseBanner, Bus, BannerObject, BannerType, BillboardType
-from PIL import Image
-from ML_detector.core.controller import ObjectRecognitionController
-from django.contrib.auth.models import User
-from django.conf import settings
-from django.core.files import File
-from django.core.exceptions import PermissionDenied
 import torch
 import numpy as np
 import csv
 import urllib.request
 import tarfile
 import os
+import rarfile
+import re
+from celery import shared_task
+from .models import Banner, BaseBanner, Bus, BannerObject, BannerType, BillboardType, Billboard
+from ML_detector.core.controller import ObjectRecognitionController, ObjectDetectionController
+from django.contrib.auth.models import User
+from django.conf import settings
+from django.core.files import File
+from django.core.exceptions import PermissionDenied
+from django.db import transaction
+from django.core.files.uploadedfile import InMemoryUploadedFile
+from io import BytesIO
+from PIL import Image
 
 
 def parse_buses():
@@ -34,9 +39,9 @@ def parse_buses():
 def save_banner_type(tar_inputs, author):
     # TODO refactoring on temporary built-in temporary files
     BannerType.objects.all().update(active=False)
-    tar_inputs.extractall(path='temporary_files')
-    for fn in os.listdir(os.path.join('temporary_files', 'cover')):
-        with open(os.path.join('temporary_files', 'cover', fn), "rb") as image:
+    tar_inputs.extractall(path='media/temporary_files/banner_types')
+    for fn in os.listdir(os.path.join('media', 'temporary_files', 'banner_types', 'cover')):
+        with open(os.path.join('media', 'temporary_files', 'banner_types', 'cover', fn), "rb") as image:
             banner_type_cover = File(image)
             banner_type, banner_type_created = BannerType.objects.get_or_create(
                 name=fn[2:-4],
@@ -48,7 +53,7 @@ def save_banner_type(tar_inputs, author):
             banner_type.image = banner_type_cover
             banner_type.active = True
             banner_type.save()
-    os.system('rm -rf temporary_files')
+    os.system('rm -rf media/temporary_files/banner_types')
 
 
 @shared_task(name="Распознавание баннеров")
@@ -105,7 +110,7 @@ def recalculate_base_banners_descriptors():
     print('finish recalculate task')
 
 
-@shared_task(name="Обновить типы баннеров")
+@shared_task(name="Обновить сканы афиш")
 def update_active_banner_types():
     ftpstream = urllib.request.urlopen(settings.COVERS_URL)
     inputs = tarfile.open(fileobj=ftpstream, mode="r|", encoding='cp1251')
@@ -114,3 +119,76 @@ def update_active_banner_types():
         save_banner_type(inputs, author)
     except Exception:
         raise PermissionDenied()
+
+
+@shared_task()
+def recognize_billboards_from_rar(rar_path, user_id):
+    user = User.objects.get(id=user_id)
+    with rarfile.RarFile(os.path.join('media', rar_path), 'r') as billboards_rar:
+        for file in billboards_rar.infolist():
+            if bool(re.search(".jpg", file.filename)):
+                # Get image from rar file
+                image_data = billboards_rar.read(file)
+                image = InMemoryUploadedFile(
+                    file=BytesIO(image_data),
+                    field_name=file.filename,
+                    name=file.filename,
+                    content_type='image/jpg',
+                    size=len(image_data),
+                    charset='utf-8'
+                )
+                # TODO Optimize in one regex
+                bus_tags = re.sub('Стенды/', '', file.filename)
+                bus_tags = re.sub('.jpg', '', bus_tags)
+
+                bus_tags = bus_tags.split('-')
+                if len(bus_tags) == 3:
+                    billboard_type, bt_created = BillboardType.objects.get_or_create(
+                        name='Заднее стекло'
+                    )
+                    bus, bus_created = Bus.objects.get_or_create(
+                        number=bus_tags[0],
+                        registration_number=bus_tags[1],
+                        stand=billboard_type
+                    )
+                    billboard = Billboard.objects.create(
+                        image=image,
+                        bus=bus,
+                        author=user
+                    )
+
+                elif len(bus_tags) == 2:
+                    billboard_type, bt_created = BillboardType.objects.get_or_create(
+                        name='Стенд за водителем'
+                    )
+                    bus, bus_created = Bus.objects.get_or_create(
+                        number=bus_tags[0],
+                        registration_number=bus_tags[1],
+                        stand=billboard_type
+                    )
+                    billboard = Billboard.objects.create(
+                        image=image,
+                        bus=bus,
+                        author=user
+                    )
+                banners_crops = ObjectDetectionController().banner_detection(billboard)
+                # # TODO fix костыль связанный с несовместимостью путей Django и image.ai
+                billboard.detected_image.name = os.path.join('detected_banners', billboard.image.name)
+                banner_ids = []
+                for idx, banner_crop in enumerate(banners_crops[1]):
+                    with transaction.atomic():
+                        banner_object = BannerObject()
+                        banner_object.image.name = banner_crop[6:]
+                        image = ObjectRecognitionController().open_image(banner_object.image.path)
+                        banner_object.descriptor = ObjectRecognitionController().get_descriptor(image).tolist()
+                        banner_object.save()
+                        banner_object = BannerObject.objects.get(id=banner_object.id)
+                        banner = Banner()
+                        banner.billboard = billboard
+                        banner.author = user
+                        banner.banner_object = banner_object
+                        banner.save()
+                        banner_ids.append(banner.id)
+                recognize_banners(banner_ids=banner_ids)
+                billboard.save()
+    os.system('rm -rf ' + os.path.join('media', rar_path))

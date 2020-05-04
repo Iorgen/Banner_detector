@@ -1,13 +1,10 @@
 function initSearchTable(){
-    $('#bus-dt').DataTable({
-        "searching": true, // false to disable search (or any other option)
-        "language": {
-            "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"
-        },
-        "ordering": true // false to disable sorting (or any other option)
-
+    $('#bus-dt').mdbEditor({
+        modalEditor: true,
+        headerLength: 4
     });
     $('.dataTables_length').addClass('bs-select');
+
 }
 
 $(document).ready(function () {
@@ -84,12 +81,13 @@ $("form#updateBus").submit(function(event) {
 function appendToBusTable(bus) {
     var table = $('#bus-dt').DataTable();
     var rowNode = table.row.add([
+        bus.id,
         bus.stand.stand_name,
         bus.number,
         bus.registration_number
     ]).draw().node();
 
     $(rowNode)
-    .css( 'color', 'red' )
-    .animate( { color: 'black' } );
+        .css( 'color', 'red' )
+        .animate( { color: 'black' } );
 }

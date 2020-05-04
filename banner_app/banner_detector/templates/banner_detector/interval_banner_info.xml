@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<buses>
+    {% for bus in buses %}
+        <bus>
+            <bus_number>{{ bus.registration_number }}</bus_number>
+            <date_time>{{ datetime_from }} - {{ datetime_to }}</date_time>
+            <stands>
+                {% for billboard in billboards_list %}
+                    {% if billboard.bus.id == bus.id %}
+                        <stand>
+                            <type>stand</type>
+                            <ads>
+                                {% for banner in billboard.get_banners %}
+                                    <c>{{ banner.banner_object.banner_type.name }}</c>
+                                {% endfor %}
+                            </ads>
+                        </stand>
+                    {% endif %}
+                {% endfor %}
+            </stands>
+        </bus>
+    {% endfor %}
+</buses>

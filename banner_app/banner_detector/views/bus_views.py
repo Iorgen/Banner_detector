@@ -31,7 +31,7 @@ class BusCreateAJAXView(LoginRequiredMixin, PermissionRequiredMixin, View):
 
     def get(self, request):
         number = request.GET.get('number', None)
-        registration_number = request.GET.get('registration_number', None)
+        registration_number = request.GET.get('registrationNumber', None)
         stand_type_id = request.GET.get('standTypeId', None)
 
         bus_object = Bus.objects.create(
@@ -61,7 +61,7 @@ class BusDeleteAJAXView(LoginRequiredMixin, PermissionRequiredMixin, View):
     permission_required = 'banner_detector.delete_bus'
 
     def get(self, request):
-        bus_id = request.GET.get('id', None)
+        bus_id = request.GET.get('busId', None)
         Bus.objects.get(id=bus_id).delete()
         response = {
             'deleted': True
@@ -76,12 +76,14 @@ class BusUpdateAJAXView(LoginRequiredMixin, PermissionRequiredMixin, View):
     permission_required = 'banner_detector.change_bus'
 
     def get(self, request):
-        bus_id = request.GET.get('id', None)
-        number = request.GET.get('number', None)
-        registration_number = request.GET.get('registration_number', None)
+        bus_id = request.GET.get('busId', None)
+        standTypeId = request.GET.get('standTypeId', None)
+        number = request.GET.get('busNumber', None)
+        registration_number = request.GET.get('busRegistrationNumber', None)
 
         bus_object = Bus.objects.get(id=bus_id)
         bus_object.number = number
+        bus_object.stand_id = standTypeId
         bus_object.registration_number = registration_number
         bus_object.save()
 

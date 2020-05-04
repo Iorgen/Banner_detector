@@ -2,70 +2,197 @@
 {% load static %}
 {% load crispy_forms_tags %}
 {% block header-links %}
-    <link href="{% static 'banner_detector/css/data_table/css/datatables.min.css' %}" rel="stylesheet">
-    <link href="{% static 'banner_detector/css/data_table/css/datatables-select.min.css' %}" rel="stylesheet">
+    <link href="{% static 'banner_detector/css/mdb/datatables.min.css' %}" rel="stylesheet">
+    <link href="{% static 'banner_detector/css/mdb/table-editor.min.css' %}" rel="stylesheet">
 {% endblock %}
 
 {% block content %}
     <div class="content-section">
         {% csrf_token %}
         <div class="row">
-            <div class="col-md-4 ">
-                <h3>Добавить автобус</h3>
-                <form id="addBus" action="">
-                    <div class="form-group">
-                        <label for="stand_number">Тип стенда</label>
-                        <select id="stand_number" class="form-control" name="stand_type" required>
-                            {% for stand_type in stand_types %}
-                                <option value={{ stand_type.pk }}> {{ stand_type.name }} </option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="number">Номер маршрута</label>
-                        <input id="number" class="form-control" type="text" name="number" placeholder="Номер" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="registration_number">Регистрационный номер</label>
-                        <input id="registration_number"  class="form-control" type="text" name="registration_number" placeholder="Регистрационный номер" required>
-                    </div>
-                    <button class="btn btn-primary form-control" type="submit">Добавить</button>
-                </form>
-            </div>
-            <div class="col-md-8">
+{#            <div class="col-md-4 ">#}
+{#                <h3>Добавить автобус</h3>#}
+{#                <form id="addBus" action="">#}
+{#                    <div class="form-group">#}
+{#                        <label for="stand_number">Тип стенда</label>#}
+{#                        <select id="stand_number" class="form-control" name="stand_type" required>#}
+{#                            {% for stand_type in stand_types %}#}
+{#                                <option value={{ stand_type.pk }}> {{ stand_type.name }} </option>#}
+{#                            {% endfor %}#}
+{#                        </select>#}
+{#                    </div>#}
+{#                    <div class="form-group">#}
+{#                        <label for="number">Номер маршрута</label>#}
+{#                        <input id="number" class="form-control" type="text" name="number" placeholder="Номер" required>#}
+{#                    </div>#}
+{#                    <div class="form-group">#}
+{#                        <label for="registration_number">Регистрационный номер</label>#}
+{#                        <input id="registration_number"  class="form-control" type="text" name="registration_number" placeholder="Регистрационный номер" required>#}
+{#                    </div>#}
+{#                    <button class="btn btn-primary form-control" type="submit">Добавить</button>#}
+{#                </form>#}
+{#            </div>#}
+            <div class="col-md-12">
                 <h3>Список Автобусов</h3>
-                <table id="bus-dt" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
-                    <thead>
-                    <tr>
-                        <th class="th-sm">Тип стенда
-                        </th>
-                        <th class="th-sm">Номер маршрута
-                        </th>
-                        <th class="th-sm">Номер автобуса
-                        </th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for bus in buses %}
-                        <tr>
-                            <td>{{bus.stand.name}}</td>
-                            <td>{{bus.number}}</td>
-                            <td>{{bus.registration_number}}</td>
-                        </tr>
-                    {% endfor %}
+                <div class="wrapper-editor">
 
-                    </tbody>
-                    <tfoot>
-                    <tr>
-                        <th class="th-sm">Тип стенда
-                        </th>
-                        <th class="th-sm">Номер маршрута
-                        </th>
-                        <th class="th-sm">Номер автобуса
-                        </th>
-                    </tr>
-                    </tfoot>
-                </table>
+                    <div class="block my-4">
+                        <div class="d-flex justify-content-center">
+                            <p class="h5 text-primary createShowP">0 выбрано</p>
+                        </div>
+                    </div>
+                    <div class="row d-flex justify-content-center modalWrapper">
+                        <div class="modal fade addNewInputs" id="modalAdd" tabindex="-1" role="dialog" aria-labelledby="modalAdd"
+                             aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header text-center">
+                                        <h4 class="modal-title w-100 font-weight-bold text-primary ml-5">Добавить автобус</h4>
+                                        <button type="button" class="close text-primary" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body mx-3">
+
+                                        <div class="md-form mb-5">
+                                            <select type="text" id="inputStandNumber" class="form-control validate" name="addStandType" required>
+                                                {% for stand_type in stand_types %}
+                                                    <option value="{{ stand_type.pk }}">{{ stand_type.name }} </option>
+                                                {% endfor %}
+                                            </select>
+                                            <label data-error="wrong" data-success="right" for="inputStandNumber">Тип стенда</label>
+                                        </div>
+                                        <div class="md-form mb-5">
+                                            <input type="text" id="inputNumber" class="form-control validate" required>
+                                            <label data-error="wrong" data-success="right" for="inputNumber">Номер маршрута</label>
+                                        </div>
+                                        <div class="md-form mb-5">
+                                            <input type="text" id="inputRegistrationNumber" class="form-control validate" required>
+                                            <label data-error="wrong" data-success="right" for="inputRegistrationNumber">Номер автобуса</label>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer d-flex justify-content-center buttonAddFormWrapper">
+                                        <button class="btn btn-outline-primary btn-block buttonAdd" data-dismiss="modal">Сохранить
+                                            <i class="far fa-paper-plane ml-1"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center wrapperToBtnModalAdd">
+                            <a href="" class="btn btn-info btn-rounded btn-sm btnToModalAdd" data-toggle="modal" data-target="#modalAdd">Добавить автобус<i
+                                    class="fas fa-plus-square ml-1"></i></a>
+                        </div>
+                        <div class="modal fade modalEditClass" id="modalEdit" tabindex="-1" role="dialog" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header text-center">
+                                        <h4 class="modal-title w-100 font-weight-bold text-secondary ml-5">Редактировать</h4>
+                                        <button type="button" class="close text-secondary" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body mx-3 modal-inputs">
+                                        <!-- Stand type selector  -->
+                                         <div class="md-form mb-5">
+                                            <select type="text" id="inputStandNumber" class="form-control validate" name="editStandType" required>
+                                                {% for stand_type in stand_types %}
+                                                    <option value="{{ stand_type.pk }}">{{ stand_type.name }} </option>
+
+                                                {% endfor %}
+                                            </select>
+                                            <label data-error="wrong" data-success="right" for="inputPosition">Тип стенда</label>
+                                        </div>
+                                        <!-- ID HIDDEN input  -->
+                                        <input type="hidden" id="BusId" name="BusId" class="form-control validate">
+                                        <!-- Bus number input  -->
+                                        <div class="md-form mb-5">
+                                            <input type="text" id="inputNumber" class="form-control validate">
+                                            <label data-error="wrong" data-success="right" for="formOfficeEdit">Номер маршрута</label>
+                                        </div>
+                                        <!-- Bus Registration number input  -->
+                                        <div class="md-form mb-5">
+                                            <input type="text" id="inputRegistrationNumber" class="form-control validate">
+                                            <label data-error="wrong" data-success="right" for="formAgeEdit">Номер автобуса</label>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer d-flex justify-content-center editInsideWrapper">
+                                        <button class="btn btn-outline-secondary btn-block editInside" data-dismiss="modal">Edit
+                                            form
+                                            <i class="far fa-paper-plane ml-1"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center buttonEditWrapper">
+                            <button class="btn btn-info btn-rounded btn-sm buttonEdit" data-toggle="modal" data-target="#modalEdit"
+                                    disabled>Редактировать автобус <i class="fas fa-pen-square ml-1"></i></a>
+                        </div>
+                        <div class="modal fade" id="modalDelete" tabindex="-1" role="dialog" aria-labelledby="modalDelete" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header text-center">
+                                        <h4 class="modal-title w-100 font-weight-bold ml-5 text-danger">Удалить</h4>
+                                        <button type="button" class="close text-danger" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body mx-3">
+                                        <p class="text-center h4">Are you sure to delete selected row?</p>
+                                    </div>
+                                    <div class="modal-footer d-flex justify-content-center deleteButtonsWrapper">
+                                        <button type="button" class="btn btn-outline-danger btnYesClass" id="btnYes" data-dismiss="modal">Yes
+                                            <i class="far fa-paper-plane ml-1"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-outline-primary btnNoClass" id="btnNo" data-dismiss="modal">No
+                                            <i class="far fa-paper-plane ml-1"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center wrapperToBtnModalAdd">
+                            <button class="btn btn-danger btn-sm btn-rounded buttonDelete" data-toggle="modal" disabled data-target="#modalDelete"
+                                    disabled>Удалить<i class="fas fa-times ml-1"></i></a>
+                        </div>
+                    </div>
+                    <table id="bus-dt" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
+                        <thead>
+                        <tr>
+                            <th class="th-sm">ID</th>
+                            <th class="th-sm">Тип стенда
+                            </th>
+                            <th class="th-sm">Номер маршрута
+                            </th>
+                            <th class="th-sm">Рег. Номер автобуса
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for bus in buses %}
+                            <tr>
+                                <td>{{bus.pk}}</td>
+                                <td>{{bus.stand.name}}</td>
+                                <td>{{bus.number}}</td>
+                                <td>{{bus.registration_number}}</td>
+                            </tr>
+                        {% endfor %}
+
+                        </tbody>
+                        <tfoot>
+                        <tr>
+                            <th class="th-sm">ID</th>
+                            <th class="th-sm">Тип стенда
+                            </th>
+                            <th class="th-sm">Номер маршрута
+                            </th>
+                            <th class="th-sm">Рег. Номер автобуса
+                            </th>
+                        </tr>
+                        </tfoot>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -73,11 +200,14 @@
 
 {% block scripts %}
     <script>
-        localStorage.setItem('bus-update-link', '{% url "bus-ajax-update" %}');
         localStorage.setItem('bus-add-link', '{% url "bus-ajax-add" %}');
+        localStorage.setItem('bus-update-link', '{% url "bus-ajax-update" %}');
+        localStorage.setItem('bus-delete-link', '{% url "bus-ajax-delete" %}');
     </script>
-    <script type="text/javascript" src="{% static 'banner_detector/css/data_table/js/datatables.min.js' %}"></script>
-    <script type="text/javascript" src="{% static 'banner_detector/css/data_table/js/datatables-select.min.js' %}"></script>
+
+    <script type="text/javascript" src="{% static 'banner_detector/js/mdb_editor/mdb.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'banner_detector/js/mdb_editor/datatables.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'banner_detector/js/mdb_editor/mdb-editor-es6.js' %}"></script>
     <script type="text/javascript" src="{% static 'banner_detector/js/bus.js' %}"></script>
 
 {% endblock scripts %}

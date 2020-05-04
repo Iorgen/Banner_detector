@@ -1,5 +1,6 @@
 from django import forms
 from .models import Billboard, BannerObject, Banner, BannerType, Bus, BillboardType
+from datetime import date
 
 
 class BillboardImageCreationForm(forms.ModelForm):
@@ -58,5 +59,14 @@ class ImportBaseBannersForm(forms.Form):
     archive_file = forms.FileField(widget=forms.FileInput(attrs={'accept': '.zip'}))
 
 
+class ImportBillboardsForm(forms.Form):
+    archive_file = forms.FileField(widget=forms.FileInput(attrs={'accept': '.rar'}))
+
+
 class ImportBannersTypesForm(forms.Form):
     archive_file = forms.FileField(widget=forms.FileInput(attrs={'accept': '.tar'}))
+
+
+class XMLExportForm(forms.Form):
+    date_from = forms.DateField(initial=date.today)
+    date_to = forms.DateField(initial=date.today)

@@ -149,7 +149,7 @@ CELERY_TASK_SERIALIZER = 'json'
 CELERY_TIMEZONE = 'Asia/Novosibirsk'
 CELERY_BEAT_SCHEDULE = {
     'update-base-banners': {
-        'task': 'Обновить типы баннеров',
+        'task': 'Обновить сканы афиш',
         'schedule': crontab(minute="*"),
     },
 }

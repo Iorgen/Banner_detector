@@ -55,11 +55,29 @@
                         <h1 class="h3 mb-0 text-gray-800">Стенды</h1>
                     </div>
                     <div class="row">
+
+                        <div class="col-md-4 my-4">
+                            <div class="card card-home" style="">
+                                <div class="card-body">
+                                    <h5 class="card-title">Импорт стендов из RAR</h5>
+                                    <a class="stretched-link" href="{% url 'import-billboards' %}"></a>
+                                </div>
+                            </div>
+                        </div>
                         <div class="col-md-4 my-4">
                             <div class="card card-home" style="">
                                 <div class="card-body">
                                     <h5 class="card-title">XML выгрузка за сегодня</h5>
                                     <a class="stretched-link" href="{% url 'today-billboard-xml-detail' %}" download=""></a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 my-4">
+                            <div class="card card-home" style="">
+                                <div class="card-body">
+                                    <h5 class="card-title">Интервальная XML выгрузка </h5>
+                                    <a class="stretched-link" href="{% url 'interval-billboard-xml-detail' %}"></a>
                                 </div>
                             </div>
                         </div>
@@ -89,7 +107,7 @@
                         <div class="col-md-4 my-4">
                             <div class="card card-home" style="">
                                 <div class="card-body">
-                                    <h5 class="card-title">Добавить тип афиши</h5>
+                                    <h5 class="card-title">Добавить скан афиши</h5>
                                     <a class="stretched-link" href="{% url 'create-banner-type' %} "></a>
                                 </div>
                             </div>
@@ -186,3 +204,6 @@
         {% endif %}
     </div>
 {% endblock content %}
+{% block scripts %}
+
+{% endblock scripts %}

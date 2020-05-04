@@ -44,6 +44,13 @@ class Bus(models.Model):
                                                           bus_id=self.pk)
         return current_bus_billboards
 
+    def interval_billboards(self, datetime_from, datetime_to):
+        return Billboard.objects.filter(
+            date_added__lte=datetime_to,
+            date_added__gte=datetime_from,
+            bus_id=self.pk
+        )
+
 
 class Billboard(models.Model):
     """
