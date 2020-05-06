@@ -7,6 +7,7 @@ import tarfile
 import os
 import rarfile
 import re
+from zipfile import ZipFile
 from celery import shared_task
 from .models import Banner, BaseBanner, Bus, BannerObject, BannerType, BillboardType, Billboard
 from ML_detector.core.controller import ObjectRecognitionController, ObjectDetectionController
@@ -124,11 +125,12 @@ def update_active_banner_types():
 @shared_task()
 def recognize_billboards_from_rar(rar_path, user_id):
     user = User.objects.get(id=user_id)
-    with rarfile.RarFile(os.path.join('media', rar_path), 'r') as billboards_rar:
-        for file in billboards_rar.infolist():
+    with ZipFile(os.path.join('media', rar_path), 'r') as billboards_zip:
+        # with rarfile.RarFile(os.path.join('media', rar_path), 'r') as billboards_rar:
+        for file in billboards_zip.infolist():
             if bool(re.search(".jpg", file.filename)):
                 # Get image from rar file
-                image_data = billboards_rar.read(file)
+                image_data = billboards_zip.read(file)
                 image = InMemoryUploadedFile(
                     file=BytesIO(image_data),
                     field_name=file.filename,

@@ -60,7 +60,7 @@ class ImportBaseBannersForm(forms.Form):
 
 
 class ImportBillboardsForm(forms.Form):
-    archive_file = forms.FileField(widget=forms.FileInput(attrs={'accept': '.rar'}))
+    archive_file = forms.FileField(widget=forms.FileInput(attrs={'accept': '.zip'}))
 
 
 class ImportBannersTypesForm(forms.Form):
