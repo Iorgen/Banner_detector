@@ -205,9 +205,9 @@ class ImportBillboards(LoginRequiredMixin, PermissionRequiredMixin, View):
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST, request.FILES)
         if form.is_valid():
-            default_storage.save('temporary_files/billboards/recognize.rar',
+            default_storage.save('temporary_files/billboards/recognize.zip',
                                  ContentFile(request.FILES['archive_file'].read()))
-            recognize_billboards_from_rar.delay('temporary_files/billboards/recognize.rar', request.user.id)
+            recognize_billboards_from_rar.delay('temporary_files/billboards/recognize.zip', request.user.id)
             messages.add_message(self.request, messages.INFO, 'стенды загружены и отправлены на распознавание')
             return redirect(reverse('detector-home'))
         else:
