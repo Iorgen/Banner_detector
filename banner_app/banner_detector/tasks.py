@@ -14,7 +14,7 @@ from ML_detector.core.controller import ObjectRecognitionController, ObjectDetec
 from django.contrib.auth.models import User
 from django.conf import settings
 from django.core.files import File
-from django.core.exceptions import PermissionDenied
+from django.core.exceptions import PermissionDenied, MultipleObjectsReturned
 from django.db import transaction
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from io import BytesIO
@@ -130,55 +130,73 @@ def recognize_billboards_from_rar(rar_path, user_id):
         for file in billboards_zip.infolist():
             if bool(re.search(".jpg", file.filename)):
                 # Get image from rar file
-                image_data = billboards_zip.read(file)
-                image = InMemoryUploadedFile(
-                    file=BytesIO(image_data),
-                    field_name=file.filename,
-                    name=file.filename,
-                    content_type='image/jpg',
-                    size=len(image_data),
-                    charset='utf-8'
-                )
-                # TODO Optimize in one regex
-                bus_tags = re.sub('Стенды/', '', file.filename)
-                bus_tags = re.sub('.jpg', '', bus_tags)
+                with transaction.atomic():
+                    image_data = billboards_zip.read(file)
+                    image = InMemoryUploadedFile(
+                        file=BytesIO(image_data),
+                        field_name=file.filename,
+                        name=file.filename,
+                        content_type='image/jpg',
+                        size=len(image_data),
+                        charset='utf-8'
+                    )
+                    # TODO Optimize in one regex
+                    bus_tags = re.sub('Стенды/', '', file.filename)
+                    bus_tags = re.sub('.jpg', '', bus_tags)
 
-                bus_tags = bus_tags.split('-')
-                if len(bus_tags) == 3:
-                    billboard_type, bt_created = BillboardType.objects.get_or_create(
-                        name='Заднее стекло'
-                    )
-                    bus, bus_created = Bus.objects.get_or_create(
-                        number=bus_tags[0],
-                        registration_number=bus_tags[1],
-                        stand=billboard_type
-                    )
-                    billboard = Billboard.objects.create(
-                        image=image,
-                        bus=bus,
-                        author=user
-                    )
+                    bus_tags = bus_tags.split('-')
+                    if len(bus_tags) == 3:
+                        # fixed - set unique
+                        billboard_type, bt_created = BillboardType.objects.get_or_create(
+                            name='Заднее стекло'
+                        )
+                        # fixed - set unique
+                        try:
+                            bus = Bus.objects.get(
+                                number=bus_tags[0],
+                                registration_number=bus_tags[1],
+                                stand=billboard_type
+                            )
+                        except Bus.DoesNotExist:
+                            bus = Bus.objects.create(
+                                number=bus_tags[0],
+                                registration_number=bus_tags[1],
+                                stand=billboard_type
+                            )
+                        billboard = Billboard.objects.create(
+                            image=image,
+                            bus=bus,
+                            author=user
+                        )
 
-                elif len(bus_tags) == 2:
-                    billboard_type, bt_created = BillboardType.objects.get_or_create(
-                        name='Стенд за водителем'
-                    )
-                    bus, bus_created = Bus.objects.get_or_create(
-                        number=bus_tags[0],
-                        registration_number=bus_tags[1],
-                        stand=billboard_type
-                    )
-                    billboard = Billboard.objects.create(
-                        image=image,
-                        bus=bus,
-                        author=user
-                    )
-                banners_crops = ObjectDetectionController().banner_detection(billboard)
-                # # TODO fix костыль связанный с несовместимостью путей Django и image.ai
-                billboard.detected_image.name = os.path.join('detected_banners', billboard.image.name)
-                banner_ids = []
-                for idx, banner_crop in enumerate(banners_crops[1]):
-                    with transaction.atomic():
+                    elif len(bus_tags) == 2:
+                        billboard_type, bt_created = BillboardType.objects.get_or_create(
+                            name='Стенд за водителем'
+                        )
+                        # TODO this part should be in manager of BUS
+                        try:
+                            bus = Bus.objects.get(
+                                number=bus_tags[0],
+                                registration_number=bus_tags[1],
+                                stand=billboard_type
+                            )
+                        except Bus.DoesNotExist:
+                            bus = Bus.objects.create(
+                                number=bus_tags[0],
+                                registration_number=bus_tags[1],
+                                stand=billboard_type
+                            )
+                        billboard = Billboard.objects.create(
+                            image=image,
+                            bus=bus,
+                            author=user
+                        )
+                    banners_crops = ObjectDetectionController().banner_detection(billboard)
+                    # # TODO fix костыль связанный с несовместимостью путей Django и image.ai
+                    billboard.detected_image.name = os.path.join('detected_banners', billboard.image.name)
+                    banner_ids = []
+                    for idx, banner_crop in enumerate(banners_crops[1]):
+                        # with transaction.atomic():
                         banner_object = BannerObject()
                         banner_object.image.name = banner_crop[6:]
                         image = ObjectRecognitionController().open_image(banner_object.image.path)
@@ -191,6 +209,6 @@ def recognize_billboards_from_rar(rar_path, user_id):
                         banner.banner_object = banner_object
                         banner.save()
                         banner_ids.append(banner.id)
-                recognize_banners(banner_ids=banner_ids)
-                billboard.save()
+                    recognize_banners(banner_ids=banner_ids)
+                    billboard.save()
     os.system('rm -rf ' + os.path.join('media', rar_path))

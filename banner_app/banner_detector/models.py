@@ -13,9 +13,9 @@ from datetime import date
 
 class BillboardType(models.Model):
     """ Store information about billboard type (for bus side)"""
-    serial_number = models.IntegerField(default=1)
-    name = models.CharField(max_length=20, default="Название")
-    description = models.CharField(max_length=100, default="Описание")
+    serial_number = models.IntegerField(default=1, unique=True)
+    name = models.CharField(max_length=20, default="Название", unique=True)
+    description = models.CharField(max_length=100, default="Описание", unique=True)
 
     def __str__(self):
         return f'Тип Стенда номер{self.serial_number}-{self.description}'
